@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Stars } from "lucide-react";
 
 /**
  * Hero section for personal portfolio.
@@ -10,6 +11,15 @@ export function Hero() {
       aria-label="Hero section"
     >
       <div className="relative z-20 container mx-auto text-center max-w-4xl px-4">
+        <div className="flex justify-center mb-5">
+          <div className="text-primary px-4 py-1.5 rounded-full flex items-center gap-2 border">
+            <Stars className="size-4" aria-hidden="true" />
+            <span className="text-base font-semibold tracking-wide">
+              Full Stack & AI Solutions at Flexify
+            </span>
+          </div>
+        </div>
+
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 text-foreground tracking-tight leading-tight">
           Hi, I'm <span className="text-primary">Saeed Al-Tout</span>
         </h1>
@@ -43,12 +53,6 @@ export function Hero() {
               Contact Me
             </a>
           </Button>
-        </div>
-        <div className="bg-muted border border-border rounded-lg p-3 sm:p-4 inline-block mt-2">
-          <code className="text-xs sm:text-sm text-muted-foreground">
-            {/* You can put a fun tagline or a command here */}
-            {"// Let's build something amazing together!"}
-          </code>
         </div>
       </div>
     </section>
