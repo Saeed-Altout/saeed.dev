@@ -67,14 +67,16 @@ export function ResetPasswordForm() {
         navigate("/auth/sign-in", {
           state: {
             message:
-              "تم تغيير كلمة المرور بنجاح. يمكنك الآن تسجيل الدخول بكلمة المرور الجديدة.",
+              "Password reset successful! You can now sign in with your new password.",
           },
         });
       } else {
         toast.error(result.message);
       }
     } catch (error) {
-      toast.error("حدث خطأ أثناء محاولة تغيير كلمة المرور");
+      toast.error(
+        "An error occurred while resetting your password. Please try again."
+      );
       console.error("ResetPasswordForm - handleResetPassword error:", error);
     } finally {
       setIsLoading(false);
@@ -85,9 +87,8 @@ export function ResetPasswordForm() {
   if (!resetToken) {
     return (
       <div
-        dir="rtl"
         className="max-w-md mx-auto p-0 space-y-6 text-center"
-        aria-label="خطأ في رمز إعادة التعيين"
+        aria-label="Invalid reset token error"
       >
         <div className="space-y-3">
           <div className="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center">
@@ -106,18 +107,18 @@ export function ResetPasswordForm() {
               />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-destructive">رابط غير صالح</h2>
+          <h2 className="text-2xl font-bold text-destructive">Invalid Link</h2>
           <p className="text-muted-foreground text-sm">
-            الرابط المستخدم غير صالح أو منتهي الصلاحية.
+            The reset link is invalid or has expired.
             <span className="block mt-2">
-              يرجى طلب رابط جديد لإعادة تعيين كلمة المرور.
+              Please request a new password reset link.
             </span>
           </p>
         </div>
 
         <div className="space-y-3">
           <Link to="/auth/forgot-password">
-            <Button className="w-full">طلب رابط جديد</Button>
+            <Button className="w-full">Request New Link</Button>
           </Link>
         </div>
 
@@ -126,7 +127,7 @@ export function ResetPasswordForm() {
             to="/auth/sign-in"
             className="text-primary hover:underline text-sm font-medium"
           >
-            العودة إلى تسجيل الدخول
+            Back to Sign In
           </Link>
         </div>
       </div>
@@ -135,16 +136,15 @@ export function ResetPasswordForm() {
 
   return (
     <div
-      dir="rtl"
       className="max-w-md mx-auto p-0 space-y-6"
-      aria-label="نموذج تعيين كلمة مرور جديدة"
+      aria-label="Set new password form"
     >
       <div className="text-center space-y-1">
         <h2 className="text-2xl font-bold text-primary mb-1">
-          تعيين كلمة مرور جديدة
+          Set New Password
         </h2>
         <p className="text-muted-foreground text-sm">
-          أدخل كلمة المرور الجديدة للحساب.
+          Enter your new password for your saeed.dev account.
         </p>
       </div>
 
@@ -152,7 +152,7 @@ export function ResetPasswordForm() {
         <form
           onSubmit={form.handleSubmit(handleResetPassword)}
           className="space-y-5"
-          aria-label="نموذج تعيين كلمة مرور جديدة"
+          aria-label="Set new password form"
         >
           <FormField
             control={form.control}
@@ -171,19 +171,17 @@ export function ResetPasswordForm() {
             name="newPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="new-password-input">
-                  كلمة المرور الجديدة
-                </FormLabel>
+                <FormLabel htmlFor="new-password-input">New Password</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
                       id="new-password-input"
                       type={showNewPassword ? "text" : "password"}
-                      placeholder="********"
+                      placeholder="Enter new password"
                       autoComplete="new-password"
                       {...field}
                       disabled={isLoading}
-                      className="text-right pl-12"
+                      className="pr-12"
                       autoFocus
                     />
                     <button
@@ -191,14 +189,14 @@ export function ResetPasswordForm() {
                       tabIndex={-1}
                       aria-label={
                         showNewPassword
-                          ? "إخفاء كلمة المرور الجديدة"
-                          : "إظهار كلمة المرور الجديدة"
+                          ? "Hide new password"
+                          : "Show new password"
                       }
-                      className="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-primary transition"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-primary transition"
                       onClick={() => setShowNewPassword((prev) => !prev)}
                       disabled={isLoading}
                     >
-                      {showNewPassword ? "إخفاء" : "إظهار"}
+                      {showNewPassword ? "Hide" : "Show"}
                     </button>
                   </div>
                 </FormControl>
@@ -213,32 +211,32 @@ export function ResetPasswordForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel htmlFor="confirm-new-password-input">
-                  تأكيد كلمة المرور الجديدة
+                  Confirm New Password
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
                       id="confirm-new-password-input"
                       type={showConfirmPassword ? "text" : "password"}
-                      placeholder="********"
+                      placeholder="Confirm new password"
                       autoComplete="new-password"
                       {...field}
                       disabled={isLoading}
-                      className="text-right pl-12"
+                      className="pr-12"
                     />
                     <button
                       type="button"
                       tabIndex={-1}
                       aria-label={
                         showConfirmPassword
-                          ? "إخفاء تأكيد كلمة المرور"
-                          : "إظهار تأكيد كلمة المرور"
+                          ? "Hide confirm password"
+                          : "Show confirm password"
                       }
-                      className="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-primary transition"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-primary transition"
                       onClick={() => setShowConfirmPassword((prev) => !prev)}
                       disabled={isLoading}
                     >
-                      {showConfirmPassword ? "إخفاء" : "إظهار"}
+                      {showConfirmPassword ? "Hide" : "Show"}
                     </button>
                   </div>
                 </FormControl>
@@ -248,13 +246,13 @@ export function ResetPasswordForm() {
           />
 
           <div className="text-xs text-muted-foreground space-y-1">
-            <p>كلمة المرور يجب أن تحتوي على:</p>
-            <ul className="list-disc list-inside space-y-1 text-right">
-              <li>8 أحرف على الأقل</li>
-              <li>حرف كبير واحد على الأقل</li>
-              <li>حرف صغير واحد على الأقل</li>
-              <li>رقم واحد على الأقل</li>
-              <li>رمز خاص واحد على الأقل (@$!%*?&)</li>
+            <p>Password must contain:</p>
+            <ul className="list-disc list-inside space-y-1">
+              <li>At least 8 characters</li>
+              <li>At least one uppercase letter</li>
+              <li>At least one lowercase letter</li>
+              <li>At least one number</li>
+              <li>At least one special character (@$!%*?&)</li>
             </ul>
           </div>
 
@@ -262,9 +260,9 @@ export function ResetPasswordForm() {
             type="submit"
             className="w-full"
             isLoading={isLoading}
-            aria-label="تعيين كلمة المرور الجديدة"
+            aria-label="Set new password"
           >
-            تعيين كلمة المرور الجديدة
+            Set New Password
           </Button>
         </form>
       </Form>
@@ -274,12 +272,17 @@ export function ResetPasswordForm() {
           to="/auth/sign-in"
           className="text-primary hover:underline text-sm font-medium"
         >
-          العودة إلى تسجيل الدخول
+          Back to Sign In
         </Link>
       </div>
 
       <div className="text-center text-xs text-muted-foreground mt-4">
-        {`قال الله تعالى: "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا"`}
+        <span className="block">
+          Secure your account with a strong password
+        </span>
+        <span className="block mt-1">
+          Continue your development journey at saeed.dev
+        </span>
       </div>
     </div>
   );

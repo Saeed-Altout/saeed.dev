@@ -4,13 +4,13 @@ export const forgotPasswordSchema = z.object({
   email: z
     .string()
     .min(1, {
-      message: "البريد الإلكتروني مطلوب",
+      message: "Email is required",
     })
     .email({
-      message: "يرجى إدخال عنوان بريد إلكتروني صالح",
+      message: "Please enter a valid email address",
     })
     .max(100, {
-      message: "يجب ألا يزيد البريد الإلكتروني عن 100 حرف",
+      message: "Email must not exceed 100 characters",
     }),
 });
 

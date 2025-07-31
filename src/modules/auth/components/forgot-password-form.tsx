@@ -46,7 +46,7 @@ export function ForgotPasswordForm() {
         toast.error(result.message);
       }
     } catch (error) {
-      toast.error("حدث خطأ أثناء محاولة إرسال رابط إعادة التعيين");
+      toast.error("An error occurred while sending the password reset link.");
       console.error("ForgotPasswordForm - handleForgotPassword error:", error);
     } finally {
       setIsLoading(false);
@@ -56,9 +56,8 @@ export function ForgotPasswordForm() {
   if (isSubmitted) {
     return (
       <div
-        dir="rtl"
         className="max-w-md mx-auto p-0 space-y-6 text-center"
-        aria-label="رسالة تأكيد إرسال رابط إعادة التعيين"
+        aria-label="Password reset link sent confirmation"
       >
         <div className="space-y-3">
           <div className="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center">
@@ -77,18 +76,18 @@ export function ForgotPasswordForm() {
               />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-primary">تم إرسال الرابط</h2>
+          <h2 className="text-2xl font-bold text-primary">Link Sent!</h2>
           <p className="text-muted-foreground text-sm">
-            تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.
+            A password reset link has been sent to your email address.
             <span className="block mt-2">
-              يرجى التحقق من صندوق الوارد وإتباع التعليمات.
+              Please check your inbox and follow the instructions.
             </span>
           </p>
         </div>
 
         <div className="space-y-3">
           <p className="text-xs text-muted-foreground">
-            لم تتلق الرسالة؟ تحقق من مجلد الرسائل غير المرغوب فيها.
+            Didn't receive the email? Check your spam folder.
           </p>
           <Button
             variant="outline"
@@ -98,7 +97,7 @@ export function ForgotPasswordForm() {
             }}
             className="w-full"
           >
-            إرسال مرة أخرى
+            Send Again
           </Button>
         </div>
 
@@ -107,7 +106,7 @@ export function ForgotPasswordForm() {
             to="/auth/sign-in"
             className="text-primary hover:underline text-sm font-medium"
           >
-            العودة إلى تسجيل الدخول
+            Back to Sign In
           </Link>
         </div>
       </div>
@@ -116,16 +115,14 @@ export function ForgotPasswordForm() {
 
   return (
     <div
-      dir="rtl"
       className="max-w-md mx-auto p-0 space-y-6"
-      aria-label="نموذج إعادة تعيين كلمة المرور"
+      aria-label="Password reset form"
     >
       <div className="text-center space-y-1">
-        <h2 className="text-2xl font-bold text-primary mb-1">
-          إعادة تعيين كلمة المرور
-        </h2>
+        <h2 className="text-2xl font-bold text-primary mb-1">Reset Password</h2>
         <p className="text-muted-foreground text-sm">
-          أدخل عنوان بريدك الإلكتروني وسنرسل لك رابط لإعادة تعيين كلمة المرور.
+          Enter your email address and we'll send you a link to reset your
+          password.
         </p>
       </div>
 
@@ -133,23 +130,22 @@ export function ForgotPasswordForm() {
         <form
           onSubmit={form.handleSubmit(handleForgotPassword)}
           className="space-y-5"
-          aria-label="نموذج إعادة تعيين كلمة المرور"
+          aria-label="Password reset form"
         >
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="email-input">البريد الإلكتروني</FormLabel>
+                <FormLabel htmlFor="email-input">Email Address</FormLabel>
                 <FormControl>
                   <Input
                     id="email-input"
                     type="email"
-                    placeholder="example@example.com"
+                    placeholder="demo@saeed.dev"
                     autoComplete="username"
                     {...field}
                     disabled={isLoading}
-                    className="text-right"
                     autoFocus
                   />
                 </FormControl>
@@ -162,9 +158,9 @@ export function ForgotPasswordForm() {
             type="submit"
             className="w-full"
             isLoading={isLoading}
-            aria-label="إرسال رابط إعادة التعيين"
+            aria-label="Send reset link"
           >
-            إرسال رابط إعادة التعيين
+            Send Reset Link
           </Button>
         </form>
       </Form>
@@ -174,19 +170,24 @@ export function ForgotPasswordForm() {
           to="/auth/sign-in"
           className="text-primary hover:underline text-sm font-medium"
         >
-          العودة إلى تسجيل الدخول
+          Back to Sign In
         </Link>
       </div>
 
       <div className="text-center text-xs text-muted-foreground">
-        أو{" "}
+        Or{" "}
         <Link to="/auth/sign-up" className="text-primary hover:underline">
-          إنشاء حساب جديد
+          Create New Account
         </Link>
       </div>
 
       <div className="text-center text-xs text-muted-foreground mt-4">
-        {`قال رسول الله ﷺ: "من يسر على مؤمن كربة من كرب الدنيا يسر الله عليه كربة من كرب يوم القيامة"`}
+        <span className="block">
+          Having trouble? We're here to help you get back to coding.
+        </span>
+        <span className="block mt-1">
+          Explore fullstack development at saeed.dev
+        </span>
       </div>
     </div>
   );

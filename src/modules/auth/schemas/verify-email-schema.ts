@@ -4,18 +4,18 @@ export const verifyEmailSchema = z.object({
   verificationCode: z
     .string()
     .min(6, {
-      message: "يجب أن يتكون رمز التحقق من 6 أرقام",
+      message: "Verification code must be 6 digits",
     })
     .max(6, {
-      message: "يجب أن يتكون رمز التحقق من 6 أرقام",
+      message: "Verification code must be 6 digits",
     })
     .regex(/^\d{6}$/, {
-      message: "يجب أن يحتوي رمز التحقق على أرقام فقط",
+      message: "Verification code must contain only numbers",
     }),
   email: z
     .string()
     .email({
-      message: "يرجى إدخال عنوان بريد إلكتروني صالح",
+      message: "Please enter a valid email address",
     })
     .optional(),
 });
@@ -24,10 +24,10 @@ export const resendVerificationSchema = z.object({
   email: z
     .string()
     .min(1, {
-      message: "البريد الإلكتروني مطلوب",
+      message: "Email is required",
     })
     .email({
-      message: "يرجى إدخال عنوان بريد إلكتروني صالح",
+      message: "Please enter a valid email address",
     }),
 });
 

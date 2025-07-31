@@ -109,7 +109,7 @@ export function VerifyEmailForm() {
     values: VerifyEmailSchema
   ): Promise<void> => {
     if (values.verificationCode.length !== 6) {
-      toast.error("يرجى إدخال رمز التحقق كاملاً");
+      toast.error("Please enter the complete verification code");
       return;
     }
 
@@ -131,14 +131,16 @@ export function VerifyEmailForm() {
         // Navigate to dashboard or appropriate page
         navigate("/", {
           state: {
-            message: "تم تفعيل بريدك الإلكتروني بنجاح! مرحباً بك.",
+            message: "Email verified successfully! Welcome to saeed.dev.",
           },
         });
       } else {
         toast.error(result.message);
       }
     } catch (error) {
-      toast.error("حدث خطأ أثناء محاولة التحقق من البريد الإلكتروني");
+      toast.error(
+        "An error occurred while verifying your email. Please try again."
+      );
       console.error("VerifyEmailForm - handleVerifyEmail error:", error);
     } finally {
       setIsLoading(false);
@@ -147,7 +149,7 @@ export function VerifyEmailForm() {
 
   const handleResendVerification = async (): Promise<void> => {
     if (!email) {
-      toast.error("عنوان البريد الإلكتروني غير متوفر");
+      toast.error("Email address not available");
       return;
     }
 
@@ -167,7 +169,7 @@ export function VerifyEmailForm() {
         toast.error(result.message);
       }
     } catch (error) {
-      toast.error("حدث خطأ أثناء محاولة إعادة إرسال رمز التحقق");
+      toast.error("An error occurred while resending the verification code.");
       console.error("VerifyEmailForm - handleResendVerification error:", error);
     } finally {
       setIsResending(false);
@@ -178,9 +180,8 @@ export function VerifyEmailForm() {
   if (!email) {
     return (
       <div
-        dir="rtl"
         className="max-w-md mx-auto p-0 space-y-6 text-center"
-        aria-label="خطأ في عنوان البريد الإلكتروني"
+        aria-label="Invalid email address error"
       >
         <div className="space-y-3">
           <div className="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center">
@@ -200,23 +201,23 @@ export function VerifyEmailForm() {
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-destructive">
-            عنوان بريد إلكتروني غير صالح
+            Invalid Email Address
           </h2>
           <p className="text-muted-foreground text-sm">
-            لم يتم العثور على عنوان بريد إلكتروني للتحقق منه.
+            No email address found for verification.
             <span className="block mt-2">
-              يرجى تسجيل الدخول أو إنشاء حساب جديد.
+              Please sign in or create a new account.
             </span>
           </p>
         </div>
 
         <div className="space-y-3">
           <Link to="/auth/sign-up">
-            <Button className="w-full">إنشاء حساب جديد</Button>
+            <Button className="w-full">Create New Account</Button>
           </Link>
           <Link to="/auth/sign-in">
             <Button variant="outline" className="w-full">
-              تسجيل الدخول
+              Sign In
             </Button>
           </Link>
         </div>
@@ -226,16 +227,15 @@ export function VerifyEmailForm() {
 
   return (
     <div
-      dir="rtl"
       className="max-w-md mx-auto p-0 space-y-6"
-      aria-label="نموذج تحقق البريد الإلكتروني"
+      aria-label="Email verification form"
     >
       <div className="text-center space-y-1">
         <h2 className="text-2xl font-bold text-primary mb-1">
-          تحقق من بريدك الإلكتروني
+          Verify Your Email
         </h2>
         <p className="text-muted-foreground text-sm">
-          أدخل رمز التحقق المرسل إلى
+          Enter the verification code sent to
         </p>
         <p className="text-primary font-medium text-sm">{email}</p>
       </div>
@@ -244,14 +244,16 @@ export function VerifyEmailForm() {
         <form
           onSubmit={form.handleSubmit(handleVerifyEmail)}
           className="space-y-5"
-          aria-label="نموذج تحقق البريد الإلكتروني"
+          aria-label="Email verification form"
         >
           <FormField
             control={form.control}
             name="verificationCode"
             render={() => (
               <FormItem>
-                <FormLabel className="text-center block">رمز التحقق</FormLabel>
+                <FormLabel className="text-center block">
+                  Verification Code
+                </FormLabel>
                 <FormControl>
                   <div
                     className="flex gap-2 justify-center"
@@ -275,7 +277,7 @@ export function VerifyEmailForm() {
                         disabled={isLoading}
                         className="w-12 h-12 text-center text-lg font-bold"
                         autoFocus={index === 0}
-                        aria-label={`رقم ${index + 1} من رمز التحقق`}
+                        aria-label={`Digit ${index + 1} of verification code`}
                       />
                     ))}
                   </div>
@@ -290,15 +292,17 @@ export function VerifyEmailForm() {
             className="w-full"
             isLoading={isLoading}
             disabled={digitValues.join("").length !== 6}
-            aria-label="تحقق من البريد الإلكتروني"
+            aria-label="Verify email"
           >
-            تحقق من البريد الإلكتروني
+            Verify Email
           </Button>
         </form>
       </Form>
 
       <div className="text-center space-y-3">
-        <p className="text-sm text-muted-foreground">لم تتلق رمز التحقق؟</p>
+        <p className="text-sm text-muted-foreground">
+          Didn't receive the verification code?
+        </p>
 
         <Button
           variant="outline"
@@ -308,14 +312,13 @@ export function VerifyEmailForm() {
           className="w-full"
         >
           {resendCooldown > 0
-            ? `إعادة الإرسال خلال ${resendCooldown} ثانية`
-            : "إعادة إرسال رمز التحقق"}
+            ? `Resend in ${resendCooldown} seconds`
+            : "Resend Verification Code"}
         </Button>
       </div>
 
       <div className="text-center text-xs text-muted-foreground">
-        تحقق من مجلد الرسائل غير المرغوب فيها إذا لم تجد الرسالة في صندوق
-        الوارد.
+        Check your spam folder if you don't see the email in your inbox.
       </div>
 
       {!fromSignup && (
@@ -324,13 +327,18 @@ export function VerifyEmailForm() {
             to="/auth/sign-in"
             className="text-primary hover:underline text-sm font-medium"
           >
-            العودة إلى تسجيل الدخول
+            Back to Sign In
           </Link>
         </div>
       )}
 
       <div className="text-center text-xs text-muted-foreground mt-4">
-        {`قال رسول الله ﷺ: "إن الله يحب إذا عمل أحدكم عملاً أن يتقنه"`}
+        <span className="block">
+          Almost there! Verify your email to unlock full access
+        </span>
+        <span className="block mt-1">
+          to saeed.dev's fullstack development resources
+        </span>
       </div>
     </div>
   );

@@ -3,29 +3,29 @@ import * as z from "zod";
 export const resetPasswordSchema = z
   .object({
     token: z.string().min(1, {
-      message: "رمز إعادة تعيين كلمة المرور مطلوب",
+      message: "Password reset token is required",
     }),
     newPassword: z
       .string()
       .min(8, {
-        message: "يجب أن تتكون كلمة المرور الجديدة من 8 أحرف على الأقل",
+        message: "New password must be at least 8 characters long",
       })
       .max(128, {
-        message: "يجب ألا تزيد كلمة المرور الجديدة عن 128 حرفًا",
+        message: "New password must not exceed 128 characters",
       })
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
         {
           message:
-            "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل، وحرف صغير واحد، ورقم واحد، وحرف خاص واحد",
+            "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
         }
       ),
     confirmNewPassword: z.string().min(1, {
-      message: "تأكيد كلمة المرور الجديدة مطلوب",
+      message: "New password confirmation is required",
     }),
   })
   .refine((data) => data.newPassword === data.confirmNewPassword, {
-    message: "كلمات المرور غير متطابقة",
+    message: "Passwords do not match",
     path: ["confirmNewPassword"],
   });
 

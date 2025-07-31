@@ -1,3 +1,3 @@
-import MOSQUE from "@/assets/images/mosque.jpg";
+import AUTH from "@/assets/images/auth.jpg";
 
-export { MOSQUE };
+export { AUTH };

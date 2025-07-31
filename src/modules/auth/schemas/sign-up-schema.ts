@@ -5,61 +5,60 @@ export const signUpSchema = z
     firstName: z
       .string()
       .min(2, {
-        message: "يجب أن يحتوي الاسم الأول على حرفين على الأقل",
+        message: "First name must be at least 2 characters long",
       })
       .max(50, {
-        message: "يجب ألا يزيد الاسم الأول عن 50 حرفًا",
+        message: "First name must not exceed 50 characters",
       })
-      .regex(/^[a-zA-Zأ-ي\s]+$/, {
-        message: "يجب أن يحتوي الاسم الأول على أحرف فقط",
+      .regex(/^[a-zA-Z\s]+$/, {
+        message: "First name must contain only letters",
       }),
     lastName: z
       .string()
       .min(2, {
-        message: "يجب أن يحتوي الاسم الأخير على حرفين على الأقل",
+        message: "Last name must be at least 2 characters long",
       })
       .max(50, {
-        message: "يجب ألا يزيد الاسم الأخير عن 50 حرفًا",
+        message: "Last name must not exceed 50 characters",
       })
-      .regex(/^[a-zA-Zأ-ي\s]+$/, {
-        message: "يجب أن يحتوي الاسم الأخير على أحرف فقط",
+      .regex(/^[a-zA-Z\s]+$/, {
+        message: "Last name must contain only letters",
       }),
     email: z
       .string()
       .min(1, {
-        message: "البريد الإلكتروني مطلوب",
+        message: "Email is required",
       })
       .email({
-        message: "يرجى إدخال عنوان بريد إلكتروني صالح",
+        message: "Please enter a valid email address",
       })
       .max(100, {
-        message: "يجب ألا يزيد البريد الإلكتروني عن 100 حرف",
+        message: "Email must not exceed 100 characters",
       }),
     password: z
       .string()
       .min(8, {
-        message: "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+        message: "Password must be at least 8 characters long",
       })
       .max(128, {
-        message: "يجب ألا تزيد كلمة المرور عن 128 حرفًا",
+        message: "Password must not exceed 128 characters",
       })
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
         {
           message:
-            "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل، وحرف صغير واحد، ورقم واحد، وحرف خاص واحد",
+            "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
         }
       ),
     confirmPassword: z.string().min(1, {
-      message: "تأكيد كلمة المرور مطلوب",
+      message: "Password confirmation is required",
     }),
     acceptTerms: z.boolean().refine((value) => value === true, {
-      message: "يجب الموافقة على الشروط والأحكام",
+      message: "You must accept the terms and conditions",
     }),
-    receiveNotifications: z.boolean().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "كلمات المرور غير متطابقة",
+    message: "Passwords do not match",
     path: ["confirmPassword"],
   });
 
