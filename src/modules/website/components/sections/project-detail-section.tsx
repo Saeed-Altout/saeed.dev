@@ -1,5 +1,12 @@
-import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ExternalLink, Github, Calendar, User, Tag } from "lucide-react";
+import { Link } from "react-router-dom";
+import {
+  ArrowLeft,
+  ExternalLink,
+  Github,
+  Calendar,
+  User,
+  Tag,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -35,7 +42,8 @@ const projects: Project[] = [
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/example",
     featured: true,
-    longDescription: "A comprehensive e-commerce solution that provides a seamless shopping experience for both customers and administrators. The platform includes advanced features like real-time inventory tracking, secure payment processing, and an intuitive admin dashboard.",
+    longDescription:
+      "A comprehensive e-commerce solution that provides a seamless shopping experience for both customers and administrators. The platform includes advanced features like real-time inventory tracking, secure payment processing, and an intuitive admin dashboard.",
     features: [
       "User authentication and authorization",
       "Product catalog with search and filtering",
@@ -44,22 +52,22 @@ const projects: Project[] = [
       "Real-time inventory management",
       "Order tracking and management",
       "Admin dashboard for product management",
-      "Responsive design for all devices"
+      "Responsive design for all devices",
     ],
     challenges: [
       "Implementing real-time inventory updates across multiple users",
       "Ensuring secure payment processing",
       "Optimizing performance for large product catalogs",
-      "Creating an intuitive admin interface"
+      "Creating an intuitive admin interface",
     ],
     solutions: [
       "Used WebSocket connections for real-time updates",
       "Implemented Stripe's secure payment APIs with proper error handling",
       "Implemented pagination and lazy loading for better performance",
-      "Created a modular admin dashboard with drag-and-drop functionality"
+      "Created a modular admin dashboard with drag-and-drop functionality",
     ],
     date: "2024",
-    author: "Saeed Al-Tout"
+    author: "Saeed Al-Tout",
   },
   // Add more projects here...
 ];
@@ -68,7 +76,7 @@ const projects: Project[] = [
  * ProjectDetailSection - Individual project detail section.
  */
 export function ProjectDetailSection({ projectId }: { projectId?: string }) {
-  const project = projects.find(p => p.id === projectId);
+  const project = projects.find((p) => p.id === projectId);
 
   if (!project) {
     return (
@@ -229,4 +237,4 @@ export function ProjectDetailSection({ projectId }: { projectId?: string }) {
   );
 }
 
-ProjectDetailSection.displayName = "ProjectDetailSection"; 
+ProjectDetailSection.displayName = "ProjectDetailSection";

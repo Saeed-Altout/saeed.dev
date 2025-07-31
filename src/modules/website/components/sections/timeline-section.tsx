@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, MapPin, Building } from "lucide-react";
+import { MapPin, Building } from "lucide-react";
 
 interface TimelineEvent {
   id: string;
@@ -20,13 +20,14 @@ const timelineEvents: TimelineEvent[] = [
     title: "Senior Full Stack Developer",
     company: "Flexify",
     location: "Dubai, UAE",
-    description: "Leading development teams and architecting complex solutions.",
+    description:
+      "Leading development teams and architecting complex solutions.",
     achievements: [
       "Led 10+ client projects with 99.9% satisfaction rate",
       "Implemented AI/ML features improving engagement by 40%",
-      "Mentored 5 junior developers"
+      "Mentored 5 junior developers",
     ],
-    technologies: ["React", "Next.js", "Node.js", "AI/ML", "TypeScript"]
+    technologies: ["React", "Next.js", "Node.js", "AI/ML", "TypeScript"],
   },
   {
     id: "2",
@@ -38,9 +39,9 @@ const timelineEvents: TimelineEvent[] = [
     achievements: [
       "Built 15+ production applications",
       "Reduced deployment time by 60%",
-      "Improved performance by 50%"
+      "Improved performance by 50%",
     ],
-    technologies: ["React", "Node.js", "MongoDB", "Docker", "AWS"]
+    technologies: ["React", "Node.js", "MongoDB", "Docker", "AWS"],
   },
   {
     id: "3",
@@ -52,9 +53,9 @@ const timelineEvents: TimelineEvent[] = [
     achievements: [
       "Developed 20+ responsive websites",
       "Improved UX scores by 35%",
-      "Collaborated with design teams"
+      "Collaborated with design teams",
     ],
-    technologies: ["React", "Vue.js", "JavaScript", "CSS3", "HTML5"]
+    technologies: ["React", "Vue.js", "JavaScript", "CSS3", "HTML5"],
   },
   {
     id: "4",
@@ -66,10 +67,10 @@ const timelineEvents: TimelineEvent[] = [
     achievements: [
       "Built first production application",
       "Learned modern web technologies",
-      "Contributed to open source projects"
+      "Contributed to open source projects",
     ],
-    technologies: ["JavaScript", "HTML", "CSS", "React"]
-  }
+    technologies: ["JavaScript", "HTML", "CSS", "React"],
+  },
 ];
 
 /**
@@ -86,7 +87,9 @@ export function TimelineSection() {
           </h2>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             My professional journey through the years, showcasing{" "}
-            <span className="font-semibold text-foreground">growth, learning, and achievements</span>
+            <span className="font-semibold text-foreground">
+              growth, learning, and achievements
+            </span>
           </p>
         </div>
 
@@ -96,7 +99,7 @@ export function TimelineSection() {
           <div className="absolute left-4 sm:left-8 top-0 bottom-0 w-0.5 bg-border"></div>
 
           <div className="space-y-8">
-            {timelineEvents.map((event, index) => (
+            {timelineEvents.map((event) => (
               <div key={event.id} className="relative">
                 {/* Timeline Dot */}
                 <div className="absolute left-2 sm:left-6 top-6 w-4 h-4 bg-primary rounded-full border-4 border-background z-10"></div>
@@ -134,12 +137,16 @@ export function TimelineSection() {
 
                       {/* Achievements */}
                       <div>
-                        <h4 className="font-semibold mb-3 text-foreground">Key Achievements:</h4>
+                        <h4 className="font-semibold mb-3 text-foreground">
+                          Key Achievements:
+                        </h4>
                         <ul className="space-y-2">
                           {event.achievements.map((achievement, idx) => (
                             <li key={idx} className="flex items-start gap-3">
                               <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                              <span className="text-sm text-muted-foreground">{achievement}</span>
+                              <span className="text-sm text-muted-foreground">
+                                {achievement}
+                              </span>
                             </li>
                           ))}
                         </ul>
@@ -147,10 +154,16 @@ export function TimelineSection() {
 
                       {/* Technologies */}
                       <div>
-                        <h4 className="font-semibold mb-3 text-foreground">Technologies:</h4>
+                        <h4 className="font-semibold mb-3 text-foreground">
+                          Technologies:
+                        </h4>
                         <div className="flex flex-wrap gap-2">
                           {event.technologies.map((tech) => (
-                            <Badge key={tech} variant="outline" className="text-xs">
+                            <Badge
+                              key={tech}
+                              variant="outline"
+                              className="text-xs"
+                            >
                               {tech}
                             </Badge>
                           ))}
@@ -168,4 +181,4 @@ export function TimelineSection() {
   );
 }
 
-TimelineSection.displayName = "TimelineSection"; 
+TimelineSection.displayName = "TimelineSection";

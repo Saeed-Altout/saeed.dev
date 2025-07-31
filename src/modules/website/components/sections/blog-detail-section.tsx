@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, Calendar, User, Clock, Tag, Share2 } from "lucide-react";
+import { ArrowLeft, Calendar, User, Clock, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,7 +22,8 @@ const blogs: Blog[] = [
   {
     id: "1",
     title: "Building Scalable React Applications with Next.js 14",
-    excerpt: "Learn how to build high-performance React applications using Next.js 14's latest features including App Router, Server Components, and more.",
+    excerpt:
+      "Learn how to build high-performance React applications using Next.js 14's latest features including App Router, Server Components, and more.",
     content: `
       <h2>Introduction</h2>
       <p>Next.js 14 introduces groundbreaking features that revolutionize how we build React applications. In this comprehensive guide, we'll explore the latest capabilities and best practices for creating scalable, high-performance applications.</p>
@@ -55,11 +56,12 @@ const blogs: Blog[] = [
     `,
     category: "Frontend Development",
     tags: ["React", "Next.js", "TypeScript", "Performance"],
-    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=600&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=600&fit=crop",
     author: "Saeed Al-Tout",
     date: "2024-01-15",
     readTime: "8 min read",
-    featured: true
+    featured: true,
   },
   // Add more blogs here...
 ];
@@ -68,7 +70,7 @@ const blogs: Blog[] = [
  * BlogDetailSection - Individual blog detail section.
  */
 export function BlogDetailSection({ blogId }: { blogId?: string }) {
-  const blog = blogs.find(b => b.id === blogId);
+  const blog = blogs.find((b) => b.id === blogId);
 
   if (!blog) {
     return (
@@ -109,9 +111,7 @@ export function BlogDetailSection({ blogId }: { blogId?: string }) {
           <div className="max-w-4xl mx-auto">
             {/* Category and Meta */}
             <div className="flex items-center gap-4 mb-6">
-              <Badge variant="secondary">
-                {blog.category}
-              </Badge>
+              <Badge variant="secondary">{blog.category}</Badge>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <User className="h-4 w-4" />
@@ -159,7 +159,9 @@ export function BlogDetailSection({ blogId }: { blogId?: string }) {
             {/* Share Button */}
             <div className="flex justify-between items-center mb-8">
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">Share this article:</span>
+                <span className="text-sm text-muted-foreground">
+                  Share this article:
+                </span>
                 <Button variant="outline" size="sm">
                   <Share2 className="h-4 w-4 mr-2" />
                   Share
@@ -173,7 +175,7 @@ export function BlogDetailSection({ blogId }: { blogId?: string }) {
         <div className="max-w-4xl mx-auto">
           <Card className="p-8">
             <CardContent className="prose prose-lg max-w-none">
-              <div 
+              <div
                 dangerouslySetInnerHTML={{ __html: blog.content }}
                 className="text-muted-foreground leading-relaxed"
               />
@@ -195,8 +197,10 @@ export function BlogDetailSection({ blogId }: { blogId?: string }) {
                 <div>
                   <h3 className="font-semibold text-lg mb-2">{blog.author}</h3>
                   <p className="text-muted-foreground mb-3">
-                    Full Stack Developer and AI enthusiast with over 5 years of experience building scalable web applications. 
-                    Passionate about sharing knowledge and helping developers grow their skills.
+                    Full Stack Developer and AI enthusiast with over 5 years of
+                    experience building scalable web applications. Passionate
+                    about sharing knowledge and helping developers grow their
+                    skills.
                   </p>
                   <div className="flex gap-2">
                     <Button variant="outline" size="sm">
@@ -216,37 +220,43 @@ export function BlogDetailSection({ blogId }: { blogId?: string }) {
         <div className="max-w-4xl mx-auto mt-12">
           <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {blogs.filter(b => b.id !== blog.id).slice(0, 2).map((relatedBlog) => (
-              <Card key={relatedBlog.id} className="group hover:shadow-lg transition-shadow">
-                <div className="relative h-40 overflow-hidden rounded-t-lg">
-                  <img
-                    src={relatedBlog.image}
-                    alt={relatedBlog.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                </div>
-                <CardHeader>
-                  <CardTitle className="text-lg group-hover:text-primary transition-colors line-clamp-2">
-                    {relatedBlog.title}
-                  </CardTitle>
-                  <p className="text-muted-foreground text-sm line-clamp-2">
-                    {relatedBlog.excerpt}
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
-                    <span>{relatedBlog.author}</span>
-                    <span>{relatedBlog.readTime}</span>
+            {blogs
+              .filter((b) => b.id !== blog.id)
+              .slice(0, 2)
+              .map((relatedBlog) => (
+                <Card
+                  key={relatedBlog.id}
+                  className="group hover:shadow-lg transition-shadow"
+                >
+                  <div className="relative h-40 overflow-hidden rounded-t-lg">
+                    <img
+                      src={relatedBlog.image}
+                      alt={relatedBlog.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   </div>
-                  <Link to={`/blogs/${relatedBlog.id}`}>
-                    <Button variant="outline" size="sm" className="w-full">
-                      Read More
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
+                  <CardHeader>
+                    <CardTitle className="text-lg group-hover:text-primary transition-colors line-clamp-2">
+                      {relatedBlog.title}
+                    </CardTitle>
+                    <p className="text-muted-foreground text-sm line-clamp-2">
+                      {relatedBlog.excerpt}
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
+                      <span>{relatedBlog.author}</span>
+                      <span>{relatedBlog.readTime}</span>
+                    </div>
+                    <Link to={`/blogs/${relatedBlog.id}`}>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Read More
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
           </div>
         </div>
       </div>
@@ -254,4 +264,4 @@ export function BlogDetailSection({ blogId }: { blogId?: string }) {
   );
 }
 
-BlogDetailSection.displayName = "BlogDetailSection"; 
+BlogDetailSection.displayName = "BlogDetailSection";
