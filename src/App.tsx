@@ -8,11 +8,16 @@ import {
   VerifyEmail,
   NotFound,
 } from "@/lib/auth";
+import WebsiteLayout from "./modules/website/layout";
+import HomePage from "./modules/website/pages/home";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<WebsiteLayout />}>
+          <Route path="/" element={<HomePage />} />
+        </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />

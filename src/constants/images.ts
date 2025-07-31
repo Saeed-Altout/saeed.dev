@@ -1,3 +1,3 @@
 import AUTH from "@/assets/images/auth.jpg";
-
-export { AUTH };
+import ABOUT from "@/assets/images/auth.jpg";
+export { AUTH, ABOUT };
