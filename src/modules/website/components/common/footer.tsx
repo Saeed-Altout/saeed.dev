@@ -5,6 +5,10 @@ import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Logo } from "./logo";
 
+/**
+ * Footer component for the website.
+ * Responsive design with clean mobile layout and improved accessibility.
+ */
 export function Footer() {
   return (
     <footer className="bg-background border-t border-border/40">
@@ -14,7 +18,7 @@ export function Footer() {
           {/* Logo and Description */}
           <div className="lg:col-span-2">
             <Logo />
-            <p className="mt-4 text-muted-foreground text-sm">
+            <p className="mt-4 text-muted-foreground text-sm leading-relaxed">
               Building innovative web experiences with modern technologies.
               Creating digital solutions that make a difference.
             </p>
@@ -22,112 +26,120 @@ export function Footer() {
 
           {/* Portfolio Links */}
           <div>
-            <h3 className="font-semibold text-sm mb-4">Portfolio</h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className="font-semibold text-sm mb-4 text-foreground">
+              Portfolio
+            </h3>
+            <ul className="space-y-3 text-sm">
               <li>
-                <a
-                  href="#projects"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                <Button
+                  variant="link"
+                  className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Projects
-                </a>
+                  <a href="#projects">Projects</a>
+                </Button>
               </li>
               <li>
-                <a
-                  href="#about"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                <Button
+                  variant="link"
+                  className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  About
-                </a>
+                  <a href="#about">About</a>
+                </Button>
               </li>
               <li>
-                <a
-                  href="#skills"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                <Button
+                  variant="link"
+                  className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Skills
-                </a>
+                  <a href="#skills">Skills</a>
+                </Button>
               </li>
               <li>
-                <a
-                  href="#experience"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                <Button
+                  variant="link"
+                  className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Experience
-                </a>
+                  <a href="#experience">Experience</a>
+                </Button>
               </li>
               <li>
-                <a
-                  href="#contact"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                <Button
+                  variant="link"
+                  className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Contact
-                </a>
+                  <a href="#contact">Contact</a>
+                </Button>
               </li>
             </ul>
           </div>
 
           {/* Services */}
           <div>
-            <h3 className="font-semibold text-sm mb-4">Services</h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className="font-semibold text-sm mb-4 text-foreground">
+              Services
+            </h3>
+            <ul className="space-y-3 text-sm">
               <li>
-                <a
-                  href="#web-development"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                <Button
+                  variant="link"
+                  className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Web Development
-                </a>
+                  <a href="#web-development">Web Development</a>
+                </Button>
               </li>
               <li>
-                <a
-                  href="#ui-ux-design"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                <Button
+                  variant="link"
+                  className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  UI/UX Design
-                </a>
+                  <a href="#ui-ux-design">UI/UX Design</a>
+                </Button>
               </li>
               <li>
-                <a
-                  href="#consulting"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                <Button
+                  variant="link"
+                  className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Consulting
-                </a>
+                  <a href="#consulting">Consulting</a>
+                </Button>
               </li>
               <li>
-                <a
-                  href="#training"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                <Button
+                  variant="link"
+                  className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Training
-                </a>
+                  <a href="#training">Training</a>
+                </Button>
               </li>
               <li>
-                <a
-                  href="#maintenance"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                <Button
+                  variant="link"
+                  className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Maintenance
-                </a>
+                  <a href="#maintenance">Maintenance</a>
+                </Button>
               </li>
             </ul>
           </div>
 
           {/* Newsletter Subscription */}
           <div className="lg:col-span-2">
-            <h3 className="font-semibold text-sm mb-4">Stay Updated</h3>
-            <p className="text-muted-foreground text-sm mb-4">
+            <h3 className="font-semibold text-sm mb-4 text-foreground">
+              Stay Updated
+            </h3>
+            <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
               Get notified about new projects, tech insights, and industry
               updates.
             </p>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Input
                 placeholder="you@domain.com"
                 className="flex-1"
                 type="email"
               />
-              <Button size="sm">Subscribe</Button>
+              <Button size="sm" className="sm:w-auto">
+                Subscribe
+              </Button>
             </div>
           </div>
         </div>
@@ -135,9 +147,9 @@ export function Footer() {
         <Separator />
 
         {/* Bottom Footer */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8">
           {/* Copyright and Social Links */}
-          <div className="flex flex-col sm:flex-row items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span>© 2025 Flexify</span>
               <span>•</span>
@@ -148,41 +160,61 @@ export function Footer() {
 
             {/* Social Media Icons */}
             <div className="flex items-center gap-3">
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
+              <Button
+                variant="link"
+                className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="GitHub"
               >
-                <Github className="h-4 w-4" />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                <a
+                  href="https://github.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Github className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button
+                variant="link"
+                className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Twitter"
               >
-                <Twitter className="h-4 w-4" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Twitter className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button
+                variant="link"
+                className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="LinkedIn"
               >
-                <Linkedin className="h-4 w-4" />
-              </a>
-              <a
-                href="mailto:contact@flexify.dev"
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Linkedin className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button
+                variant="link"
+                className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Email"
               >
-                <Mail className="h-4 w-4" />
-              </a>
+                <a href="mailto:contact@flexify.dev">
+                  <Mail className="h-4 w-4" />
+                </a>
+              </Button>
             </div>
           </div>
 
           {/* Theme Toggle */}
-          <ModeToggle />
+          <div className="flex-shrink-0">
+            <ModeToggle />
+          </div>
         </div>
       </div>
     </footer>

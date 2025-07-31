@@ -24,19 +24,23 @@ export function WhatFlexify() {
       title: "Frontend Development",
       description:
         "Build responsive, interactive user interfaces with React, Vue, Angular, and modern CSS frameworks.",
-      icon: <CodeIcon className="w-10 h-10" aria-hidden="true" />,
+      icon: <CodeIcon className="w-8 h-8 sm:w-10 sm:h-10" aria-hidden="true" />,
     },
     {
       title: "Backend Development",
       description:
         "Create robust APIs and server-side applications with Node.js, Python, Java, and database management.",
-      icon: <ServerIcon className="w-10 h-10" aria-hidden="true" />,
+      icon: (
+        <ServerIcon className="w-8 h-8 sm:w-10 sm:h-10" aria-hidden="true" />
+      ),
     },
     {
       title: "Database Design",
       description:
         "Design and optimize databases with SQL, NoSQL, and cloud database solutions for scalable applications.",
-      icon: <DatabaseIcon className="w-10 h-10" aria-hidden="true" />,
+      icon: (
+        <DatabaseIcon className="w-8 h-8 sm:w-10 sm:h-10" aria-hidden="true" />
+      ),
     },
     {
       title: "API Development",
@@ -71,16 +75,16 @@ export function WhatFlexify() {
   ];
 
   return (
-    <section className="w-full py-16 border-b border-border/40">
+    <section className="w-full py-12 sm:py-16 border-b border-border/40">
       <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-2">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-foreground mb-2">
           What's in Fullstack Development?
         </h2>
-        <p className="text-lg text-center text-gray-300 mb-12">
+        <p className="text-base sm:text-lg text-center text-muted-foreground mb-8 sm:mb-12 max-w-3xl mx-auto">
           Everything you need to build great products on the web.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {features.map((feature, index) => (
             <Card
               key={index}
@@ -88,12 +92,12 @@ export function WhatFlexify() {
             >
               <CardHeader className="pb-3">
                 {feature.icon && <div className="mb-3">{feature.icon}</div>}
-                <CardTitle className="text-white text-lg font-semibold">
+                <CardTitle className="text-foreground text-base sm:text-lg font-semibold">
                   {feature.title}
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
-                <CardDescription className="text-gray-400 text-sm leading-relaxed">
+                <CardDescription className="text-muted-foreground text-sm leading-relaxed">
                   {feature.description}
                 </CardDescription>
               </CardContent>

@@ -7,17 +7,17 @@ import { ABOUT } from "@/constants/images";
  */
 export function About() {
   return (
-    <section className="grid min-h-svh lg:grid-cols-2">
+    <section className="grid min-h-svh lg:grid-cols-2 border-b border-border/40">
       {/* Left Side: About Text */}
-      <div className="flex flex-col justify-center gap-6 p-8 md:p-16">
+      <div className="flex flex-col justify-center gap-6 p-6 sm:p-8 md:p-12 lg:p-16">
         <div className="max-w-xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-2 text-foreground">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-foreground leading-tight">
             Hi, I'm <span className="text-primary">Saeed Al-Tout</span>
           </h1>
-          <h2 className="text-xl md:text-2xl font-semibold text-muted-foreground mb-4">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-muted-foreground mb-4">
             Fullstack & AI Developer
           </h2>
-          <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
             Passionate about building scalable web applications and intelligent
             AI solutions. With a strong background in React, Django, FastAPI,
             and modern ML/DL techniques, I love solving real-world problems and

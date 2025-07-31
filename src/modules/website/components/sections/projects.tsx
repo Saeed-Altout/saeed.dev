@@ -98,14 +98,14 @@ export function Projects() {
   const otherProjects = projects.filter((project) => !project.featured);
 
   return (
-    <section className="py-24 bg-gradient-to-br from-background via-background to-muted/20">
+    <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-background via-background to-muted/20">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent mb-6">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent mb-4 sm:mb-6">
             Featured Projects
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Showcasing innovative solutions and cutting-edge technologies that
             demonstrate
             <span className="font-semibold text-foreground">
@@ -122,21 +122,23 @@ export function Projects() {
         </div>
 
         {/* Featured Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
           {featuredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} featured />
           ))}
         </div>
 
         {/* Other Projects */}
-        <div className="text-center mb-12">
-          <h3 className="text-2xl font-semibold mb-4">More Projects</h3>
+        <div className="text-center mb-8 sm:mb-12">
+          <h3 className="text-xl sm:text-2xl font-semibold mb-4 text-foreground">
+            More Projects
+          </h3>
           <p className="text-muted-foreground">
             Discover more of my work and contributions
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
           {otherProjects.map((project) => (
             <ProjectCard key={project.id} project={project} featured={false} />
           ))}

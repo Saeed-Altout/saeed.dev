@@ -36,7 +36,7 @@ export function ProjectCard({
   return (
     <Card className="group relative overflow-hidden pt-0">
       {/* Project Image */}
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative h-40 sm:h-48 overflow-hidden">
         <img
           src={project.image}
           alt={project.title}
@@ -46,8 +46,8 @@ export function ProjectCard({
 
         {/* Featured Badge */}
         {featured && (
-          <div className="absolute top-4 left-4">
-            <Badge className="bg-primary text-primary-foreground flex items-center gap-1">
+          <div className="absolute top-3 sm:top-4 left-3 sm:left-4">
+            <Badge className="bg-primary text-primary-foreground flex items-center gap-1 text-xs">
               <Star className="h-3 w-3" />
               Featured
             </Badge>
@@ -55,43 +55,51 @@ export function ProjectCard({
         )}
 
         {/* Category Badge */}
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
           <Badge
             variant="secondary"
-            className="backdrop-blur-sm bg-background/80"
+            className="backdrop-blur-sm bg-background/80 text-xs"
           >
             {project.category}
           </Badge>
         </div>
 
         {/* Action Buttons */}
-        <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           {project.liveUrl && (
-            <Button size="sm" variant="secondary" className={cn("h-8 w-8 p-0")}>
-              <ExternalLink className="h-4 w-4" />
+            <Button
+              size="sm"
+              variant="secondary"
+              className={cn("h-7 w-7 sm:h-8 sm:w-8 p-0")}
+            >
+              <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           )}
           {project.githubUrl && (
-            <Button size="sm" variant="secondary" className={cn("h-8 w-8 p-0")}>
-              <Github className="h-4 w-4" />
+            <Button
+              size="sm"
+              variant="secondary"
+              className={cn("h-7 w-7 sm:h-8 sm:w-8 p-0")}
+            >
+              <Github className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           )}
         </div>
       </div>
 
       {/* Project Content */}
-      <CardHeader className="pb-4">
-        <CardTitle className="text-xl font-bold group-hover:text-primary transition-colors duration-300">
+      <CardHeader className="pb-3 sm:pb-4">
+        <CardTitle className="text-lg sm:text-xl font-bold group-hover:text-primary transition-colors duration-300">
           {project.title}
         </CardTitle>
-        <CardDescription className="text-muted-foreground leading-relaxed line-clamp-2">
+        <CardDescription className="text-muted-foreground leading-relaxed line-clamp-2 text-sm">
           {project.description}
         </CardDescription>
       </CardHeader>
 
       <CardContent className="pt-0">
         {/* Technologies */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1 sm:gap-2">
           {project.technologies.map((tech) => (
             <Badge key={tech} variant="outline" className="text-xs">
               {tech}
