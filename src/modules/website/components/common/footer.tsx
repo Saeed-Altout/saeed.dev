@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Github, Twitter, Linkedin, Mail, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,7 +36,7 @@ export function Footer() {
                   variant="link"
                   className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <a href="#projects">Projects</a>
+                  <Link to="/about">About</Link>
                 </Button>
               </li>
               <li>
@@ -43,7 +44,7 @@ export function Footer() {
                   variant="link"
                   className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <a href="#about">About</a>
+                  <Link to="/projects">Projects</Link>
                 </Button>
               </li>
               <li>
@@ -51,7 +52,7 @@ export function Footer() {
                   variant="link"
                   className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <a href="#skills">Skills</a>
+                  <Link to="/experience">Experience</Link>
                 </Button>
               </li>
               <li>
@@ -59,7 +60,7 @@ export function Footer() {
                   variant="link"
                   className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <a href="#experience">Experience</a>
+                  <Link to="/blogs">Blog</Link>
                 </Button>
               </li>
               <li>
@@ -67,7 +68,7 @@ export function Footer() {
                   variant="link"
                   className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <a href="#contact">Contact</a>
+                  <Link to="/contact">Contact</Link>
                 </Button>
               </li>
             </ul>
@@ -84,7 +85,7 @@ export function Footer() {
                   variant="link"
                   className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <a href="#web-development">Web Development</a>
+                  <Link to="/projects">Web Development</Link>
                 </Button>
               </li>
               <li>
@@ -92,7 +93,7 @@ export function Footer() {
                   variant="link"
                   className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <a href="#ui-ux-design">UI/UX Design</a>
+                  <Link to="/projects">UI/UX Design</Link>
                 </Button>
               </li>
               <li>
@@ -100,7 +101,7 @@ export function Footer() {
                   variant="link"
                   className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <a href="#consulting">Consulting</a>
+                  <Link to="/contact">Consulting</Link>
                 </Button>
               </li>
               <li>
@@ -108,7 +109,7 @@ export function Footer() {
                   variant="link"
                   className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <a href="#training">Training</a>
+                  <Link to="/contact">Training</Link>
                 </Button>
               </li>
               <li>
@@ -116,7 +117,7 @@ export function Footer() {
                   variant="link"
                   className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <a href="#maintenance">Maintenance</a>
+                  <Link to="/contact">Maintenance</Link>
                 </Button>
               </li>
             </ul>
@@ -156,6 +157,22 @@ export function Footer() {
               <span>Powered by</span>
               <Heart className="h-3 w-3 text-red-500" />
               <span>saeed altout</span>
+            </div>
+
+            {/* Legal Links */}
+            <div className="flex items-center gap-4 text-sm">
+              <Button
+                variant="link"
+                className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Link to="/terms">Terms</Link>
+              </Button>
+              <Button
+                variant="link"
+                className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Link to="/privacy">Privacy</Link>
+              </Button>
             </div>
 
             {/* Social Media Icons */}

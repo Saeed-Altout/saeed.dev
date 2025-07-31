@@ -10,6 +10,7 @@ import {
   FileText,
   Layers,
   Menu,
+  LogIn,
 } from "lucide-react";
 
 import {
@@ -32,6 +33,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { Logo } from "./logo";
+import { AuthDialog } from "../auth-dialog";
 
 /**
  * Navigation items for the portfolio.
@@ -63,7 +65,7 @@ const portfolioSections: {
   },
   {
     title: "Blog",
-    href: "/blog",
+    href: "/blogs",
     description: "Read my latest articles and technical write-ups.",
     icon: <FileText className="w-4 h-4" />,
   },
@@ -76,135 +78,162 @@ const portfolioSections: {
 ];
 
 export function Navbar() {
+  const [authDialogOpen, setAuthDialogOpen] = React.useState(false);
+
   return (
-    <nav className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center">
-          <Logo />
-        </div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center space-x-6">
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Portfolio</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid gap-2 w-[400px] lg:w-[500px] lg:grid-cols-2 p-4">
-                    {portfolioSections.map((section) => (
-                      <ListItem
-                        key={section.title}
-                        title={section.title}
-                        href={section.href}
-                        icon={section.icon}
-                      >
-                        {section.description}
-                      </ListItem>
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <Link to="/about">About</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <Link to="/projects">Projects</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <Link to="/experience">Experience</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <Link to="/blog">Blog</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <Link to="/contact">Contact</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-
-        {/* Desktop Actions */}
-        <div className="hidden md:flex items-center space-x-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input placeholder="Search portfolio..." className="pl-10 w-64" />
+    <>
+      <nav className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center">
+            <Logo />
           </div>
 
-          <Button size="sm">
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-              Download CV
-            </a>
-          </Button>
-          <Button variant="outline" size="sm">
-            <Github className="w-4 h-4" />
-            <span className="sr-only">GitHub</span>
-          </Button>
-        </div>
-
-        {/* Mobile Menu */}
-        <div className="lg:hidden">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="p-2">
-                <Menu className="w-5 h-5" />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right">
-              <SheetHeader>
-                <SheetTitle className="text-left">
-                  <Logo />
-                </SheetTitle>
-              </SheetHeader>
-
-              <nav className="flex flex-col space-y-2 px-4">
-                {portfolioSections.map((section) => (
-                  <Link
-                    key={section.title}
-                    to={section.href}
-                    className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-6">
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Portfolio</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid gap-2 w-[400px] lg:w-[500px] lg:grid-cols-2 p-4">
+                      {portfolioSections.map((section) => (
+                        <ListItem
+                          key={section.title}
+                          title={section.title}
+                          href={section.href}
+                          icon={section.icon}
+                        >
+                          {section.description}
+                        </ListItem>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    asChild
+                    className={navigationMenuTriggerStyle()}
                   >
-                    {section.icon}
-                    <div>
-                      <div className="font-medium">{section.title}</div>
-                      <div className="text-xs text-muted-foreground">
-                        {section.description}
+                    <Link to="/about">About</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    asChild
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    <Link to="/projects">Projects</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    asChild
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    <Link to="/experience">Experience</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    asChild
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    <Link to="/blogs">Blog</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    asChild
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    <Link to="/contact">Contact</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center space-x-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input placeholder="Search portfolio..." className="pl-10 w-64" />
+            </div>
+
+            <Button size="sm">
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+                Download CV
+              </a>
+            </Button>
+            <Button variant="outline" size="sm">
+              <Github className="w-4 h-4" />
+              <span className="sr-only">GitHub</span>
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => setAuthDialogOpen(true)}
+              className="flex items-center gap-2"
+            >
+              <LogIn className="w-4 h-4" />
+              Sign In
+            </Button>
+          </div>
+
+          {/* Mobile Menu */}
+          <div className="lg:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="sm" className="p-2">
+                  <Menu className="w-5 h-5" />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right">
+                <SheetHeader>
+                  <SheetTitle className="text-left">
+                    <Logo />
+                  </SheetTitle>
+                </SheetHeader>
+
+                <nav className="flex flex-col space-y-2 px-4">
+                  {portfolioSections.map((section) => (
+                    <Link
+                      key={section.title}
+                      to={section.href}
+                      className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                    >
+                      {section.icon}
+                      <div>
+                        <div className="font-medium">{section.title}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {section.description}
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                ))}
-              </nav>
-            </SheetContent>
-          </Sheet>
+                    </Link>
+                  ))}
+                  
+                  {/* Mobile Auth Button */}
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => setAuthDialogOpen(true)}
+                    className="flex items-center gap-2 mt-4"
+                  >
+                    <LogIn className="w-4 h-4" />
+                    Sign In
+                  </Button>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Auth Dialog */}
+      <AuthDialog open={authDialogOpen} onOpenChange={setAuthDialogOpen} />
+    </>
   );
 }
 Navbar.displayName = "Navbar";
