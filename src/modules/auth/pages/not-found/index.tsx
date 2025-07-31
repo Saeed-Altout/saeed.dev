@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
+/**
+ * AuthNotFound - 404 error page for authentication routes.
+ * Clean, accessible error page with navigation options back to auth flows.
+ */
 export default function AuthNotFound() {
   return (
-    <div
-      dir="rtl"
+    <section
       className="max-w-md mx-auto p-0 space-y-8 text-center"
-      aria-label="صفحة غير موجودة"
+      aria-label="Page not found"
+      tabIndex={-1}
     >
       {/* Error Icon and Number */}
       <div className="space-y-4">
@@ -17,6 +21,7 @@ export default function AuthNotFound() {
             stroke="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -29,17 +34,19 @@ export default function AuthNotFound() {
 
         <div className="space-y-2">
           <h1 className="text-6xl font-bold text-red-500">404</h1>
-          <h2 className="text-2xl font-bold text-primary">الصفحة غير موجودة</h2>
+          <h2 className="text-2xl font-semibold text-primary">
+            Page Not Found
+          </h2>
         </div>
       </div>
 
       {/* Error Message */}
       <div className="space-y-3">
         <p className="text-muted-foreground text-base">
-          عذراً، الصفحة التي تبحث عنها غير موجودة.
+          Sorry, the page you're looking for doesn't exist.
         </p>
         <p className="text-muted-foreground text-sm">
-          قد تكون الصفحة قد تم نقلها أو حذفها، أو أنك كتبت عنوان URL خطأ.
+          The link may be broken or the page may have been removed.
         </p>
       </div>
 
@@ -48,13 +55,13 @@ export default function AuthNotFound() {
         <div className="grid grid-cols-1 gap-3">
           <Link to="/auth/sign-in">
             <Button className="w-full" size="lg">
-              تسجيل الدخول
+              Sign In
             </Button>
           </Link>
 
           <Link to="/auth/sign-up">
             <Button variant="outline" className="w-full" size="lg">
-              إنشاء حساب جديد
+              Create Account
             </Button>
           </Link>
         </div>
@@ -62,7 +69,7 @@ export default function AuthNotFound() {
         <div className="pt-2">
           <Link to="/">
             <Button variant="ghost" className="w-full">
-              العودة إلى الصفحة الرئيسية
+              Back to Home
             </Button>
           </Link>
         </div>
@@ -70,35 +77,17 @@ export default function AuthNotFound() {
 
       {/* Help Section */}
       <div className="space-y-2 pt-4 border-t">
-        <p className="text-sm text-muted-foreground font-medium">
-          هل تحتاج مساعدة؟
-        </p>
+        <p className="text-sm text-muted-foreground font-medium">Need help?</p>
         <div className="flex justify-center gap-4 text-xs">
           <Link
             to="/auth/forgot-password"
             className="text-primary hover:underline"
           >
-            استرداد كلمة المرور
-          </Link>
-          <span className="text-muted-foreground">•</span>
-          <Link to="/support" className="text-primary hover:underline">
-            الدعم الفني
-          </Link>
-          <span className="text-muted-foreground">•</span>
-          <Link to="/help" className="text-primary hover:underline">
-            المساعدة
+            Reset Password
           </Link>
         </div>
       </div>
-
-      {/* Islamic Quote */}
-      <div className="text-center text-xs text-muted-foreground pt-6">
-        <p className="italic">
-          {`قال الله تعالى: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ"`}
-        </p>
-        <p className="text-xs mt-1 opacity-75">سورة الطلاق - آية 3</p>
-      </div>
-    </div>
+    </section>
   );
 }
 

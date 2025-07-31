@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { toast } from "sonner";
 
@@ -20,21 +19,26 @@ import { Input } from "@/components/ui/input";
 
 import { forgotPasswordSchema, type ForgotPasswordSchema } from "../schemas";
 import { simulateForgotPasswordApi } from "../api";
+import { WrapperForm } from "./wrapper-form";
 
+/**
+ * ForgotPasswordForm - A clean and accessible password reset request form.
+ * Uses react-hook-form with Zod validation, handles email submission for password reset.
+ */
 export function ForgotPasswordForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  const form = useForm<z.infer<typeof forgotPasswordSchema>>({
+  const form = useForm<ForgotPasswordSchema>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: "",
     },
   });
 
-  const handleForgotPassword = async (
-    values: ForgotPasswordSchema
-  ): Promise<void> => {
+  const handleForgotPassword: SubmitHandler<ForgotPasswordSchema> = async (
+    values
+  ) => {
     setIsLoading(true);
     try {
       const result = await simulateForgotPasswordApi(values.email);
@@ -55,7 +59,7 @@ export function ForgotPasswordForm() {
 
   if (isSubmitted) {
     return (
-      <div
+      <section
         className="max-w-md mx-auto p-0 space-y-6 text-center"
         aria-label="Password reset link sent confirmation"
       >
@@ -109,23 +113,15 @@ export function ForgotPasswordForm() {
             Back to Sign In
           </Link>
         </div>
-      </div>
+      </section>
     );
   }
 
   return (
-    <div
-      className="max-w-md mx-auto p-0 space-y-6"
-      aria-label="Password reset form"
+    <WrapperForm
+      title="Reset Password"
+      description="Enter your email address and we'll send you a link to reset your password."
     >
-      <div className="text-center space-y-1">
-        <h2 className="text-2xl font-bold text-primary mb-1">Reset Password</h2>
-        <p className="text-muted-foreground text-sm">
-          Enter your email address and we'll send you a link to reset your
-          password.
-        </p>
-      </div>
-
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleForgotPassword)}
@@ -142,8 +138,8 @@ export function ForgotPasswordForm() {
                   <Input
                     id="email-input"
                     type="email"
-                    placeholder="demo@saeed.dev"
-                    autoComplete="username"
+                    placeholder="example@gmail.com"
+                    autoComplete="email"
                     {...field}
                     disabled={isLoading}
                     autoFocus
@@ -180,16 +176,7 @@ export function ForgotPasswordForm() {
           Create New Account
         </Link>
       </div>
-
-      <div className="text-center text-xs text-muted-foreground mt-4">
-        <span className="block">
-          Having trouble? We're here to help you get back to coding.
-        </span>
-        <span className="block mt-1">
-          Explore fullstack development at saeed.dev
-        </span>
-      </div>
-    </div>
+    </WrapperForm>
   );
 }
 

@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { toast } from "sonner";
+import { Eye, EyeOff } from "lucide-react";
 
 import {
   Form,
@@ -20,7 +21,12 @@ import { Input } from "@/components/ui/input";
 
 import { resetPasswordSchema, type ResetPasswordSchema } from "../schemas";
 import { simulateResetPasswordApi } from "../api";
+import { WrapperForm } from "./wrapper-form";
 
+/**
+ * ResetPasswordForm - A secure password reset confirmation form.
+ * Uses react-hook-form with Zod validation, handles token validation and new password setup.
+ */
 export function ResetPasswordForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -135,24 +141,17 @@ export function ResetPasswordForm() {
   }
 
   return (
-    <div
-      className="max-w-md mx-auto p-0 space-y-6"
-      aria-label="Set new password form"
+    <WrapperForm
+      title="Set New Password"
+      description="Enter your new password for your Flexify account."
     >
-      <div className="text-center space-y-1">
-        <h2 className="text-2xl font-bold text-primary mb-1">
-          Set New Password
-        </h2>
-        <p className="text-muted-foreground text-sm">
-          Enter your new password for your saeed.dev account.
-        </p>
-      </div>
-
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleResetPassword)}
           className="space-y-5"
           aria-label="Set new password form"
+          autoComplete="on"
+          noValidate
         >
           <FormField
             control={form.control}
@@ -196,7 +195,11 @@ export function ResetPasswordForm() {
                       onClick={() => setShowNewPassword((prev) => !prev)}
                       disabled={isLoading}
                     >
-                      {showNewPassword ? "Hide" : "Show"}
+                      {showNewPassword ? (
+                        <EyeOff className="size-4" aria-hidden="true" />
+                      ) : (
+                        <Eye className="size-4" aria-hidden="true" />
+                      )}
                     </button>
                   </div>
                 </FormControl>
@@ -236,7 +239,11 @@ export function ResetPasswordForm() {
                       onClick={() => setShowConfirmPassword((prev) => !prev)}
                       disabled={isLoading}
                     >
-                      {showConfirmPassword ? "Hide" : "Show"}
+                      {showConfirmPassword ? (
+                        <EyeOff className="size-4" aria-hidden="true" />
+                      ) : (
+                        <Eye className="size-4" aria-hidden="true" />
+                      )}
                     </button>
                   </div>
                 </FormControl>
@@ -266,7 +273,7 @@ export function ResetPasswordForm() {
           </Button>
         </form>
       </Form>
-
+      {/* Back to Sign In Link */}
       <div className="text-center">
         <Link
           to="/auth/sign-in"
@@ -275,16 +282,7 @@ export function ResetPasswordForm() {
           Back to Sign In
         </Link>
       </div>
-
-      <div className="text-center text-xs text-muted-foreground mt-4">
-        <span className="block">
-          Secure your account with a strong password
-        </span>
-        <span className="block mt-1">
-          Continue your development journey at saeed.dev
-        </span>
-      </div>
-    </div>
+    </WrapperForm>
   );
 }
 

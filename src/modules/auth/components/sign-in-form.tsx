@@ -21,6 +21,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import { signInSchema, type SignInSchema } from "../schemas";
 import { simulateLoginApi } from "../api";
+import { WrapperForm } from "./wrapper-form";
 
 /**
  * SignInForm - A pure, accessible, and robust sign-in form component.
@@ -68,14 +69,10 @@ export function SignInForm() {
   };
 
   return (
-    <section
-      className="max-w-md mx-auto p-0 space-y-6"
-      aria-label="Sign in form"
-      tabIndex={-1}
+    <WrapperForm
+      title="Welcome to Flexify"
+      description="Enter your credentials to securely access your Flexify account."
     >
-      <h2 className="text-2xl font-semibold text-primary text-center">
-        Welcome to <span className="font-bold">Flexify</span>
-      </h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSignIn)}
@@ -204,7 +201,7 @@ export function SignInForm() {
           Create Account
         </Link>
       </div>
-    </section>
+    </WrapperForm>
   );
 }
 SignInForm.displayName = "SignInForm";

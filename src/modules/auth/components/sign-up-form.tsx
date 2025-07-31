@@ -20,6 +20,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import { signUpSchema, type SignUpSchema } from "../schemas";
 import { simulateSignUpApi } from "../api";
+import { WrapperForm } from "./wrapper-form";
 
 /**
  * SignUpForm - A pure, accessible, and robust sign-up form component.
@@ -83,14 +84,10 @@ export function SignUpForm() {
   };
 
   return (
-    <section
-      className="max-w-md mx-auto p-0 space-y-6"
-      aria-label="Sign up form"
-      tabIndex={-1}
+    <WrapperForm
+      title="Create an Account"
+      description="Join Flexify to get started with your account."
     >
-      <h2 className="text-2xl font-semibold text-primary text-center">
-        Join <span className="font-bold">Flexify</span>
-      </h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSignUp)}
@@ -324,7 +321,7 @@ export function SignUpForm() {
           Sign In
         </Link>
       </div>
-    </section>
+    </WrapperForm>
   );
 }
 SignUpForm.displayName = "SignUpForm";

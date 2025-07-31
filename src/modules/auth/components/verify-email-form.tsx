@@ -20,7 +20,12 @@ import { Input } from "@/components/ui/input";
 
 import { verifyEmailSchema, type VerifyEmailSchema } from "../schemas";
 import { simulateVerifyEmailApi, simulateResendVerificationApi } from "../api";
+import { WrapperForm } from "./wrapper-form";
 
+/**
+ * VerifyEmailForm - An interactive email verification form with 6-digit code input.
+ * Uses react-hook-form with Zod validation, handles code entry, paste functionality, and resend options.
+ */
 export function VerifyEmailForm() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -226,20 +231,10 @@ export function VerifyEmailForm() {
   }
 
   return (
-    <div
-      className="max-w-md mx-auto p-0 space-y-6"
-      aria-label="Email verification form"
+    <WrapperForm
+      title="Verify Your Email"
+      description="Enter the verification code sent to your email address."
     >
-      <div className="text-center space-y-1">
-        <h2 className="text-2xl font-bold text-primary mb-1">
-          Verify Your Email
-        </h2>
-        <p className="text-muted-foreground text-sm">
-          Enter the verification code sent to
-        </p>
-        <p className="text-primary font-medium text-sm">{email}</p>
-      </div>
-
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleVerifyEmail)}
@@ -298,7 +293,7 @@ export function VerifyEmailForm() {
           </Button>
         </form>
       </Form>
-
+      {/* Resend Verification Code */}
       <div className="text-center space-y-3">
         <p className="text-sm text-muted-foreground">
           Didn't receive the verification code?
@@ -316,11 +311,11 @@ export function VerifyEmailForm() {
             : "Resend Verification Code"}
         </Button>
       </div>
-
+      {/* Check Spam Folder */}
       <div className="text-center text-xs text-muted-foreground">
         Check your spam folder if you don't see the email in your inbox.
       </div>
-
+      {/* Back to Sign In */}
       {!fromSignup && (
         <div className="text-center">
           <Link
@@ -331,16 +326,7 @@ export function VerifyEmailForm() {
           </Link>
         </div>
       )}
-
-      <div className="text-center text-xs text-muted-foreground mt-4">
-        <span className="block">
-          Almost there! Verify your email to unlock full access
-        </span>
-        <span className="block mt-1">
-          to saeed.dev's fullstack development resources
-        </span>
-      </div>
-    </div>
+    </WrapperForm>
   );
 }
 
