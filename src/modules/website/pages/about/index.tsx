@@ -1,18 +1,35 @@
-import { AboutSection, ExperienceSection, SkillsSection, FAQSection } from "../../components";
+import { Loader } from "lucide-react";
 
-/**
- * About - About page component.
- * A comprehensive page showcasing personal information, experience, and skills.
- */
+import {
+  useFaqsQuery,
+  useMeQuery,
+  AboutSection,
+  ExperienceSection,
+  SkillsSection,
+  FAQSection,
+} from "@/modules/website";
+
 export default function AboutPage() {
+  const { data: me, isLoading: meLoading } = useMeQuery();
+  const { data: faqs, isLoading: faqsLoading } = useFaqsQuery();
+  const isLoading = meLoading || faqsLoading;
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-[calc(100vh-65px)]">
+        <Loader className="animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <>
-      <AboutSection />
-      <ExperienceSection />
-      <SkillsSection />
-      <FAQSection />
+      <AboutSection me={me!} />
+      <ExperienceSection me={me!} />
+      <SkillsSection me={me!} />
+      <FAQSection faqs={faqs!} />
     </>
   );
 }
 
-AboutPage.displayName = "AboutPage"; 
+AboutPage.displayName = "AboutPage";
