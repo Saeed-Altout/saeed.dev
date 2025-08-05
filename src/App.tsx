@@ -22,8 +22,8 @@ import PrivacyPage from "./modules/website/pages/privacy";
 
 import DashboardLayout from "./modules/dashboard/layout";
 import IntroductionPage from "./modules/dashboard/pages/introduction";
-import DocsPage from "./modules/dashboard/pages/docs";
-import DocsBySlugPage from "./modules/dashboard/pages/docs/[slug]";
+import ComponentsPage from "./modules/dashboard/pages/components";
+import ComponentPage from "./modules/dashboard/pages/components/[slug]";
 
 export default function App() {
   return (
@@ -43,8 +43,8 @@ export default function App() {
         </Route>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="introduction" element={<IntroductionPage />} />
-          <Route path="docs" element={<DocsPage />} />
-          <Route path="docs/:slug" element={<DocsBySlugPage />} />
+          <Route path="components" element={<ComponentsPage />} />
+          <Route path="components/:slug" element={<ComponentPage />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="sign-in" element={<SignIn />} />
