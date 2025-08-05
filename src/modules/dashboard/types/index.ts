@@ -40,7 +40,7 @@ export type Project = {
 
 export type TrashItem = {
   id: string;
-  type: 'technology' | 'project' | 'category';
+  type: "technology" | "project" | "category";
   data: Technology | Project | Category;
   deletedAt: string;
   expiresAt: string;

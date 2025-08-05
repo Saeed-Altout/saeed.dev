@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Loader2, Plus, X } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,25 +25,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import { technologySchema, type TechnologySchema } from "../schemas";
+import { technologySchema } from "../schemas";
 import { useDashboardStore } from "../stores/dashboard-store";
 import type { Technology } from "../types";
+import type { z } from "zod";
 
 interface TechnologyFormProps {
   technology?: Technology;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
-
-const technologyCategories = [
-  "Frontend",
-  "Backend",
-  "Database",
-  "DevOps",
-  "Mobile",
-  "AI/ML",
-  "Other",
-];
 
 const technologyIcons = [
   "react",
@@ -87,9 +78,9 @@ export function TechnologyForm({
   onOpenChange,
 }: TechnologyFormProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const { addTechnology, updateTechnology } = useDashboardStore();
+  const { addTechnology, updateTechnology, categories } = useDashboardStore();
 
-  const form = useForm<TechnologySchema>({
+  const form = useForm({
     resolver: zodResolver(technologySchema),
     defaultValues: {
       name: technology?.name || "",
@@ -101,7 +92,7 @@ export function TechnologyForm({
     },
   });
 
-  const onSubmit = async (data: TechnologySchema) => {
+  const onSubmit = async (data: z.infer<typeof technologySchema>) => {
     setIsLoading(true);
     try {
       if (technology) {
@@ -113,7 +104,7 @@ export function TechnologyForm({
       }
       onOpenChange(false);
       form.reset();
-    } catch (error) {
+    } catch {
       toast.error("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
@@ -165,11 +156,20 @@ export function TechnologyForm({
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent>
-                  {technologyCategories.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
-                  ))}
+                  {categories.length === 0 ? (
+                    <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                      No categories available. Please create a category first.
+                    </div>
+                  ) : (
+                    categories.map((category) => (
+                      <SelectItem key={category.id} value={category.id}>
+                        <div className="flex items-center gap-2">
+                          <span>{category.icon}</span>
+                          <span>{category.name}</span>
+                        </div>
+                      </SelectItem>
+                    ))
+                  )}
                 </SelectContent>
               </Select>
               {form.formState.errors.category && (

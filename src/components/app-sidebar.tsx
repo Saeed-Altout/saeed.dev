@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Code, Folders, Home } from "lucide-react";
+import { Code, Folders, Home, Tag, Trash2 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
@@ -37,6 +37,16 @@ const data = {
       title: "Technologies",
       url: "/dashboard/technologies",
       icon: Code,
+    },
+    {
+      title: "Categories",
+      url: "/dashboard/categories",
+      icon: Tag,
+    },
+    {
+      title: "Trash",
+      url: "/dashboard/trash",
+      icon: Trash2,
     },
   ],
   projects: [

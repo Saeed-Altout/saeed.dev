@@ -22,7 +22,8 @@ import type { Project } from "../types";
 
 export function ProjectList() {
   const navigate = useNavigate();
-  const { projects, deleteProject, technologies } = useDashboardStore();
+  const { projects, deleteProject, technologies, categories } =
+    useDashboardStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [deletingProject, setDeletingProject] = useState<Project | undefined>();
 
@@ -33,7 +34,12 @@ export function ProjectList() {
       project.technologies.some((techId) => {
         const tech = technologies.find((t) => t.id === techId);
         return tech?.name.toLowerCase().includes(searchTerm.toLowerCase());
-      })
+      }) ||
+      (project.category &&
+        categories
+          .find((c) => c.id === project.category)
+          ?.name.toLowerCase()
+          .includes(searchTerm.toLowerCase()))
   );
 
   const handleEdit = (project: Project) => {
@@ -60,6 +66,10 @@ export function ProjectList() {
     return technologyIds
       .map((id) => technologies.find((t) => t.id === id)?.name)
       .filter(Boolean);
+  };
+
+  const getCategoryName = (categoryId: string) => {
+    return categories.find((c) => c.id === categoryId)?.name;
   };
 
   return (
@@ -169,6 +179,15 @@ export function ProjectList() {
                     </p>
                   </div>
                 </div>
+
+                {/* Category */}
+                {project.category && getCategoryName(project.category) && (
+                  <div className="mb-4">
+                    <Badge variant="outline" className="text-xs">
+                      {getCategoryName(project.category)}
+                    </Badge>
+                  </div>
+                )}
 
                 {/* Technologies */}
                 {project.technologies.length > 0 && (

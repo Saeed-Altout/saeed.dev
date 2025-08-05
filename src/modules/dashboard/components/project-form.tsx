@@ -26,9 +26,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import { projectSchema, type ProjectSchema } from "../schemas";
+import { projectSchema } from "../schemas";
 import { useDashboardStore } from "../stores/dashboard-store";
 import type { Project } from "../types";
+import type { z } from "zod";
 
 interface ProjectFormProps {
   project?: Project;
@@ -45,13 +46,15 @@ export function ProjectForm({
 }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [newFeature, setNewFeature] = useState("");
-  const { addProject, updateProject, technologies } = useDashboardStore();
+  const { addProject, updateProject, technologies, categories } =
+    useDashboardStore();
 
-  const form = useForm<ProjectSchema>({
+  const form = useForm({
     resolver: zodResolver(projectSchema),
     defaultValues: {
       name: project?.name || "",
       description: project?.description || "",
+      category: project?.category || "",
       logo: project?.logo || "",
       cover: project?.cover || "",
       github: project?.github || "",
@@ -63,10 +66,10 @@ export function ProjectForm({
     },
   });
 
-  const watchedFeatures = form.watch("features");
-  const watchedTechnologies = form.watch("technologies");
+  const watchedFeatures = form.watch("features") || [];
+  const watchedTechnologies = form.watch("technologies") || [];
 
-  const onSubmit = async (data: ProjectSchema) => {
+  const onSubmit = async (data: z.infer<typeof projectSchema>) => {
     setIsLoading(true);
     try {
       if (project) {
@@ -80,7 +83,7 @@ export function ProjectForm({
         onOpenChange(false);
       }
       form.reset();
-    } catch (error) {
+    } catch {
       toast.error("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
@@ -169,6 +172,39 @@ export function ProjectForm({
         )}
       </div>
 
+      <div className="space-y-2">
+        <Label htmlFor="category">Category *</Label>
+        <Select
+          value={form.watch("category")}
+          onValueChange={(value) => form.setValue("category", value)}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select a category" />
+          </SelectTrigger>
+          <SelectContent>
+            {categories.length === 0 ? (
+              <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                No categories available. Please create a category first.
+              </div>
+            ) : (
+              categories.map((category) => (
+                <SelectItem key={category.id} value={category.id}>
+                  <div className="flex items-center gap-2">
+                    <span>{category.icon}</span>
+                    <span>{category.name}</span>
+                  </div>
+                </SelectItem>
+              ))
+            )}
+          </SelectContent>
+        </Select>
+        {form.formState.errors.category && (
+          <p className="text-sm text-red-500">
+            {form.formState.errors.category.message}
+          </p>
+        )}
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="cover">Cover Image URL</Label>
@@ -238,13 +274,25 @@ export function ProjectForm({
             <SelectValue placeholder="Add technology" />
           </SelectTrigger>
           <SelectContent>
-            {technologies
-              .filter((tech) => !watchedTechnologies.includes(tech.id))
-              .map((tech) => (
-                <SelectItem key={tech.id} value={tech.id}>
-                  {tech.name}
-                </SelectItem>
-              ))}
+            {technologies.length === 0 ? (
+              <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                No technologies available. Please create a technology first.
+              </div>
+            ) : technologies.filter(
+                (tech) => !watchedTechnologies.includes(tech.id)
+              ).length === 0 ? (
+              <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                All technologies have been added to this project.
+              </div>
+            ) : (
+              technologies
+                .filter((tech) => !watchedTechnologies.includes(tech.id))
+                .map((tech) => (
+                  <SelectItem key={tech.id} value={tech.id}>
+                    {tech.name}
+                  </SelectItem>
+                ))
+            )}
           </SelectContent>
         </Select>
         {form.formState.errors.technologies && (
