@@ -1,13 +1,26 @@
 import { Zap } from "lucide-react";
+import { useSidebar } from "@/components/ui/sidebar";
 
-export function Logo({ isOpen = true }: { isOpen?: boolean }) {
+interface LogoProps {
+  isOpen?: boolean;
+  className?: string;
+}
+
+export function Logo({ isOpen, className }: LogoProps) {
+  // Try to get sidebar state if available, otherwise use the isOpen prop
+  let sidebarOpen = isOpen;
+
+  const { open } = useSidebar();
+  sidebarOpen = open;
+
   return (
-    <div className="flex items-center space-x-2 mr-4">
+    <div className={`flex items-center space-x-2 ${className || ""}`}>
       <Zap className="size-6 text-primary" />
-      {isOpen && (
+      {sidebarOpen && (
         <span className="font-bold text-xl text-foreground">Flexify</span>
       )}
     </div>
   );
 }
+
 Logo.displayName = "Logo";
