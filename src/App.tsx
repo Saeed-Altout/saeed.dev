@@ -20,6 +20,11 @@ import ContactPage from "./modules/website/pages/contact";
 import TermsPage from "./modules/website/pages/terms";
 import PrivacyPage from "./modules/website/pages/privacy";
 
+import DashboardLayout from "./modules/dashboard/layout";
+import IntroductionPage from "./modules/dashboard/pages/introduction";
+import DocsPage from "./modules/dashboard/pages/docs";
+import DocsBySlugPage from "./modules/dashboard/pages/docs/[slug]";
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -35,6 +40,11 @@ export default function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
+        </Route>
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route path="introduction" element={<IntroductionPage />} />
+          <Route path="docs" element={<DocsPage />} />
+          <Route path="docs/:slug" element={<DocsBySlugPage />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="sign-in" element={<SignIn />} />
