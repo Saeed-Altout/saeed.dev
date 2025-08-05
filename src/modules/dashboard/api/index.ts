@@ -47,8 +47,9 @@ export const simulateUpdateTechnology = async (
 };
 
 export const simulateDeleteTechnology = async (
-  id: string
+  _id: string
 ): Promise<{ success: boolean; message: string }> => {
+  console.log("delete technology", _id);
   await delay(300);
   return {
     success: true,
@@ -84,14 +85,14 @@ export const simulateCreateProject = async (
 };
 
 export const simulateUpdateProject = async (
-  id: string,
+  _id: string,
   updates: Partial<Project>
 ): Promise<{ success: boolean; data?: Project; message: string }> => {
   await delay(300);
   return {
     success: true,
     data: {
-      id,
+      id: _id,
       ...updates,
       updatedAt: new Date().toISOString(),
     } as Project,
@@ -102,6 +103,7 @@ export const simulateUpdateProject = async (
 export const simulateDeleteProject = async (
   id: string
 ): Promise<{ success: boolean; message: string }> => {
+  console.log("delete project", id);
   await delay(300);
   return {
     success: true,

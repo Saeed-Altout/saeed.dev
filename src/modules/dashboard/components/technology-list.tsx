@@ -1,6 +1,110 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { Edit, Trash2, Plus, Search } from "lucide-react";
+import {
+  Edit,
+  Trash2,
+  Plus,
+  Search,
+  Code,
+  Globe,
+  Smartphone,
+  Database,
+  Server,
+  Cloud,
+  Shield,
+  Users,
+  Settings,
+  Home,
+  BookOpen,
+  FileText,
+  Zap,
+  Target,
+  Palette,
+  Wrench,
+  BarChart3,
+  Rocket,
+  Monitor,
+  Folder,
+  GitBranch,
+  Package,
+  Layers,
+  Cpu,
+  HardDrive,
+  Network,
+  Lock,
+  Key,
+  Eye,
+  Heart,
+  Star,
+  TrendingUp,
+  Activity,
+  AlertCircle,
+  CheckCircle,
+  Clock,
+  Calendar,
+  Mail,
+  Phone,
+  MapPin,
+  Link,
+  ExternalLink,
+  Download,
+  Upload,
+  Share2,
+  Copy,
+  X,
+  Filter,
+  SortAsc,
+  SortDesc,
+  ChevronDown,
+  ChevronUp,
+  ChevronLeft,
+  ChevronRight,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUp,
+  ArrowDown,
+  Move,
+  RotateCcw,
+  RefreshCw,
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward,
+  Volume2,
+  VolumeX,
+  Mic,
+  MicOff,
+  Video,
+  VideoOff,
+  Camera,
+  Image,
+  File,
+  FileImage,
+  FileVideo,
+  FileAudio,
+  FileArchive,
+  FileCode,
+  FileText as FileTextIcon,
+  FileSpreadsheet,
+  Presentation,
+  FileX,
+  FileCheck,
+  FilePlus,
+  FileMinus,
+  FileEdit,
+  FileSearch,
+  FileHeart,
+  FileWarning,
+  FileQuestion,
+  FileClock,
+  FileKey,
+  FileLock,
+  FileUser,
+  FileCog,
+  FileBarChart,
+  FilePieChart,
+  FileLineChart,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +123,124 @@ import {
 import { useDashboardStore } from "../stores/dashboard-store";
 import { TechnologyForm } from "./technology-form";
 import type { Technology } from "../types";
+
+// Icon mapping for technologies
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  code: Code,
+  globe: Globe,
+  smartphone: Smartphone,
+  database: Database,
+  server: Server,
+  cloud: Cloud,
+  shield: Shield,
+  users: Users,
+  settings: Settings,
+  home: Home,
+  "book-open": BookOpen,
+  "file-text": FileText,
+  zap: Zap,
+  target: Target,
+  palette: Palette,
+  wrench: Wrench,
+  "bar-chart-3": BarChart3,
+  rocket: Rocket,
+  monitor: Monitor,
+  folder: Folder,
+  "git-branch": GitBranch,
+  package: Package,
+  layers: Layers,
+  cpu: Cpu,
+  "hard-drive": HardDrive,
+  network: Network,
+  lock: Lock,
+  key: Key,
+  eye: Eye,
+  heart: Heart,
+  star: Star,
+  "trending-up": TrendingUp,
+  activity: Activity,
+  "alert-circle": AlertCircle,
+  "check-circle": CheckCircle,
+  clock: Clock,
+  calendar: Calendar,
+  mail: Mail,
+  phone: Phone,
+  "map-pin": MapPin,
+  link: Link,
+  "external-link": ExternalLink,
+  download: Download,
+  upload: Upload,
+  "share-2": Share2,
+  copy: Copy,
+  edit: Edit,
+  "trash-2": Trash2,
+  plus: Plus,
+  minus: X,
+  x: X,
+  search: Search,
+  filter: Filter,
+  "sort-asc": SortAsc,
+  "sort-desc": SortDesc,
+  "chevron-down": ChevronDown,
+  "chevron-up": ChevronUp,
+  "chevron-left": ChevronLeft,
+  "chevron-right": ChevronRight,
+  "arrow-left": ArrowLeft,
+  "arrow-right": ArrowRight,
+  "arrow-up": ArrowUp,
+  "arrow-down": ArrowDown,
+  move: Move,
+  "rotate-ccw": RotateCcw,
+  "refresh-cw": RefreshCw,
+  play: Play,
+  pause: Pause,
+  "skip-back": SkipBack,
+  "skip-forward": SkipForward,
+  "volume-2": Volume2,
+  "volume-x": VolumeX,
+  mic: Mic,
+  "mic-off": MicOff,
+  video: Video,
+  "video-off": VideoOff,
+  camera: Camera,
+  image: Image,
+  file: File,
+  "file-image": FileImage,
+  "file-video": FileVideo,
+  "file-audio": FileAudio,
+  "file-archive": FileArchive,
+  "file-code": FileCode,
+  "file-text-icon": FileTextIcon,
+  "file-spreadsheet": FileSpreadsheet,
+  presentation: Presentation,
+  "file-x": FileX,
+  "file-check": FileCheck,
+  "file-plus": FilePlus,
+  "file-minus": FileMinus,
+  "file-edit": FileEdit,
+  "file-search": FileSearch,
+  "file-heart": FileHeart,
+  "file-warning": FileWarning,
+  "file-question": FileQuestion,
+  "file-clock": FileClock,
+  "file-key": FileKey,
+  "file-lock": FileLock,
+  "file-user": FileUser,
+  "file-cog": FileCog,
+  "file-bar-chart": FileBarChart,
+  "file-pie-chart": FilePieChart,
+  "file-line-chart": FileLineChart,
+};
+
+// Utility function to render icon
+const renderIcon = (iconName: string, className: string = "h-6 w-6") => {
+  const IconComponent = iconMap[iconName];
+  if (IconComponent) {
+    return <IconComponent className={className} />;
+  }
+  // Fallback to a default icon if the icon name is not found
+  return <Code className={className} />;
+};
 
 export function TechnologyList() {
   const { technologies, deleteTechnology } = useDashboardStore();
@@ -130,10 +352,10 @@ export function TechnologyList() {
               {/* Technology Icon */}
               <div className="flex items-center gap-3 mb-4">
                 <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-semibold"
+                  className="w-10 h-10 rounded-lg flex items-center justify-center text-white"
                   style={{ backgroundColor: technology.color }}
                 >
-                  {technology.icon.charAt(0).toUpperCase()}
+                  {renderIcon(technology.icon, "h-5 w-5")}
                 </div>
                 <div>
                   <h3 className="font-semibold">{technology.name}</h3>
@@ -199,11 +421,8 @@ export function TechnologyList() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={confirmDelete}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
-              Delete
+            <AlertDialogAction onClick={confirmDelete}>
+              Delete Technology
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

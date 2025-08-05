@@ -1,7 +1,30 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Edit, Trash2, Plus, Search } from "lucide-react";
+import {
+  Edit,
+  Trash2,
+  Plus,
+  Search,
+  Folder,
+  Monitor,
+  Globe,
+  Smartphone,
+  Palette,
+  Wrench,
+  BarChart3,
+  Rocket,
+  Zap,
+  Target,
+  Code,
+  Database,
+  Server,
+  Cloud,
+  Shield,
+  Users,
+  Settings,
+  Home,
+  BookOpen,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,8 +44,40 @@ import { useDashboardStore } from "../stores/dashboard-store";
 import { CategoryForm } from "./category-form";
 import type { Category } from "../types";
 
+// Icon mapping for categories
+const iconMap: Record<string, React.ComponentType<{ className: string }>> = {
+  folder: Folder,
+  monitor: Monitor,
+  globe: Globe,
+  smartphone: Smartphone,
+  palette: Palette,
+  wrench: Wrench,
+  "bar-chart-3": BarChart3,
+  rocket: Rocket,
+  zap: Zap,
+  target: Target,
+  code: Code,
+  database: Database,
+  server: Server,
+  cloud: Cloud,
+  shield: Shield,
+  users: Users,
+  settings: Settings,
+  home: Home,
+  "book-open": BookOpen,
+};
+
+// Utility function to render icon
+const renderIcon = (iconName: string, className: string = "h-6 w-6") => {
+  const IconComponent = iconMap[iconName];
+  if (IconComponent) {
+    return <IconComponent className={className} />;
+  }
+  // Fallback to a default icon if the icon name is not found
+  return <Folder className={className} />;
+};
+
 export function CategoryList() {
-  const navigate = useNavigate();
   const { categories, deleteCategory } = useDashboardStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -126,10 +181,10 @@ export function CategoryList() {
                 {/* Category Header */}
                 <div className="flex items-center gap-3 mb-4">
                   <div
-                    className="w-12 h-12 rounded-lg flex items-center justify-center text-2xl"
+                    className="w-12 h-12 rounded-lg flex items-center justify-center"
                     style={{ backgroundColor: category.color + "20" }}
                   >
-                    {category.icon}
+                    {renderIcon(category.icon, "h-6 w-6")}
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold line-clamp-1">
@@ -200,11 +255,8 @@ export function CategoryList() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={confirmDelete}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
-              Delete
+            <AlertDialogAction onClick={confirmDelete}>
+              Delete Category
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

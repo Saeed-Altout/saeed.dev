@@ -1,3 +1,4 @@
+import { useMeQuery } from "@/lib";
 import { ExperienceSection, TimelineSection } from "../../components";
 
 /**
@@ -5,12 +6,16 @@ import { ExperienceSection, TimelineSection } from "../../components";
  * A comprehensive page showcasing work experience and timeline.
  */
 export default function ExperiencePage() {
+  const { data: me } = useMeQuery();
+
+  if (!me) return null;
+
   return (
     <>
-      <ExperienceSection />
+      <ExperienceSection me={me} />
       <TimelineSection />
     </>
   );
 }
 
-ExperiencePage.displayName = "ExperiencePage"; 
+ExperiencePage.displayName = "ExperiencePage";

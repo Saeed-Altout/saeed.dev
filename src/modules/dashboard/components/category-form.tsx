@@ -2,7 +2,28 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import {
+  Loader2,
+  Folder,
+  Monitor,
+  Globe,
+  Smartphone,
+  Palette,
+  Wrench,
+  BarChart3,
+  Rocket,
+  Zap,
+  Target,
+  Code,
+  Database,
+  Server,
+  Cloud,
+  Shield,
+  Users,
+  Settings,
+  Home,
+  BookOpen,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,9 +46,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import { categorySchema, type CategorySchema } from "../schemas";
+import { categorySchema } from "../schemas";
 import { useDashboardStore } from "../stores/dashboard-store";
 import type { Category } from "../types";
+import type { z } from "zod";
 
 interface CategoryFormProps {
   category?: Category;
@@ -35,6 +57,29 @@ interface CategoryFormProps {
   onOpenChange?: (open: boolean) => void;
   mode?: "dialog" | "standalone";
 }
+
+// Define available icons with their display names
+const categoryIcons = [
+  { value: "folder", label: "Folder", icon: Folder },
+  { value: "monitor", label: "Monitor", icon: Monitor },
+  { value: "globe", label: "Globe", icon: Globe },
+  { value: "smartphone", label: "Smartphone", icon: Smartphone },
+  { value: "palette", label: "Palette", icon: Palette },
+  { value: "wrench", label: "Wrench", icon: Wrench },
+  { value: "bar-chart-3", label: "Bar Chart", icon: BarChart3 },
+  { value: "rocket", label: "Rocket", icon: Rocket },
+  { value: "zap", label: "Zap", icon: Zap },
+  { value: "target", label: "Target", icon: Target },
+  { value: "code", label: "Code", icon: Code },
+  { value: "database", label: "Database", icon: Database },
+  { value: "server", label: "Server", icon: Server },
+  { value: "cloud", label: "Cloud", icon: Cloud },
+  { value: "shield", label: "Shield", icon: Shield },
+  { value: "users", label: "Users", icon: Users },
+  { value: "settings", label: "Settings", icon: Settings },
+  { value: "home", label: "Home", icon: Home },
+  { value: "book-open", label: "Book Open", icon: BookOpen },
+];
 
 export function CategoryForm({
   category,
@@ -45,18 +90,18 @@ export function CategoryForm({
   const [isLoading, setIsLoading] = useState(false);
   const { addCategory, updateCategory } = useDashboardStore();
 
-  const form = useForm<CategorySchema>({
+  const form = useForm({
     resolver: zodResolver(categorySchema),
     defaultValues: {
       name: category?.name || "",
       description: category?.description || "",
       color: category?.color || "#3b82f6",
-      icon: category?.icon || "📁",
+      icon: category?.icon || "folder",
       isActive: category?.isActive ?? true,
     },
   });
 
-  const onSubmit = async (data: CategorySchema) => {
+  const onSubmit = async (data: z.infer<typeof categorySchema>) => {
     setIsLoading(true);
     try {
       if (category) {
@@ -70,7 +115,7 @@ export function CategoryForm({
         onOpenChange(false);
       }
       form.reset();
-    } catch (error) {
+    } catch {
       toast.error("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
@@ -125,16 +170,17 @@ export function CategoryForm({
               <SelectValue placeholder="Select an icon" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="📁">📁 Folder</SelectItem>
-              <SelectItem value="💻">💻 Computer</SelectItem>
-              <SelectItem value="🌐">🌐 Web</SelectItem>
-              <SelectItem value="📱">📱 Mobile</SelectItem>
-              <SelectItem value="🎨">🎨 Design</SelectItem>
-              <SelectItem value="🔧">🔧 Tools</SelectItem>
-              <SelectItem value="📊">📊 Data</SelectItem>
-              <SelectItem value="🚀">🚀 Rocket</SelectItem>
-              <SelectItem value="⚡">⚡ Lightning</SelectItem>
-              <SelectItem value="🎯">🎯 Target</SelectItem>
+              {categoryIcons.map((iconOption) => {
+                const IconComponent = iconOption.icon;
+                return (
+                  <SelectItem key={iconOption.value} value={iconOption.value}>
+                    <div className="flex items-center gap-2">
+                      <IconComponent className="h-4 w-4" />
+                      <span>{iconOption.label}</span>
+                    </div>
+                  </SelectItem>
+                );
+              })}
             </SelectContent>
           </Select>
           {form.formState.errors.icon && (
