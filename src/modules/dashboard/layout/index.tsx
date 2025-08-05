@@ -29,42 +29,43 @@ function DashboardBreadcrumb() {
   const params = useParams();
   const { getProjectById, getTechnologyById } = useDashboardStore();
   const [dynamicTitle, setDynamicTitle] = useState<string>("");
-  
-  const pathSegments = location.pathname.split('/').filter(Boolean);
-  
+
+  const pathSegments = location.pathname.split("/").filter(Boolean);
+
   // Remove 'dashboard' from the beginning if it exists
-  const segments = pathSegments[0] === 'dashboard' ? pathSegments.slice(1) : pathSegments;
-  
+  const segments =
+    pathSegments[0] === "dashboard" ? pathSegments.slice(1) : pathSegments;
+
   // Define breadcrumb mappings
   const breadcrumbMap: Record<string, string> = {
-    '': 'Dashboard',
-    'projects': 'Projects',
-    'technologies': 'Technologies',
-    'categories': 'Categories',
-    'trash': 'Trash',
-    'new': 'New',
+    "": "Dashboard",
+    projects: "Projects",
+    technologies: "Technologies",
+    categories: "Categories",
+    trash: "Trash",
+    new: "New",
   };
 
   // Handle dynamic titles for project/technology details
   useEffect(() => {
-    if (params.id && params.id !== 'new') {
-      if (segments.includes('projects')) {
+    if (params.id && params.id !== "new") {
+      if (segments.includes("projects")) {
         const project = getProjectById(params.id);
         if (project) {
           setDynamicTitle(project.name);
         } else {
-          setDynamicTitle('Project');
+          setDynamicTitle("Project");
         }
-      } else if (segments.includes('technologies')) {
+      } else if (segments.includes("technologies")) {
         const technology = getTechnologyById(params.id);
         if (technology) {
           setDynamicTitle(technology.name);
         } else {
-          setDynamicTitle('Technology');
+          setDynamicTitle("Technology");
         }
       }
-    } else if (params.id === 'new') {
-      setDynamicTitle('New');
+    } else if (params.id === "new") {
+      setDynamicTitle("New");
     } else {
       setDynamicTitle("");
     }
@@ -72,12 +73,12 @@ function DashboardBreadcrumb() {
 
   // Generate breadcrumb items
   const breadcrumbItems: BreadcrumbItem[] = [];
-  let currentPath = '/dashboard';
+  let currentPath = "/dashboard";
 
   // Always add Dashboard as the first item
   breadcrumbItems.push({
-    label: 'Dashboard',
-    href: '/dashboard',
+    label: "Dashboard",
+    href: "/dashboard",
     isCurrent: segments.length === 0,
   });
 
@@ -85,14 +86,14 @@ function DashboardBreadcrumb() {
   segments.forEach((segment, index) => {
     currentPath += `/${segment}`;
     let label = breadcrumbMap[segment] || segment;
-    
+
     // Handle dynamic titles for the last segment if it's an ID
     if (index === segments.length - 1 && params.id && dynamicTitle) {
       label = dynamicTitle;
     }
-    
+
     const isCurrent = index === segments.length - 1;
-    
+
     breadcrumbItems.push({
       label,
       href: currentPath,
