@@ -10,17 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-
-interface Project {
-  title: string;
-  description: string;
-  category: string;
-  technologies: string[];
-  image: string;
-  liveUrl?: string;
-  githubUrl?: string;
-  featured?: boolean;
-}
+import type { Project } from "../../hook/use-projects";
 
 /**
  * ProjectCard - Pure component for displaying a single project.
@@ -42,7 +32,6 @@ export function ProjectCard({
           alt={project.title}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
         {/* Featured Badge */}
         {featured && (
@@ -72,7 +61,14 @@ export function ProjectCard({
               variant="secondary"
               className={cn("h-7 w-7 sm:h-8 sm:w-8 p-0")}
             >
-              <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center"
+              >
+                <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />
+              </a>
             </Button>
           )}
           {project.githubUrl && (
@@ -81,7 +77,14 @@ export function ProjectCard({
               variant="secondary"
               className={cn("h-7 w-7 sm:h-8 sm:w-8 p-0")}
             >
-              <Github className="h-3 w-3 sm:h-4 sm:w-4" />
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center"
+              >
+                <Github className="h-3 w-3 sm:h-4 sm:w-4" />
+              </a>
             </Button>
           )}
         </div>

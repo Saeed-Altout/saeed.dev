@@ -10,72 +10,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  technologies: string[];
-  image: string;
-  liveUrl?: string;
-  githubUrl?: string;
-  featured?: boolean;
-  longDescription?: string;
-  features?: string[];
-  challenges?: string[];
-  solutions?: string[];
-  date?: string;
-  author?: string;
-}
-
-const projects: Project[] = [
-  {
-    id: "1",
-    title: "E-Commerce Platform",
-    description:
-      "A modern e-commerce platform built with React and Node.js, featuring real-time inventory management and secure payment processing.",
-    category: "Web Application",
-    technologies: ["React", "Node.js", "MongoDB", "Stripe"],
-    image:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/example",
-    featured: true,
-    longDescription:
-      "A comprehensive e-commerce solution that provides a seamless shopping experience for both customers and administrators. The platform includes advanced features like real-time inventory tracking, secure payment processing, and an intuitive admin dashboard.",
-    features: [
-      "User authentication and authorization",
-      "Product catalog with search and filtering",
-      "Shopping cart and checkout process",
-      "Secure payment integration with Stripe",
-      "Real-time inventory management",
-      "Order tracking and management",
-      "Admin dashboard for product management",
-      "Responsive design for all devices",
-    ],
-    challenges: [
-      "Implementing real-time inventory updates across multiple users",
-      "Ensuring secure payment processing",
-      "Optimizing performance for large product catalogs",
-      "Creating an intuitive admin interface",
-    ],
-    solutions: [
-      "Used WebSocket connections for real-time updates",
-      "Implemented Stripe's secure payment APIs with proper error handling",
-      "Implemented pagination and lazy loading for better performance",
-      "Created a modular admin dashboard with drag-and-drop functionality",
-    ],
-    date: "2024",
-    author: "Saeed Al-Tout",
-  },
-  // Add more projects here...
-];
+import { useProjects } from "../../hook/use-projects";
 
 /**
  * ProjectDetailSection - Individual project detail section.
  */
 export function ProjectDetailSection({ projectId }: { projectId?: string }) {
+  const { projects } = useProjects();
   const project = projects.find((p) => p.id === projectId);
 
   if (!project) {
@@ -172,15 +113,31 @@ export function ProjectDetailSection({ projectId }: { projectId?: string }) {
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
                 {project.liveUrl && (
-                  <Button className="flex items-center gap-2">
-                    <ExternalLink className="h-4 w-4" />
-                    View Live Demo
+                  <Button className="flex items-center gap-2" asChild>
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      View Live Demo
+                    </a>
                   </Button>
                 )}
                 {project.githubUrl && (
-                  <Button variant="outline" className="flex items-center gap-2">
-                    <Github className="h-4 w-4" />
-                    View Source Code
+                  <Button
+                    variant="outline"
+                    className="flex items-center gap-2"
+                    asChild
+                  >
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Github className="h-4 w-4" />
+                      View Source Code
+                    </a>
                   </Button>
                 )}
               </div>
