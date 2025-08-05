@@ -1,3 +1,14 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { TechnologyList } from "../../../components/technology-list";
+
 export default function NewTechnologyPage() {
-  return <div>NewTechnologyPage</div>;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect to technologies page - the form will be opened from there
+    navigate("/dashboard/technologies", { replace: true });
+  }, [navigate]);
+
+  return <TechnologyList />;
 }
