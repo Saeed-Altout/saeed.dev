@@ -1,71 +1,89 @@
-import * as React from "react";
+"use client";
 
+import * as React from "react";
+import { Code, Folders, Frame } from "lucide-react";
+
+import { NavMain } from "@/components/nav-main";
+import { NavProjects } from "@/components/nav-projects";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Logo } from "@/lib";
 
 const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
+  user: {
+    name: "Flexify",
+    email: "flexify@example.com",
+    avatar: "/avatars/flexify.jpg",
+  },
   navMain: [
     {
-      title: "Getting Started",
-      url: "/dashboard",
+      title: "Projects",
+      url: "/dashboard/projects",
+      icon: Folders,
+      isActive: true,
       items: [
         {
-          title: "Introduction",
-          url: "/dashboard/introduction",
-          isActive: false,
+          title: "All Projects",
+          url: "/dashboard/projects",
+        },
+        {
+          title: "Create Project",
+          url: "/dashboard/projects/new",
+        },
+        {
+          title: "Project Templates",
+          url: "/dashboard/projects/templates",
         },
       ],
     },
     {
-      title: "Components",
-      url: "/dashboard/components",
+      title: "Technologies",
+      url: "/dashboard/technologies",
+      icon: Code,
       items: [
         {
-          title: "Button",
-          url: "/dashboard/components/button",
-          isActive: false,
+          title: "All Technologies",
+          url: "/dashboard/technologies",
+        },
+        {
+          title: "Create Technology",
+          url: "/dashboard/technologies/new",
+        },
+        {
+          title: "Technology Templates",
+          url: "/dashboard/technologies/templates",
         },
       ],
+    },
+  ],
+  projects: [
+    {
+      name: "Project 1",
+      url: "/dashboard/projects/1",
+      icon: Frame,
     },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <Logo />
       </SidebarHeader>
       <SidebarContent>
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.isActive}>
-                      <a href={item.url}>{item.title}</a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+        <NavMain items={data.navMain} />
+        <NavProjects projects={data.projects} />
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={data.user} />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

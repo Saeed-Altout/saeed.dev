@@ -21,9 +21,12 @@ import TermsPage from "./modules/website/pages/terms";
 import PrivacyPage from "./modules/website/pages/privacy";
 
 import DashboardLayout from "./modules/dashboard/layout";
-import IntroductionPage from "./modules/dashboard/pages/introduction";
-import ComponentsPage from "./modules/dashboard/pages/components";
-import ComponentPage from "./modules/dashboard/pages/components/[slug]";
+import DashboardProjectsPage from "./modules/dashboard/pages/projects";
+import DashboardProjectDetailPage from "./modules/dashboard/pages/projects/[id]";
+import NewProjectPage from "./modules/dashboard/pages/projects/new";
+import DashboardTechnologiesPage from "./modules/dashboard/pages/technologies";
+import DashboardTechnologyDetailPage from "./modules/dashboard/pages/technologies/[id]";
+import NewTechnologyPage from "./modules/dashboard/pages/technologies/new";
 
 export default function App() {
   return (
@@ -42,9 +45,15 @@ export default function App() {
           <Route path="/privacy" element={<PrivacyPage />} />
         </Route>
         <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route path="introduction" element={<IntroductionPage />} />
-          <Route path="components" element={<ComponentsPage />} />
-          <Route path="components/:slug" element={<ComponentPage />} />
+          <Route path="projects" element={<DashboardProjectsPage />} />
+          <Route path="projects/:id" element={<DashboardProjectDetailPage />} />
+          <Route path="projects/new" element={<NewProjectPage />} />
+          <Route path="technologies" element={<DashboardTechnologiesPage />} />
+          <Route
+            path="technologies/:id"
+            element={<DashboardTechnologyDetailPage />}
+          />
+          <Route path="technologies/new" element={<NewTechnologyPage />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="sign-in" element={<SignIn />} />
