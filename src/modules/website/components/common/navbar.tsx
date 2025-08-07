@@ -2,7 +2,6 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 
 import {
-  Search,
   Github,
   Mail,
   User,
@@ -11,6 +10,8 @@ import {
   Layers,
   Menu,
   LogIn,
+  Download,
+  Home,
 } from "lucide-react";
 
 import {
@@ -30,14 +31,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 import { Logo } from "./logo";
 import { AuthDialog } from "../auth-dialog";
+import { downloadFile } from "@/lib/utils";
 
 /**
- * Navigation items for the portfolio.
- * Each item represents a main section of the portfolio.
+ * Portfolio sections for the dropdown menu.
+ * These are the children of the Portfolio navigation item.
  */
 const portfolioSections: {
   title: string;
@@ -69,30 +70,49 @@ const portfolioSections: {
     description: "Read my latest articles and technical write-ups.",
     icon: <FileText className="w-4 h-4" />,
   },
-  {
-    title: "Contact",
-    href: "/contact",
-    description: "Get in touch with me for collaboration or questions.",
-    icon: <Mail className="w-4 h-4" />,
-  },
 ];
 
 export function Navbar() {
   const [authDialogOpen, setAuthDialogOpen] = React.useState(false);
 
+  const handleDownloadCV = () => {
+    // Path to the CV file in the public directory
+    const cvPath = "/cv.pdf";
+    downloadFile(cvPath, "Saeed_Al-Tout_CV.pdf");
+  };
+
+  const handleGitHubClick = () => {
+    window.open(
+      "https://github.com/Saeed-Altout",
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
+
   return (
     <>
       <nav className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo/Home */}
           <div className="flex items-center">
-            <Logo />
+            <Link to="/" className="flex items-center space-x-2">
+              <Logo />
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-6">
             <NavigationMenu>
               <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    asChild
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    <Link to="/">Home</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                {/* Portfolio Dropdown */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Portfolio</NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -110,38 +130,8 @@ export function Navbar() {
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={navigationMenuTriggerStyle()}
-                  >
-                    <Link to="/about">About</Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={navigationMenuTriggerStyle()}
-                  >
-                    <Link to="/projects">Projects</Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={navigationMenuTriggerStyle()}
-                  >
-                    <Link to="/experience">Experience</Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={navigationMenuTriggerStyle()}
-                  >
-                    <Link to="/blogs">Blog</Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
+
+                {/* Contact */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
                     asChild
@@ -156,22 +146,16 @@ export function Navbar() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input placeholder="Search portfolio..." className="pl-10 w-64" />
-            </div>
-
-            <Button size="sm">
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-                Download CV
-              </a>
+            <Button size="sm" onClick={handleDownloadCV}>
+              <Download className="w-4 h-4 mr-2" />
+              Download CV
             </Button>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={handleGitHubClick}>
               <Github className="w-4 h-4" />
               <span className="sr-only">GitHub</span>
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
               onClick={() => setAuthDialogOpen(true)}
               className="flex items-center gap-2"
@@ -198,6 +182,21 @@ export function Navbar() {
                 </SheetHeader>
 
                 <nav className="flex flex-col space-y-2 px-4">
+                  {/* Home */}
+                  <Link
+                    to="/"
+                    className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  >
+                    <Home className="w-4 h-4" />
+                    <div>
+                      <div className="font-medium">Home</div>
+                      <div className="text-xs text-muted-foreground">
+                        Back to homepage
+                      </div>
+                    </div>
+                  </Link>
+
+                  {/* Portfolio Sections */}
                   {portfolioSections.map((section) => (
                     <Link
                       key={section.title}
@@ -213,13 +212,49 @@ export function Navbar() {
                       </div>
                     </Link>
                   ))}
-                  
+
+                  {/* Contact */}
+                  <Link
+                    to="/contact"
+                    className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  >
+                    <Mail className="w-4 h-4" />
+                    <div>
+                      <div className="font-medium">Contact</div>
+                      <div className="text-xs text-muted-foreground">
+                        Get in touch with me
+                      </div>
+                    </div>
+                  </Link>
+
+                  {/* Mobile CV Download Button */}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleDownloadCV}
+                    className="flex items-center gap-2 mt-4"
+                  >
+                    <Download className="w-4 h-4" />
+                    Download CV
+                  </Button>
+
+                  {/* Mobile GitHub Button */}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleGitHubClick}
+                    className="flex items-center gap-2"
+                  >
+                    <Github className="w-4 h-4" />
+                    GitHub
+                  </Button>
+
                   {/* Mobile Auth Button */}
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     onClick={() => setAuthDialogOpen(true)}
-                    className="flex items-center gap-2 mt-4"
+                    className="flex items-center gap-2"
                   >
                     <LogIn className="w-4 h-4" />
                     Sign In

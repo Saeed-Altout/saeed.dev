@@ -9,6 +9,8 @@ import {
   Briefcase,
   FileText,
   Layers,
+  Download,
+  Home,
 } from "lucide-react";
 
 import {
@@ -24,10 +26,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { Logo } from "./common/logo";
+import { downloadFile } from "@/lib/utils";
 
 /**
- * Navigation items for the portfolio.
- * Each item represents a main section of the portfolio.
+ * Portfolio sections for the dropdown menu.
+ * These are the children of the Portfolio navigation item.
  */
 const portfolioSections: {
   title: string;
@@ -59,21 +62,30 @@ const portfolioSections: {
     description: "Read my latest articles and technical write-ups.",
     icon: <FileText className="w-4 h-4 mr-2" />,
   },
-  {
-    title: "Contact",
-    href: "/contact",
-    description: "Get in touch with me for collaboration or questions.",
-    icon: <Mail className="w-4 h-4 mr-2" />,
-  },
 ];
 
 export function Navbar() {
+  const handleDownloadCV = () => {
+    // Path to the CV file in the public directory
+    const cvPath = "/cv.pdf";
+    downloadFile(cvPath, "Saeed_Al-Tout_CV.pdf");
+  };
+
+  const handleGitHubClick = () => {
+    window.open("https://github.com/Saeed-Altout", "_blank", "noopener,noreferrer");
+  };
+
   return (
     <nav className="border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <NavigationMenu viewport={false}>
-          <Logo />
+          {/* Logo/Home */}
+          <Link to="/" className="flex items-center space-x-2">
+            <Logo />
+          </Link>
+          
           <NavigationMenuList>
+            {/* Portfolio Dropdown */}
             <NavigationMenuItem>
               <NavigationMenuTrigger>Portfolio</NavigationMenuTrigger>
               <NavigationMenuContent>
@@ -91,38 +103,8 @@ export function Navbar() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <Link to="/about">About</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <Link to="/projects">Projects</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <Link to="/experience">Experience</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <Link to="/blog">Blog</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
+            
+            {/* Contact */}
             <NavigationMenuItem>
               <NavigationMenuLink
                 asChild
@@ -140,12 +122,11 @@ export function Navbar() {
             <Input placeholder="Search portfolio..." className="pl-10 w-64" />
           </div>
 
-          <Button>
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-              Download CV
-            </a>
+          <Button onClick={handleDownloadCV}>
+            <Download className="w-4 h-4 mr-2" />
+            Download CV
           </Button>
-          <Button variant="outline">
+          <Button variant="outline" onClick={handleGitHubClick}>
             <Github className="w-4 h-4" />
             <span className="hidden md:block sr-only">GitHub</span>
           </Button>

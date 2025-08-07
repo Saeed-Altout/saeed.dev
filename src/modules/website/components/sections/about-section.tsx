@@ -3,10 +3,17 @@ import { Download, SquareCheck } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { downloadFile } from "@/lib/utils";
 
 import type { Me } from "@/modules/website";
 
 export function AboutSection({ me }: { me: Me }) {
+  const handleDownloadCV = () => {
+    // Path to the CV file in the public directory
+    const cvPath = "/cv.pdf";
+    downloadFile(cvPath, "Saeed_Al-Tout_CV.pdf");
+  };
+
   return (
     <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-background via-background to-muted/20">
       <div className="container mx-auto px-4">
@@ -52,7 +59,7 @@ export function AboutSection({ me }: { me: Me }) {
               </div>
 
               <div className="pt-4">
-                <Button className="w-full sm:w-auto">
+                <Button className="w-full sm:w-auto" onClick={handleDownloadCV}>
                   <Download className="mr-2 h-4 w-4" />
                   Download Resume
                 </Button>

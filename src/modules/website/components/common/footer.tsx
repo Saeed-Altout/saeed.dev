@@ -183,7 +183,7 @@ export function Footer() {
                 aria-label="GitHub"
               >
                 <a
-                  href="https://github.com"
+                  href="https://github.com/Saeed-Altout"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
