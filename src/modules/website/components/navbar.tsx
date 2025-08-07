@@ -4,13 +4,11 @@ import { Link } from "react-router-dom";
 import {
   Search,
   Github,
-  Mail,
   User,
   Briefcase,
   FileText,
   Layers,
   Download,
-  Home,
 } from "lucide-react";
 
 import {
@@ -72,7 +70,11 @@ export function Navbar() {
   };
 
   const handleGitHubClick = () => {
-    window.open("https://github.com/Saeed-Altout", "_blank", "noopener,noreferrer");
+    window.open(
+      "https://github.com/Saeed-Altout",
+      "_blank",
+      "noopener,noreferrer"
+    );
   };
 
   return (
@@ -83,7 +85,7 @@ export function Navbar() {
           <Link to="/" className="flex items-center space-x-2">
             <Logo />
           </Link>
-          
+
           <NavigationMenuList>
             {/* Portfolio Dropdown */}
             <NavigationMenuItem>
@@ -103,7 +105,7 @@ export function Navbar() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            
+
             {/* Contact */}
             <NavigationMenuItem>
               <NavigationMenuLink
