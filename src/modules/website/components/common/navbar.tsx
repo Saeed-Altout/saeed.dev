@@ -36,6 +36,7 @@ import { Logo } from "./logo";
 import { AuthDialog } from "../auth-dialog";
 import { downloadFile } from "@/lib/utils";
 import { useAuthStore } from "@/lib/auth";
+import { SettingsDialog } from "../settings-dialog";
 
 /**
  * Portfolio sections for the dropdown menu.
@@ -148,7 +149,7 @@ export function Navbar() {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4">
             {isAuthenticated && (
               <Button size="sm" onClick={handleDownloadCV}>
                 <Download className="w-4 h-4 mr-2" />
@@ -170,6 +171,7 @@ export function Navbar() {
                 Sign In
               </Button>
             )}
+            {isAuthenticated && <SettingsDialog />}
           </div>
 
           {/* Mobile Menu */}

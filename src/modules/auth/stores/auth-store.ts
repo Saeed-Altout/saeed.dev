@@ -1,22 +1,6 @@
 import { create } from "zustand";
-import Cookies from "js-cookie";
+import { createJSONStorage, persist } from "zustand/middleware";
 import type { User } from "@/lib/auth";
-
-function getUser(): User | null {
-  if (typeof window === "undefined") return null;
-  const userCookie = Cookies.get("user");
-  if (!userCookie) return null;
-  try {
-    return JSON.parse(userCookie) as User;
-  } catch {
-    return null;
-  }
-}
-
-function getToken(): string | null {
-  if (typeof window === "undefined") return null;
-  return Cookies.get("auth-token") || null;
-}
 
 interface AuthStore {
   user: User | null;
@@ -26,14 +10,18 @@ interface AuthStore {
   signOut: () => void;
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
-  user: getUser(),
-  token: getToken(),
-  setUser: (user) => set({ user }),
-  setToken: (token) => set({ token }),
-  signOut: () => {
-    Cookies.remove("user");
-    Cookies.remove("access_token");
-    set({ user: null, token: null });
-  },
-}));
+export const useAuthStore = create<AuthStore>()(
+  persist(
+    (set) => ({
+      user: null,
+      token: null,
+      setUser: (user) => set({ user }),
+      setToken: (token) => set({ token }),
+      signOut: () => set({ user: null, token: null }),
+    }),
+    {
+      name: "auth",
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);

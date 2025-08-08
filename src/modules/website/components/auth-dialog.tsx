@@ -50,7 +50,14 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
   const handleSignIn = (values: SignInSchema) => {
     const { rememberMe, ...rest } = values;
     console.log(rememberMe);
-    signIn({ ...rest });
+    signIn(
+      { ...rest },
+      {
+        onSuccess: () => {
+          onOpenChange(false);
+        },
+      }
+    );
   };
 
   const signUpForm = useForm<SignUpSchema>({
@@ -59,7 +66,7 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
       name: "",
       email: "",
       password: "",
-      acceptTerms: false,
+      acceptTerms: true,
     },
   });
 
@@ -67,7 +74,14 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
   const handleSignUp = (values: SignUpSchema) => {
     const { acceptTerms, ...rest } = values;
     console.log(acceptTerms);
-    signUp({ ...rest });
+    signUp(
+      { ...rest },
+      {
+        onSuccess: () => {
+          onOpenChange(false);
+        },
+      }
+    );
   };
 
   return (

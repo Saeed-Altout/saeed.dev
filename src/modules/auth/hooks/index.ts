@@ -10,6 +10,7 @@ import {
   signOut,
   type SignInRequest,
   type SignUpRequest,
+  useAuthStore,
 } from "@/lib/auth";
 
 export const useSignInMutation = () => {
@@ -18,6 +19,10 @@ export const useSignInMutation = () => {
     mutationFn: (request: SignInRequest) => signIn(request),
     onSuccess: (data) => {
       toast.success(data.message || "Sign in successful");
+      useAuthStore.setState({
+        user: data.data.user,
+        token: data.data.token,
+      });
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
@@ -33,6 +38,10 @@ export const useSignUpMutation = () => {
     mutationFn: (request: SignUpRequest) => signUp(request),
     onSuccess: (data) => {
       toast.success(data.message || "Sign up successful");
+      useAuthStore.setState({
+        user: data.data.user,
+        token: data.data.token,
+      });
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
@@ -52,6 +61,10 @@ export const useSignOutMutation = () => {
     onSuccess: (data) => {
       toast.success(data.message || "Sign out successful");
       queryClient.clear();
+      useAuthStore.setState({
+        user: null,
+        token: null,
+      });
       navigate("/auth/sign-in");
     },
     onError: (error) => {

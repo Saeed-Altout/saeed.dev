@@ -12,9 +12,15 @@ export type User = {
   updated_at: string;
 };
 
-export type SignInResponse = AuthResponse<User>;
+export type SignInResponse = AuthResponse<{
+  user: User;
+  token: string;
+}>;
 
-export type SignUpResponse = AuthResponse<User>;
+export type SignUpResponse = AuthResponse<{
+  user: User;
+  token: string;
+}>;
 
 export type SignOutResponse = AuthResponse<null>;
 
