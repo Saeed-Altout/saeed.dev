@@ -1,6 +1,7 @@
 export type AuthResponse<T> = {
-  user: T;
+  data: T;
   message: string;
+  status: string;
 };
 
 export type User = {
@@ -10,17 +11,14 @@ export type User = {
   created_at: string;
   updated_at: string;
 };
-export type SignInResponse = AuthResponse<{
-  accessToken: string;
-  refreshToken: string;
-  user: User;
-}>;
 
-export type SignUpResponse = AuthResponse<{
-  accessToken: string;
-  refreshToken: string;
-  user: User;
-}>;
+export type SignInResponse = AuthResponse<User>;
+
+export type SignUpResponse = AuthResponse<User>;
+
+export type SignOutResponse = AuthResponse<null>;
+
+export type GetUserResponse = AuthResponse<User>;
 
 export type SignInRequest = {
   email: string;
