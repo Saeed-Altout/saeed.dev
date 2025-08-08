@@ -1,9 +1,5 @@
-import { SignUpForm } from "../../components/sign-up-form";
+import { SignUpForm } from "@/lib/auth";
 
-/**
- * SignUp - User registration page component.
- * A clean wrapper around the SignUpForm component.
- */
 export default function SignUp() {
   return <SignUpForm />;
 }

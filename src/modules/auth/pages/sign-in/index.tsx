@@ -1,9 +1,5 @@
-import { SignInForm } from "../../components/sign-in-form";
+import { SignInForm } from "@/lib/auth";
 
-/**
- * SignIn - User authentication page component.
- * A clean wrapper around the SignInForm component.
- */
 export default function SignIn() {
   return <SignInForm />;
 }
