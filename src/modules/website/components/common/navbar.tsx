@@ -35,6 +35,7 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "./logo";
 import { AuthDialog } from "../auth-dialog";
 import { downloadFile } from "@/lib/utils";
+import { useAuthStore } from "@/lib/auth";
 
 /**
  * Portfolio sections for the dropdown menu.
@@ -74,6 +75,8 @@ const portfolioSections: {
 
 export function Navbar() {
   const [authDialogOpen, setAuthDialogOpen] = React.useState(false);
+  const { user, token } = useAuthStore();
+  const isAuthenticated = !!(user && token);
 
   const handleDownloadCV = () => {
     // Path to the CV file in the public directory
@@ -146,23 +149,27 @@ export function Navbar() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button size="sm" onClick={handleDownloadCV}>
-              <Download className="w-4 h-4 mr-2" />
-              Download CV
-            </Button>
+            {isAuthenticated && (
+              <Button size="sm" onClick={handleDownloadCV}>
+                <Download className="w-4 h-4 mr-2" />
+                Download CV
+              </Button>
+            )}
             <Button variant="outline" size="sm" onClick={handleGitHubClick}>
               <Github className="w-4 h-4" />
               <span className="sr-only">GitHub</span>
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setAuthDialogOpen(true)}
-              className="flex items-center gap-2"
-            >
-              <LogIn className="w-4 h-4" />
-              Sign In
-            </Button>
+            {!isAuthenticated && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setAuthDialogOpen(true)}
+                className="flex items-center gap-2"
+              >
+                <LogIn className="w-4 h-4" />
+                Sign In
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu */}
@@ -227,16 +234,18 @@ export function Navbar() {
                     </div>
                   </Link>
 
-                  {/* Mobile CV Download Button */}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleDownloadCV}
-                    className="flex items-center gap-2 mt-4"
-                  >
-                    <Download className="w-4 h-4" />
-                    Download CV
-                  </Button>
+                  {/* Mobile CV Download Button - Only show if authenticated */}
+                  {isAuthenticated && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleDownloadCV}
+                      className="flex items-center gap-2 mt-4"
+                    >
+                      <Download className="w-4 h-4" />
+                      Download CV
+                    </Button>
+                  )}
 
                   {/* Mobile GitHub Button */}
                   <Button

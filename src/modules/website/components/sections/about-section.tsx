@@ -4,10 +4,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { downloadFile } from "@/lib/utils";
+import { useAuthStore } from "@/lib/auth";
 
 import type { Me } from "@/modules/website";
 
 export function AboutSection({ me }: { me: Me }) {
+  const { user, token } = useAuthStore();
+  const isAuthenticated = !!(user && token);
+
   const handleDownloadCV = () => {
     // Path to the CV file in the public directory
     const cvPath = "/cv.pdf";
@@ -58,12 +62,14 @@ export function AboutSection({ me }: { me: Me }) {
                 </div>
               </div>
 
-              <div className="pt-4">
-                <Button className="w-full sm:w-auto" onClick={handleDownloadCV}>
-                  <Download className="mr-2 h-4 w-4" />
-                  Download Resume
-                </Button>
-              </div>
+              {isAuthenticated && (
+                <div className="pt-4">
+                  <Button className="w-full sm:w-auto" onClick={handleDownloadCV}>
+                    <Download className="mr-2 h-4 w-4" />
+                    Download Resume
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
 
