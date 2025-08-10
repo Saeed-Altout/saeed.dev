@@ -1,4 +1,4 @@
-import { useState, useEffect, type ReactElement } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Plus, Search, FolderOpen } from "lucide-react";
 
@@ -24,7 +24,7 @@ function useDebouncedValue<T>(value: T, delay: number): T {
   return debouncedValue;
 }
 
-export default function ProjectsPage(): ReactElement {
+export default function ProjectsPage() {
   const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState<string>("");

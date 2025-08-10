@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Folders, Home } from "lucide-react";
+import { Folders, Home, Tag } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
@@ -35,6 +35,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         title: "Projects",
         url: "/dashboard/projects",
         icon: Folders,
+      },
+      {
+        title: "Technologies",
+        url: "/dashboard/technologies",
+        icon: Tag,
       },
     ],
     projects: projects?.data.projects?.map((project) => ({

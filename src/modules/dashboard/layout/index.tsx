@@ -1,7 +1,7 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
-  BreadcrumbItem,
+  BreadcrumbItem as UIBreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
@@ -14,92 +14,90 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Outlet, useLocation, Link, useParams } from "react-router-dom";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { DashboardProvider, useGetProjectsQuery } from "@/lib/dashboard";
 
-interface BreadcrumbItem {
+interface DashboardBreadcrumbItem {
   label: string;
   href: string;
   isCurrent: boolean;
 }
 
-// Dynamic breadcrumb component
 function DashboardBreadcrumb() {
   const location = useLocation();
   const params = useParams();
-  const { data: projects } = useGetProjectsQuery({});
-  const [dynamicTitle, setDynamicTitle] = useState<string>("");
+  const { data: projectsData } = useGetProjectsQuery({});
+  const [dynamicLabel, setDynamicLabel] = useState<string>("");
 
-  const pathSegments = location.pathname.split("/").filter(Boolean);
+  const pathSegments = useMemo(
+    () => location.pathname.split("/").filter(Boolean),
+    [location.pathname]
+  );
 
-  // Remove 'dashboard' from the beginning if it exists
-  const segments =
-    pathSegments[0] === "dashboard" ? pathSegments.slice(1) : pathSegments;
+  const dashboardSegments = useMemo(
+    () =>
+      pathSegments[0] === "dashboard" ? pathSegments.slice(1) : pathSegments,
+    [pathSegments]
+  );
 
-  // Define breadcrumb mappings
-  const breadcrumbMap: Record<string, string> = {
+  const SEGMENT_LABELS: Record<string, string> = {
     "": "Dashboard",
     projects: "Projects",
     new: "New",
   };
 
-  // Handle dynamic titles for project/technology details
   useEffect(() => {
-    if (params.id && params.id !== "new") {
-      if (segments.includes("projects")) {
-        const project = projects?.data.projects?.find(
-          (project) => project.id === params.id
-        );
-        if (project) {
-          setDynamicTitle(project.name);
-        } else {
-          setDynamicTitle("Project");
-        }
-      }
+    if (
+      params.id &&
+      params.id !== "new" &&
+      dashboardSegments.includes("projects")
+    ) {
+      const project = projectsData?.data.projects?.find(
+        (proj) => proj.id === params.id
+      );
+      setDynamicLabel(project?.name || "Project");
     } else if (params.id === "new") {
-      setDynamicTitle("New");
+      setDynamicLabel("New");
     } else {
-      setDynamicTitle("");
+      setDynamicLabel("");
     }
-  }, [params.id, segments, projects]);
+  }, [params.id, dashboardSegments, projectsData]);
 
-  // Generate breadcrumb items
-  const breadcrumbItems: BreadcrumbItem[] = [];
-  let currentPath = "/dashboard";
+  const breadcrumbItems: DashboardBreadcrumbItem[] = useMemo(() => {
+    const items: DashboardBreadcrumbItem[] = [
+      {
+        label: "Dashboard",
+        href: "/dashboard",
+        isCurrent: dashboardSegments.length === 0,
+      },
+    ];
 
-  // Always add Dashboard as the first item
-  breadcrumbItems.push({
-    label: "Dashboard",
-    href: "/dashboard",
-    isCurrent: segments.length === 0,
-  });
+    let accumulatedPath = "/dashboard";
+    dashboardSegments.forEach((segment, idx) => {
+      accumulatedPath += `/${segment}`;
+      let label = SEGMENT_LABELS[segment] || segment;
 
-  // Add other segments
-  segments.forEach((segment, index) => {
-    currentPath += `/${segment}`;
-    let label = breadcrumbMap[segment] || segment;
+      if (idx === dashboardSegments.length - 1 && params.id && dynamicLabel) {
+        label = dynamicLabel;
+      }
 
-    // Handle dynamic titles for the last segment if it's an ID
-    if (index === segments.length - 1 && params.id && dynamicTitle) {
-      label = dynamicTitle;
-    }
-
-    const isCurrent = index === segments.length - 1;
-
-    breadcrumbItems.push({
-      label,
-      href: currentPath,
-      isCurrent,
+      items.push({
+        label,
+        href: accumulatedPath,
+        isCurrent: idx === dashboardSegments.length - 1,
+      });
     });
-  });
+
+    return items;
+  }, [dashboardSegments, params.id, dynamicLabel]);
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {breadcrumbItems.map((item, index) => (
+        {breadcrumbItems.map((item, idx) => (
           <Fragment key={item.href}>
-            {index > 0 && <BreadcrumbSeparator />}
-            <BreadcrumbItem>
+            {idx > 0 && <BreadcrumbSeparator />}
+            <UIBreadcrumbItem>
               {item.isCurrent ? (
                 <BreadcrumbPage>{item.label}</BreadcrumbPage>
               ) : (
@@ -107,13 +105,15 @@ function DashboardBreadcrumb() {
                   <Link to={item.href}>{item.label}</Link>
                 </BreadcrumbLink>
               )}
-            </BreadcrumbItem>
+            </UIBreadcrumbItem>
           </Fragment>
         ))}
       </BreadcrumbList>
     </Breadcrumb>
   );
 }
+
+DashboardBreadcrumb.displayName = "DashboardBreadcrumb";
 
 export default function DashboardLayout() {
   return (
@@ -131,11 +131,13 @@ export default function DashboardLayout() {
               <DashboardBreadcrumb />
             </div>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
             <Outlet />
-          </div>
+          </main>
         </SidebarInset>
       </SidebarProvider>
     </DashboardProvider>
   );
 }
+
+DashboardLayout.displayName = "DashboardLayout";
