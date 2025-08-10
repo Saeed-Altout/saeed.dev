@@ -1,36 +1,52 @@
-import { useNavigate } from "react-router-dom";
 import { Code, FolderOpen, TrendingUp } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  useGetProjectsQuery,
+  useGetTechnologiesQuery,
+  type Project,
+  type Technology,
+} from "@/lib/dashboard";
 
-import { useDashboardStore } from "../stores/dashboard-store";
+import { Heading } from "@/components/ui/heading";
+import { StatsCard } from "@/components/stats-card";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default function DashboardPage() {
-  const navigate = useNavigate();
-  const { technologies, projects } = useDashboardStore();
+const DashboardPage = () => {
+  const { data: technologies, isLoading: isLoadingTechnologies } =
+    useGetTechnologiesQuery();
 
-  const activeTechnologies = technologies.filter((tech) => tech.isActive);
-  const activeProjects = projects.filter((project) => project.isActive);
-  const featuredProjects = projects.filter((project) => project.isFeatured);
+  const { data: projects, isLoading: isLoadingProjects } = useGetProjectsQuery(
+    {}
+  );
+
+  const isLoading: boolean = isLoadingTechnologies || isLoadingProjects;
+
+  const technologiesList: Technology[] = technologies?.data ?? [];
+  const projectsList: Project[] = projects?.data?.projects ?? [];
+
+  const featuredProjects = projectsList.filter((project) => project.isFeatured);
+  const technologiesCount = technologiesList.length;
+  const projectsCount = projectsList.length;
+  const featuredProjectsCount = featuredProjects.length;
 
   const stats = [
     {
       title: "Total Technologies",
-      value: technologies.length,
-      description: `${activeTechnologies.length} active`,
+      value: technologiesCount,
+      description: `${technologiesCount} active`,
       icon: Code,
       href: "/dashboard/technologies",
     },
     {
       title: "Total Projects",
-      value: projects.length,
-      description: `${activeProjects.length} active`,
+      value: projectsCount,
+      description: `${projectsCount} active`,
       icon: FolderOpen,
       href: "/dashboard/projects",
     },
     {
       title: "Featured Projects",
-      value: featuredProjects.length,
+      value: featuredProjectsCount,
       description: "Highlighted work",
       icon: TrendingUp,
       href: "/dashboard/projects",
@@ -39,41 +55,31 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome to your portfolio dashboard. Here's an overview of your
-          technologies and projects.
-        </p>
-      </div>
+      <Heading
+        title="Dashboard"
+        description="Welcome to your portfolio dashboard. Here's an overview of your technologies and projects."
+      />
 
-      {/* Stats */}
       <div className="grid gap-4 md:grid-cols-3">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card
-              key={stat.title}
-              className="hover:bg-accent/50 transition-colors cursor-pointer"
-              onClick={() => navigate(stat.href)}
-            >
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  {stat.title}
-                </CardTitle>
-                <Icon className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <p className="text-xs text-muted-foreground">
-                  {stat.description}
-                </p>
-              </CardContent>
-            </Card>
-          );
-        })}
+        {isLoading
+          ? Array.from({ length: 3 }).map((_, idx) => (
+              <Skeleton key={idx} className="h-24 w-full" />
+            ))
+          : stats.map((stat) => (
+              <StatsCard
+                key={stat.title}
+                title={stat.title}
+                value={stat.value}
+                description={stat.description}
+                icon={stat.icon}
+                href={stat.href}
+              />
+            ))}
       </div>
     </div>
   );
-}
+};
+
+DashboardPage.displayName = "DashboardPage";
+
+export default DashboardPage;

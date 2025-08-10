@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Code, Folders, Home, Tag, Trash2 } from "lucide-react";
+import { Folders, Home } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
@@ -14,51 +14,36 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Logo } from "@/lib";
-
-const data = {
-  user: {
-    name: "Flexify",
-    email: "flexify@example.com",
-    avatar: "/avatars/flexify.jpg",
-  },
-  navMain: [
-    {
-      title: "Overview",
-      url: "/dashboard",
-      icon: Home,
-      isActive: true,
-    },
-    {
-      title: "Projects",
-      url: "/dashboard/projects",
-      icon: Folders,
-    },
-    {
-      title: "Technologies",
-      url: "/dashboard/technologies",
-      icon: Code,
-    },
-    {
-      title: "Categories",
-      url: "/dashboard/categories",
-      icon: Tag,
-    },
-    {
-      title: "Trash",
-      url: "/dashboard/trash",
-      icon: Trash2,
-    },
-  ],
-  projects: [
-    {
-      name: "Project 1",
-      url: "/dashboard/projects/1",
-      icon: Folders,
-    },
-  ],
-};
+import { useGetProjectsQuery } from "@/lib/dashboard";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: projects, isLoading } = useGetProjectsQuery({});
+  const data = {
+    user: {
+      name: "Flexify",
+      email: "flexify@example.com",
+      avatar: "/avatars/flexify.jpg",
+    },
+    navMain: [
+      {
+        title: "Overview",
+        url: "/dashboard",
+        icon: Home,
+        isActive: true,
+      },
+      {
+        title: "Projects",
+        url: "/dashboard/projects",
+        icon: Folders,
+      },
+    ],
+    projects: projects?.data.projects?.map((project) => ({
+      name: project.name,
+      url: `/dashboard/projects/${project.id}`,
+      icon: Folders,
+    })),
+  };
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -68,7 +53,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavProjects projects={data.projects ?? []} isLoading={isLoading} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

@@ -1,18 +1,15 @@
-import { useParams } from "react-router-dom";
-import { ProjectDetailSection } from "../../../components";
+import { ProjectsSection } from "../../../components";
 
 /**
  * ProjectDetail - Project detail page component.
  * Shows detailed information about a specific project.
  */
 export default function ProjectDetailPage() {
-  const { id } = useParams<{ id: string }>();
-
   return (
     <>
-      <ProjectDetailSection projectId={id} />
+      <ProjectsSection />
     </>
   );
 }
 
-ProjectDetailPage.displayName = "ProjectDetailPage"; 
+ProjectDetailPage.displayName = "ProjectDetailPage";

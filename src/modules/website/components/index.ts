@@ -1,15 +1,13 @@
 export * from "./sections/hero";
 export * from "./sections/what-flexify";
 export * from "./sections/about";
-export * from "./sections/projects";
-
+export * from "./sections/projects-section";
+export * from "./sections/project-detail-section";
 // New sections
 export * from "./sections/about-section";
 export * from "./sections/experience-section";
 export * from "./sections/skills-section";
 export * from "./sections/faq-section";
-export * from "./sections/projects-section";
-export * from "./sections/project-detail-section";
 export * from "./sections/timeline-section";
 export * from "./sections/blogs-section";
 export * from "./sections/blog-detail-section";

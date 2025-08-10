@@ -16,11 +16,6 @@ import DashboardLayout from "./modules/dashboard/layout";
 import DashboardPage from "./modules/dashboard/pages";
 import DashboardProjectsPage from "./modules/dashboard/pages/projects";
 import DashboardProjectDetailPage from "./modules/dashboard/pages/projects/[id]";
-import DashboardTechnologiesPage from "./modules/dashboard/pages/technologies";
-import DashboardTechnologyDetailPage from "./modules/dashboard/pages/technologies/[id]";
-import NewTechnologyPage from "./modules/dashboard/pages/technologies/new";
-import DashboardCategoriesPage from "./modules/dashboard/pages/categories";
-import DashboardTrashPage from "./modules/dashboard/pages/trash";
 
 export default function App() {
   return (
@@ -42,14 +37,6 @@ export default function App() {
           <Route index element={<DashboardPage />} />
           <Route path="projects" element={<DashboardProjectsPage />} />
           <Route path="projects/:id" element={<DashboardProjectDetailPage />} />
-          <Route path="technologies" element={<DashboardTechnologiesPage />} />
-          <Route
-            path="technologies/:id"
-            element={<DashboardTechnologyDetailPage />}
-          />
-          <Route path="technologies/new" element={<NewTechnologyPage />} />
-          <Route path="categories" element={<DashboardCategoriesPage />} />
-          <Route path="trash" element={<DashboardTrashPage />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="sign-in" element={<SignIn />} />

@@ -1,56 +1,79 @@
-export type Category = {
-  id: string;
-  name: string;
-  description: string;
-  color: string;
-  icon: string;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
+export type ApiResponse<T> = {
+  data: T;
+  message: string;
+  status: string;
 };
 
-export type Technology = {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  icon: string;
-  color: string;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-};
+export type Technology = string;
 
 export type Project = {
   id: string;
   name: string;
+  logoUrl: string;
+  coverUrl: string;
   description: string;
-  category: string;
-  logo: string;
-  cover: string;
-  github: string;
-  demo: string;
+  brief: string;
   technologies: string[];
-  features: string[];
-  isActive: boolean;
+  githubLink: string;
+  demoLink: string;
   isFeatured: boolean;
-  createdAt: string;
-  updatedAt: string;
+  isPublic: boolean;
+  status: string;
+  startDate: string;
+  endDate: string;
+  likes: number;
+  comments: string;
+  created_at: string;
+  updated_at: string;
 };
 
-export type TrashItem = {
-  id: string;
-  type: "technology" | "project" | "category";
-  data: Technology | Project | Category;
-  deletedAt: string;
-  expiresAt: string;
-};
-
-export type DashboardState = {
-  technologies: Technology[];
+export type GetProjectsResponse = ApiResponse<{
   projects: Project[];
-  categories: Category[];
-  trash: TrashItem[];
-  isLoading: boolean;
-  error: string | null;
+  total: number;
+  page: number;
+  limit: number;
+}>;
+
+export type GetProjectByIdResponse = ApiResponse<Project>;
+
+export type CreateProjectResponse = ApiResponse<Project>;
+
+export type UpdateProjectResponse = ApiResponse<Project>;
+
+export type DeleteProjectResponse = ApiResponse<null>;
+
+export type GetTechnologiesResponse = ApiResponse<string[]>;
+
+export type CreateProjectRequest = {
+  name: string;
+  description: string;
+  brief: string;
+  technologies: string[];
+  githubLink?: string;
+  demoLink?: string;
+  coverUrl?: string;
+  logoUrl?: string;
+  isFeatured?: boolean;
+  isPublic: boolean;
+  status: string;
+  startDate?: string;
+  endDate?: string;
+};
+
+export type UpdateProjectRequest = {
+  name?: string;
+  description?: string;
+  brief?: string;
+  technologies?: string[];
+  githubLink?: string;
+  demoLink?: string;
+  coverUrl?: string;
+  logoUrl?: string;
+  isFeatured?: boolean;
+  isPublic?: boolean;
+  status?: string;
+  startDate?: string;
+  endDate?: string;
+  likes?: number;
+  comments?: string;
 };

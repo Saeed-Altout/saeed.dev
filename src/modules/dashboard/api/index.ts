@@ -1,112 +1,75 @@
-import type { Technology, Project } from "../types";
+import { apiClient } from "@/lib/axios";
+import type {
+  GetProjectsResponse,
+  GetProjectByIdResponse,
+  CreateProjectRequest,
+  CreateProjectResponse,
+  UpdateProjectResponse,
+  UpdateProjectRequest,
+  DeleteProjectResponse,
+  GetTechnologiesResponse,
+} from "@/lib/dashboard";
 
-// Simulate API delay
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export const getProjects = async (
+  params: Record<string, string>
+): Promise<GetProjectsResponse> => {
+  const filteredParams = Object.fromEntries(
+    Object.entries(params).filter(([, value]) => {
+      if (Array.isArray(value)) {
+        return value.length > 0 && value.some((v) => v !== "");
+      }
+      return value !== "";
+    })
+  );
 
-// Technology API simulations
-export const simulateGetTechnologies = async (): Promise<Technology[]> => {
-  await delay(500);
-  const stored = localStorage.getItem("dashboard-storage");
-  if (stored) {
-    const data = JSON.parse(stored);
-    return data.state?.technologies || [];
-  }
-  return [];
+  const response = await apiClient.get(import.meta.env.VITE_PROJECTS_URL, {
+    params: filteredParams,
+  });
+  return response.data;
 };
 
-export const simulateCreateTechnology = async (
-  technology: Omit<Technology, "id" | "createdAt" | "updatedAt">
-): Promise<{ success: boolean; data?: Technology; message: string }> => {
-  await delay(300);
-  return {
-    success: true,
-    data: {
-      ...technology,
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    message: "Technology created successfully",
-  };
-};
-
-export const simulateUpdateTechnology = async (
-  id: string,
-  updates: Partial<Technology>
-): Promise<{ success: boolean; data?: Technology; message: string }> => {
-  await delay(300);
-  return {
-    success: true,
-    data: {
-      id,
-      ...updates,
-      updatedAt: new Date().toISOString(),
-    } as Technology,
-    message: "Technology updated successfully",
-  };
-};
-
-export const simulateDeleteTechnology = async (
-  _id: string
-): Promise<{ success: boolean; message: string }> => {
-  console.log("delete technology", _id);
-  await delay(300);
-  return {
-    success: true,
-    message: "Technology deleted successfully",
-  };
-};
-
-// Project API simulations
-export const simulateGetProjects = async (): Promise<Project[]> => {
-  await delay(500);
-  const stored = localStorage.getItem("dashboard-storage");
-  if (stored) {
-    const data = JSON.parse(stored);
-    return data.state?.projects || [];
-  }
-  return [];
-};
-
-export const simulateCreateProject = async (
-  project: Omit<Project, "id" | "createdAt" | "updatedAt">
-): Promise<{ success: boolean; data?: Project; message: string }> => {
-  await delay(300);
-  return {
-    success: true,
-    data: {
-      ...project,
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    message: "Project created successfully",
-  };
-};
-
-export const simulateUpdateProject = async (
-  _id: string,
-  updates: Partial<Project>
-): Promise<{ success: boolean; data?: Project; message: string }> => {
-  await delay(300);
-  return {
-    success: true,
-    data: {
-      id: _id,
-      ...updates,
-      updatedAt: new Date().toISOString(),
-    } as Project,
-    message: "Project updated successfully",
-  };
-};
-
-export const simulateDeleteProject = async (
+export const getProjectById = async (
   id: string
-): Promise<{ success: boolean; message: string }> => {
-  console.log("delete project", id);
-  await delay(300);
-  return {
-    success: true,
-    message: "Project deleted successfully",
-  };
+): Promise<GetProjectByIdResponse> => {
+  const response = await apiClient.get(
+    `${import.meta.env.VITE_PROJECTS_URL}/${id}`
+  );
+  return response.data;
+};
+
+export const createProject = async (
+  request: CreateProjectRequest
+): Promise<CreateProjectResponse> => {
+  const response = await apiClient.post(
+    import.meta.env.VITE_PROJECTS_URL,
+    request
+  );
+  return response.data;
+};
+
+export const updateProject = async (
+  id: string,
+  request: UpdateProjectRequest
+): Promise<UpdateProjectResponse> => {
+  const response = await apiClient.put(
+    `${import.meta.env.VITE_PROJECTS_URL}/${id}`,
+    request
+  );
+  return response.data;
+};
+
+export const deleteProject = async (
+  id: string
+): Promise<DeleteProjectResponse> => {
+  const response = await apiClient.delete(
+    `${import.meta.env.VITE_PROJECTS_URL}/${id}`
+  );
+  return response.data;
+};
+
+export const getTechnologies = async (): Promise<GetTechnologiesResponse> => {
+  const response = await apiClient.get(
+    `${import.meta.env.VITE_PROJECTS_URL}/technologies`
+  );
+  return response.data;
 };
