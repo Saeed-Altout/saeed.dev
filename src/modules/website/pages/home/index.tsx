@@ -1,17 +1,20 @@
-import { About, Hero, Projects, WhatFlexify } from "../../components";
+import * as React from "react";
 
-/**
- * ForgotPassword - Password reset page component.
- * A clean wrapper around the ForgotPasswordForm component.
- */
+import {
+  HomeHeroSection,
+  HomeAboutSection,
+  HomeProjectsSection,
+  HomeWhatFlexifySection,
+} from "@/modules/website";
+
 export default function HomePage() {
   return (
-    <>
-      <Hero />
-      <About />
-      <WhatFlexify />
-      <Projects />
-    </>
+    <React.Fragment>
+      <HomeHeroSection />
+      <HomeAboutSection />
+      <HomeWhatFlexifySection />
+      <HomeProjectsSection />
+    </React.Fragment>
   );
 }
 

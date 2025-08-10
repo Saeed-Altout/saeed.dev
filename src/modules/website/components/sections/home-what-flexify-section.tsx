@@ -8,13 +8,7 @@ import {
 } from "@/components/ui/card";
 import { CodeIcon, DatabaseIcon, ServerIcon } from "lucide-react";
 
-/**
- * WhatFlexify section - Inspired by the "What's in Next.js?" grid.
- * Uses shadcn/ui Card components and Tailwind for layout and styling.
- * Displays a grid of fullstack developer skills and capabilities.
- */
-export function WhatFlexify() {
-  // Data for each feature card
+export function HomeWhatFlexifySection() {
   const features: {
     title: string;
     description: string;
@@ -75,8 +69,11 @@ export function WhatFlexify() {
   ];
 
   return (
-    <section className="w-full py-12 sm:py-16 border-b border-border/40">
-      <div className="max-w-6xl mx-auto px-4">
+    <section
+      aria-label="What's in Fullstack Development?"
+      className="w-full py-12 sm:py-16 md:py-20 bg-background overflow-hidden border-b border-border/60"
+    >
+      <div className="container">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-foreground mb-2">
           What's in Fullstack Development?
         </h2>
@@ -109,4 +106,4 @@ export function WhatFlexify() {
   );
 }
 
-WhatFlexify.displayName = "WhatFlexify";
+HomeWhatFlexifySection.displayName = "HomeWhatFlexifySection";

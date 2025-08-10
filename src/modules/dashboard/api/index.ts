@@ -11,7 +11,7 @@ import type {
 } from "@/lib/dashboard";
 
 export const getProjects = async (
-  params: Record<string, string>
+  params: Record<string, string | boolean | number>
 ): Promise<GetProjectsResponse> => {
   const filteredParams = Object.fromEntries(
     Object.entries(params).filter(([, value]) => {
@@ -25,6 +25,27 @@ export const getProjects = async (
   const response = await apiClient.get(import.meta.env.VITE_PROJECTS_URL, {
     params: filteredParams,
   });
+  return response.data;
+};
+
+export const getPublicProjects = async (
+  params: Record<string, string | boolean | number>
+): Promise<GetProjectsResponse> => {
+  const filteredParams = Object.fromEntries(
+    Object.entries(params).filter(([, value]) => {
+      if (Array.isArray(value)) {
+        return value.length > 0 && value.some((v) => v !== "");
+      }
+      return value !== "";
+    })
+  );
+
+  const response = await apiClient.get(
+    `${import.meta.env.VITE_PROJECTS_URL}/public`,
+    {
+      params: filteredParams,
+    }
+  );
   return response.data;
 };
 

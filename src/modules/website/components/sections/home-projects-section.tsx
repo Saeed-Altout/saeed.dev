@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { Search, FolderOpen } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowRight, FolderOpen } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { Heading2 } from "@/components/ui/heading";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -12,30 +12,20 @@ import {
   useGetPublicProjectsQuery,
   useGetTechnologiesQuery,
 } from "@/lib/dashboard";
+import { Button } from "@/components/ui/button";
 
-function useDebouncedValue<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+export function HomeProjectsSection() {
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const handler = setTimeout(() => setDebouncedValue(value), delay);
-    return () => clearTimeout(handler);
-  }, [value, delay]);
-
-  return debouncedValue;
-}
-
-export default function ProjectsPage() {
-  const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedTechnology, setSelectedTechnology] = useState<string>("all");
-
-  const debouncedSearchQuery = useDebouncedValue(searchQuery, 400);
 
   const { data: technologies, isLoading: isLoadingTechnologies } =
     useGetTechnologiesQuery();
   const { data: projects, isLoading: isLoadingProjects } =
     useGetPublicProjectsQuery({
-      q: debouncedSearchQuery,
       technology: selectedTechnology === "all" ? "" : selectedTechnology,
+      isFeatured: true,
+      limit: 3,
     });
 
   const isLoading = isLoadingTechnologies || isLoadingProjects;
@@ -45,25 +35,13 @@ export default function ProjectsPage() {
     (!projects?.data.projects || projects.data.projects.length === 0);
 
   return (
-    <div className="space-y-6 container py-20">
+    <div className="space-y-6 max-w-7xl mx-auto py-20">
       <Heading2
-        title="Projects"
+        title="Featured Projects"
         description="Explore some of the projects I've worked on, showcasing a diverse range of technologies, problem-solving approaches, and real-world applications."
       />
-
-      <div className="relative w-full sm:max-w-sm">
-        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          placeholder="Search projects..."
-          className="pl-9"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          aria-label="Search projects"
-        />
-      </div>
-
       <ScrollArea className="w-full overflow-x-auto">
-        <div className="flex flex-row gap-2 py-4 px-1 whitespace-nowrap">
+        <div className="flex flex-row justify-center gap-2 py-4 px-1 whitespace-nowrap">
           {isLoading ? (
             Array.from({ length: 14 }).map((_, idx) => (
               <Skeleton
@@ -124,14 +102,19 @@ export default function ProjectsPage() {
           </div>
         ) : (
           projects?.data.projects?.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              redirectTo={`/projects/${project.id}`}
-            />
+            <ProjectCard key={project.id} project={project} />
           ))
         )}
+      </div>
+
+      <div className="flex justify-center">
+        <Button onClick={() => navigate("/projects")}>
+          View All Projects
+          <ArrowRight className="h-4 w-4" />
+        </Button>
       </div>
     </div>
   );
 }
+
+HomeProjectsSection.displayName = "HomeProjectsSection";

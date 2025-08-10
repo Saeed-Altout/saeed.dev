@@ -18,8 +18,10 @@ import type { Project } from "@/lib/dashboard";
 
 export function ProjectCard({
   project,
+  redirectTo,
 }: React.ComponentProps<typeof Card> & {
   project: Project;
+  redirectTo?: string;
 }) {
   const navigate = useNavigate();
   const [isImageLoaded, setIsImageLoaded] = useState<boolean>(false);
@@ -34,7 +36,11 @@ export function ProjectCard({
   };
 
   const handleCardClick = () => {
-    navigate(`/dashboard/projects/${project.id}`, { state: { project } });
+    if (redirectTo) {
+      navigate(redirectTo);
+    } else {
+      navigate(`/dashboard/projects/${project.id}`, { state: { project } });
+    }
   };
 
   return (

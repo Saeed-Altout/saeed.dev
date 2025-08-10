@@ -16,6 +16,7 @@ import {
   type CreateProjectRequest,
   type UpdateProjectRequest,
   getTechnologies,
+  getPublicProjects,
 } from "@/lib/dashboard";
 
 export const useCreateProjectMutation = () => {
@@ -75,10 +76,22 @@ export const useDeleteProjectMutation = () => {
   });
 };
 
-export const useGetProjectsQuery = (params: Record<string, string>) => {
+export const useGetProjectsQuery = (
+  params: Record<string, string | boolean | number>
+) => {
   return useQuery({
     queryKey: ["projects", params],
     queryFn: () => getProjects(params),
+    placeholderData: keepPreviousData,
+  });
+};
+
+export const useGetPublicProjectsQuery = (
+  params: Record<string, string | boolean | number>
+) => {
+  return useQuery({
+    queryKey: ["public-projects", params],
+    queryFn: () => getPublicProjects(params),
     placeholderData: keepPreviousData,
   });
 };

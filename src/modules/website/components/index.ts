@@ -1,7 +1,8 @@
-export * from "./sections/hero";
-export * from "./sections/what-flexify";
-export * from "./sections/about";
-export * from "./sections/projects-section";
+export * from "./sections/home-hero-section";
+export * from "./sections/home-about-section";
+export * from "./sections/home-projects-section";
+export * from "./sections/home-what-flexify-section";
+
 export * from "./sections/project-detail-section";
 // New sections
 export * from "./sections/about-section";
