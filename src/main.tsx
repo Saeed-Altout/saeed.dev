@@ -5,7 +5,7 @@ import App from "./App.tsx";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "./components/theme-provider";
 import ReactQueryProviders from "./react-query-providers";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
