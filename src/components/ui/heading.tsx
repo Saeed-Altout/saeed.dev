@@ -13,7 +13,10 @@ export function Heading({
 }) {
   return (
     <div
-      className={cn("flex items-center justify-between", className)}
+      className={cn(
+        "flex items-start md:items-center justify-between flex-col md:flex-row gap-6",
+        className
+      )}
       {...props}
     >
       <div className="space-y-1 flex-1">

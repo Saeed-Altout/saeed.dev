@@ -1,8 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { ExternalLink, Github, Star, Lock } from "lucide-react";
-import { useRef, useState, type MouseEvent } from "react";
-
-import { cn } from "@/lib/utils";
+import { type MouseEvent } from "react";
 
 import {
   Card,
@@ -13,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Image } from "@/components/ui/image";
 
 import type { Project } from "@/lib/dashboard";
 
@@ -24,12 +23,6 @@ export function ProjectCard({
   redirectTo?: string;
 }) {
   const navigate = useNavigate();
-  const [isImageLoaded, setIsImageLoaded] = useState<boolean>(false);
-  const imageRef = useRef<HTMLImageElement | null>(null);
-
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = "https://placehold.co/600";
-  };
 
   const handleButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -52,20 +45,7 @@ export function ProjectCard({
       aria-label={`View details for project ${project.name}`}
     >
       <div className="relative h-40 sm:h-48 overflow-hidden">
-        <img
-          ref={imageRef}
-          src={project.coverUrl}
-          alt={project.name}
-          className={cn(
-            "w-full h-full object-cover transition-all duration-700",
-            isImageLoaded ? "blur-none" : "blur-md"
-          )}
-          onError={handleImageError}
-          onLoad={() => {
-            setIsImageLoaded(true);
-          }}
-          loading="lazy"
-        />
+        <Image src={project.coverUrl} alt={project.name} />
 
         <div className="w-full h-full absolute top-0 left-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-100 transition-opacity" />
 
