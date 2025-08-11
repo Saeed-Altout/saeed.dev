@@ -18,7 +18,7 @@ export function Heading({
     >
       <div className="space-y-1 flex-1">
         <h1 className="text-2xl font-semibold">{title}</h1>
-        <p className="text-xs text-muted-foreground">{description}</p>
+        <p className="paragraph">{description}</p>
       </div>
       {children}
     </div>
@@ -37,9 +37,7 @@ export function Heading2({
   return (
     <div className={cn("space-y-1 flex-1 text-center", className)} {...props}>
       <h1 className="text-4xl font-semibold">{title}</h1>
-      <p className="text-sm md:text-base text-muted-foreground max-w-4xl mx-auto">
-        {description}
-      </p>
+      <p className="paragraph max-w-4xl mx-auto">{description}</p>
     </div>
   );
 }

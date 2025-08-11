@@ -5,6 +5,7 @@ import {
   HomeAboutSection,
   HomeProjectsSection,
   HomeWhatFlexifySection,
+  HomeContactSection,
 } from "@/modules/website";
 
 export default function HomePage() {
@@ -14,6 +15,7 @@ export default function HomePage() {
       <HomeAboutSection />
       <HomeWhatFlexifySection />
       <HomeProjectsSection />
+      <HomeContactSection />
     </React.Fragment>
   );
 }

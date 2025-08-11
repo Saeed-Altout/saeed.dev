@@ -4,10 +4,7 @@ import { Link } from "react-router-dom";
 
 export function HomeHeroSection() {
   return (
-    <section
-      aria-label="Hero section"
-      className="relative py-12 sm:py-16 md:py-20 bg-background overflow-hidden min-h-[calc(100vh-65px)] flex items-center justify-center border-b border-border/40"
-    >
+    <section className="relative section">
       <div className="relative z-20 container text-center">
         <div className="flex justify-center mb-5">
           <div className="text-primary px-4 py-1.5 rounded-full flex items-center gap-2 border">
