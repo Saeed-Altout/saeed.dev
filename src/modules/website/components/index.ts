@@ -13,7 +13,6 @@ export * from "./sections/faq-section";
 export * from "./sections/timeline-section";
 export * from "./sections/blogs-section";
 export * from "./sections/blog-detail-section";
-export * from "./sections/contact-section";
 export * from "./sections/terms-section";
 export * from "./sections/privacy-section";
 

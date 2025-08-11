@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { Github, Twitter, Linkedin, Mail, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Logo } from "./logo";
 
@@ -13,7 +12,7 @@ import { Logo } from "./logo";
 export function Footer() {
   return (
     <footer className="bg-background">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-8">
           {/* Logo and Description */}
@@ -144,8 +143,6 @@ export function Footer() {
             </div>
           </div>
         </div>
-
-        <Separator />
 
         {/* Bottom Footer */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8">
