@@ -8,6 +8,8 @@ import type {
   UpdateProjectRequest,
   DeleteProjectResponse,
   GetTechnologiesResponse,
+  SendContactRequest,
+  SendContactResponse,
 } from "@/lib/dashboard";
 
 export const getProjects = async (
@@ -91,6 +93,16 @@ export const deleteProject = async (
 export const getTechnologies = async (): Promise<GetTechnologiesResponse> => {
   const response = await apiClient.get(
     `${import.meta.env.VITE_PROJECTS_URL}/technologies`
+  );
+  return response.data;
+};
+
+export const sendContact = async (
+  request: SendContactRequest
+): Promise<SendContactResponse> => {
+  const response = await apiClient.post(
+    `${import.meta.env.VITE_CONTACT_URL}/send-message`,
+    request
   );
   return response.data;
 };

@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { subjects } from "@/constants/content";
+import { useSendContactMutation } from "@/lib/dashboard";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -39,6 +40,7 @@ const formSchema = z.object({
 });
 
 export function HomeContactSection() {
+  const { mutate: sendContact, isPending } = useSendContactMutation();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,7 +52,7 @@ export function HomeContactSection() {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    sendContact(values);
   };
 
   return (
@@ -72,7 +74,11 @@ export function HomeContactSection() {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} />
+                    <Input
+                      placeholder="John Doe"
+                      {...field}
+                      disabled={isPending}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -85,7 +91,11 @@ export function HomeContactSection() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="flexify@email.com" {...field} />
+                    <Input
+                      placeholder="flexify@email.com"
+                      {...field}
+                      disabled={isPending}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -100,6 +110,7 @@ export function HomeContactSection() {
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
+                    disabled={isPending}
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
@@ -128,13 +139,19 @@ export function HomeContactSection() {
                     <Textarea
                       placeholder="Describe your project, question, or how I can help (at least 10 characters)..."
                       {...field}
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isPending}
+              isLoading={isPending}
+            >
               Send Message
             </Button>
           </form>

@@ -17,6 +17,8 @@ import {
   type UpdateProjectRequest,
   getTechnologies,
   getPublicProjects,
+  type SendContactRequest,
+  sendContact,
 } from "@/lib/dashboard";
 
 export const useCreateProjectMutation = () => {
@@ -108,5 +110,20 @@ export const useGetTechnologiesQuery = () => {
   return useQuery({
     queryKey: ["technologies"],
     queryFn: getTechnologies,
+  });
+};
+
+export const useSendContactMutation = () => {
+  return useMutation({
+    mutationKey: ["send-contact"],
+    mutationFn: (request: SendContactRequest) => sendContact(request),
+    onSuccess: (data) => {
+      toast.success(data.message || "Contact sent successfully");
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message || "Contact sending failed");
+      }
+    },
   });
 };

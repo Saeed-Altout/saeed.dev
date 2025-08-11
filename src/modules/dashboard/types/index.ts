@@ -77,3 +77,12 @@ export type UpdateProjectRequest = {
   likes?: number;
   comments?: string;
 };
+
+export type SendContactRequest = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+};
+
+export type SendContactResponse = ApiResponse<null>;
