@@ -5,17 +5,14 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Heading2 } from "@/components/ui/heading";
-import { features } from "@/constants/content";
+import { content } from "@/content";
 
 export function HomeWhatFlexifySection() {
+  const { title, description, features } = content.home.whatFlexify;
   return (
     <section className="section">
       <div className="container flex flex-col gap-6">
-        <Heading2
-          title="What's in Fullstack Development?"
-          description="Everything you need to build great products on the web."
-        />
-
+        <Heading2 title={title} description={description} />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, index) => (
             <Card key={index}>
@@ -35,5 +32,3 @@ export function HomeWhatFlexifySection() {
     </section>
   );
 }
-
-HomeWhatFlexifySection.displayName = "HomeWhatFlexifySection";

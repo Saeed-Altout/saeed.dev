@@ -53,5 +53,3 @@ export function HomeHeroSection() {
     </section>
   );
 }
-
-HomeHeroSection.displayName = "HomeHeroSection";
