@@ -1,6 +1,6 @@
 import { AUTH } from "@/constants/images";
 import { Outlet } from "react-router-dom";
-import { AuthProvider } from "@/lib/auth";
+import { AuthProvider } from "@/providers/auth";
 
 export function AuthLayout() {
   return (

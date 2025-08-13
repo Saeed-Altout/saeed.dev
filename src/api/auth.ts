@@ -6,7 +6,7 @@ import type {
   SignUpResponse,
   SignOutResponse,
   GetUserResponse,
-} from "@/lib/auth";
+} from "@/types/auth";
 
 export const signIn = async (
   request: SignInRequest

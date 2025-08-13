@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useAuthStore } from "@/lib/auth";
+import { useAuthStore } from "@/stores/auth";
 
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,

@@ -53,7 +53,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTheme } from "@/components/theme-provider";
-import { useAuthStore } from "@/lib/auth";
+import { useAuthStore } from "@/stores/auth";
 
 type SettingsSectionId =
   | "account"

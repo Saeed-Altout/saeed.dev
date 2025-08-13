@@ -15,18 +15,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-
-import {
-  EmailField,
-  PasswordField,
-  NameField,
-  useSignInMutation,
-  useSignUpMutation,
-  signInSchema,
-  signUpSchema,
-  type SignInSchema,
-  type SignUpSchema,
-} from "@/lib/auth";
+import { EmailField, PasswordField, NameField } from "@/components/ui/fields";
+import { useSignInMutation, useSignUpMutation } from "@/hooks/auth";
+import { signInSchema, signUpSchema } from "@/schemas/auth";
+import type { SignInSchema, SignUpSchema } from "@/schemas/auth";
 
 interface AuthDialogProps {
   open: boolean;

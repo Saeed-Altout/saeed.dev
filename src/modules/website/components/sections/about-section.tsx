@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { downloadFile } from "@/lib/utils";
-import { useAuthStore } from "@/lib/auth";
+import { useAuthStore } from "@/stores/auth";
 
 import type { Me } from "@/modules/website";
 
@@ -64,7 +64,10 @@ export function AboutSection({ me }: { me: Me }) {
 
               {isAuthenticated && (
                 <div className="pt-4">
-                  <Button className="w-full sm:w-auto" onClick={handleDownloadCV}>
+                  <Button
+                    className="w-full sm:w-auto"
+                    onClick={handleDownloadCV}
+                  >
                     <Download className="mr-2 h-4 w-4" />
                     Download Resume
                   </Button>

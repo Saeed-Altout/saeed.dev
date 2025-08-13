@@ -35,7 +35,7 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "./logo";
 import { AuthDialog } from "../auth-dialog";
 import { downloadFile } from "@/lib/utils";
-import { useAuthStore } from "@/lib/auth";
+import { useAuthStore } from "@/stores/auth";
 import { SettingsDialog } from "../settings-dialog";
 
 /**

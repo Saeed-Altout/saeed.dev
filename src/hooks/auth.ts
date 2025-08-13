@@ -3,15 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 
-import {
-  signIn,
-  signUp,
-  getUser,
-  signOut,
-  type SignInRequest,
-  type SignUpRequest,
-  useAuthStore,
-} from "@/lib/auth";
+import type { SignInRequest, SignUpRequest } from "@/types/auth";
+import { signIn, signUp, signOut, getUser } from "@/api/auth";
+import { useAuthStore } from "@/stores/auth";
 
 export const useSignInMutation = () => {
   return useMutation({

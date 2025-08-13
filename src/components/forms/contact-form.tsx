@@ -1,8 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -11,8 +9,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -20,28 +16,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { subjects } from "@/constants/content";
-import { useSendContactMutation } from "@/lib/dashboard";
+import { Button } from "@/components/ui/button";
 
-const formSchema = z.object({
-  email: z.string().email({
-    message: "Invalid email address.",
-  }),
-  message: z
-    .string()
-    .min(10, {
-      message:
-        "Please provide details about your project or inquiry (at least 10 characters).",
-    })
-    .max(1000, { message: "Message is too long (max 1000 characters)." }),
-  subject: z.string().min(1, { message: "Subject is required." }),
-  name: z.string().min(1, { message: "Name is required." }),
-});
+import { useSendContactMutation } from "@/lib/dashboard";
+import { contactSchema, type ContactSchema } from "@/schemas/contact";
 
 export function ContactForm() {
   const { mutate: sendContact, isPending } = useSendContactMutation();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<ContactSchema>({
+    resolver: zodResolver(contactSchema),
     defaultValues: {
       email: "",
       message: "",
@@ -50,9 +36,8 @@ export function ContactForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    sendContact(values);
-  };
+  const onSubmit = (values: ContactSchema) => sendContact(values);
+
   return (
     <Form {...form}>
       <form
@@ -66,7 +51,12 @@ export function ContactForm() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} disabled={isPending} />
+                <Input
+                  placeholder="John Doe"
+                  type="text"
+                  {...field}
+                  disabled={isPending}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -80,7 +70,8 @@ export function ContactForm() {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="flexify@email.com"
+                  placeholder="example@gmail.com"
+                  type="email"
                   {...field}
                   disabled={isPending}
                 />

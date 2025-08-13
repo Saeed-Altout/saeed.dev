@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "@/lib/auth";
+import { useAuthStore } from "@/stores/auth";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();

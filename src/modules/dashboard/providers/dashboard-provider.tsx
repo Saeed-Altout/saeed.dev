@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/lib/auth";
+import { useAuthStore } from "@/stores/auth";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 

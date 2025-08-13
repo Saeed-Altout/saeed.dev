@@ -1,6 +1,6 @@
-import { WrapperForm } from "@/lib/auth";
+import { WrapperForm } from "@/components/ui/wrapper-form";
 
-export default function AuthNotFound() {
+export function NotFoundPage() {
   return (
     <WrapperForm
       title="Not Found"
@@ -14,4 +14,4 @@ export default function AuthNotFound() {
   );
 }
 
-AuthNotFound.displayName = "AuthNotFound";
+NotFoundPage.displayName = "NotFoundPage";

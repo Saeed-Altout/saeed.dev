@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthLayout, SignIn, SignUp, NotFound } from "@/lib/auth";
 import WebsiteLayout from "./modules/website/layout";
 import HomePage from "./modules/website/pages/home";
 import AboutPage from "./modules/website/pages/about";
@@ -17,6 +16,11 @@ import DashboardPage from "./modules/dashboard/pages";
 import DashboardProjectsPage from "./modules/dashboard/pages/projects";
 import DashboardProjectDetailPage from "./modules/dashboard/pages/projects/[id]";
 import DashboardTechnologiesPage from "./modules/dashboard/pages/technologies";
+
+import { AuthLayout } from "./layouts";
+import { SignInPage } from "@/pages/sign-in";
+import { SignUpPage } from "@/pages/sign-up";
+import { NotFoundPage } from "@/pages/not-found";
 
 export default function App() {
   return (
@@ -41,9 +45,9 @@ export default function App() {
           <Route path="technologies" element={<DashboardTechnologiesPage />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
-          <Route path="sign-in" element={<SignIn />} />
-          <Route path="sign-up" element={<SignUp />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="sign-in" element={<SignInPage />} />
+          <Route path="sign-up" element={<SignUpPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
