@@ -7,6 +7,8 @@ import type {
   SignOutResponse,
   GetUserResponse,
 } from "@/types/auth";
+import type { Me } from "@/types";
+import { me } from "@/data/me";
 
 export const signIn = async (
   request: SignInRequest
@@ -37,3 +39,11 @@ export const getUser = async (): Promise<GetUserResponse> => {
   const response = await apiClient.get(import.meta.env.VITE_GET_USER_URL);
   return response.data;
 };
+
+export function getMe(): Promise<Me> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(me);
+    }, 800);
+  });
+}

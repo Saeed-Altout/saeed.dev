@@ -21,7 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { subjects } from "@/constants/content";
 import { Button } from "@/components/ui/button";
 
-import { useSendContactMutation } from "@/lib/dashboard";
+import { useSendContactMutation } from "@/hooks/project";
 import { contactSchema, type ContactSchema } from "@/schemas/contact";
 
 export function ContactForm() {

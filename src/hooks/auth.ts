@@ -4,8 +4,9 @@ import { AxiosError } from "axios";
 import { toast } from "sonner";
 
 import type { SignInRequest, SignUpRequest } from "@/types/auth";
-import { signIn, signUp, signOut, getUser } from "@/api/auth";
+import { signIn, signUp, signOut, getUser, getMe } from "@/api/auth";
 import { useAuthStore } from "@/stores/auth";
+import type { Me } from "@/types";
 
 export const useSignInMutation = () => {
   return useMutation({
@@ -73,5 +74,12 @@ export const useGetUserQuery = () => {
   return useQuery({
     queryKey: ["user"],
     queryFn: getUser,
+  });
+};
+
+export const useMeQuery = () => {
+  return useQuery<Me>({
+    queryKey: ["me"],
+    queryFn: getMe,
   });
 };

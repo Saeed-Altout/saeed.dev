@@ -13,8 +13,8 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { Logo } from "@/lib";
-import { useGetProjectsQuery } from "@/lib/dashboard";
+import { Logo } from "@/components/common/logo";
+import { useGetProjectsQuery } from "@/hooks/project";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: projects, isLoading } = useGetProjectsQuery({});
