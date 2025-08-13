@@ -1,21 +1,15 @@
 import { Link } from "react-router-dom";
-import { Github, Twitter, Linkedin, Mail, Heart } from "lucide-react";
+import { Github, Twitter, Linkedin, Mail, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Logo } from "./logo";
 
-/**
- * Footer component for the website.
- * Responsive design with clean mobile layout and improved accessibility.
- */
 export function Footer() {
   return (
     <footer className="bg-background">
       <div className="container">
-        {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-8">
-          {/* Logo and Description */}
           <div className="lg:col-span-2">
             <Logo />
             <p className="mt-4 text-muted-foreground text-sm leading-relaxed">
@@ -24,7 +18,6 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Portfolio Links */}
           <div>
             <h3 className="font-semibold text-sm mb-4 text-foreground">
               Portfolio
@@ -73,7 +66,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Services */}
           <div>
             <h3 className="font-semibold text-sm mb-4 text-foreground">
               Services
@@ -122,7 +114,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Newsletter Subscription */}
           <div className="lg:col-span-2">
             <h3 className="font-semibold text-sm mb-4 text-foreground">
               Stay Updated
@@ -144,19 +135,16 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Footer */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8">
-          {/* Copyright and Social Links */}
           <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span>© 2025 Flexify</span>
               <span>•</span>
               <span>Powered by</span>
-              <Heart className="h-3 w-3 text-red-500" />
+              <Zap className="h-3 w-3" />
               <span>saeed altout</span>
             </div>
 
-            {/* Legal Links */}
             <div className="flex items-center gap-4 text-sm">
               <Button
                 variant="link"
@@ -172,7 +160,6 @@ export function Footer() {
               </Button>
             </div>
 
-            {/* Social Media Icons */}
             <div className="flex items-center gap-3">
               <Button
                 variant="link"
@@ -225,7 +212,6 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Theme Toggle */}
           <div className="flex-shrink-0">
             <ModeToggle />
           </div>

@@ -1,9 +1,45 @@
 import {
+  User,
+  Layers,
+  Briefcase,
+  FileText,
   CodeIcon,
   DatabaseIcon,
   ServerIcon,
   type LucideIcon,
 } from "lucide-react";
+
+export const portfolioSections: {
+  title: string;
+  href: string;
+  description: string;
+  icon?: LucideIcon;
+}[] = [
+  {
+    title: "About",
+    href: "/about",
+    description: "Learn more about me, my background, and my journey.",
+    icon: User,
+  },
+  {
+    title: "Projects",
+    href: "/projects",
+    description: "Explore my featured and open source projects.",
+    icon: Layers,
+  },
+  {
+    title: "Experience",
+    href: "/experience",
+    description: "A timeline of my professional and academic experience.",
+    icon: Briefcase,
+  },
+  {
+    title: "Blog",
+    href: "/blogs",
+    description: "Read my latest articles and technical write-ups.",
+    icon: FileText,
+  },
+];
 
 export const features: {
   title: string;

@@ -1,18 +1,6 @@
-import * as React from "react";
+import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-
-import {
-  Github,
-  Mail,
-  User,
-  Briefcase,
-  FileText,
-  Layers,
-  Menu,
-  LogIn,
-  Download,
-  Home,
-} from "lucide-react";
+import { Mail, Menu, LogIn, Download, Home } from "lucide-react";
 
 import {
   NavigationMenu,
@@ -29,289 +17,197 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetFooter,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { SettingsDialog } from "@/components/dialog/settings-dialog";
+import { ListItem } from "@/components/ui/list-item";
+import { Logo } from "@/components/common/logo";
 
-import { Logo } from "./logo";
-import { AuthDialog } from "../dialog/auth-dialog";
 import { downloadFile } from "@/lib/utils";
+import { portfolioSections } from "@/constants/content";
 import { useAuthStore } from "@/stores/auth";
-import { SettingsDialog } from "../dialog/settings-dialog";
-
-/**
- * Portfolio sections for the dropdown menu.
- * These are the children of the Portfolio navigation item.
- */
-const portfolioSections: {
-  title: string;
-  href: string;
-  description: string;
-  icon?: React.ReactNode;
-}[] = [
-  {
-    title: "About",
-    href: "/about",
-    description: "Learn more about me, my background, and my journey.",
-    icon: <User className="w-4 h-4" />,
-  },
-  {
-    title: "Projects",
-    href: "/projects",
-    description: "Explore my featured and open source projects.",
-    icon: <Layers className="w-4 h-4" />,
-  },
-  {
-    title: "Experience",
-    href: "/experience",
-    description: "A timeline of my professional and academic experience.",
-    icon: <Briefcase className="w-4 h-4" />,
-  },
-  {
-    title: "Blog",
-    href: "/blogs",
-    description: "Read my latest articles and technical write-ups.",
-    icon: <FileText className="w-4 h-4" />,
-  },
-];
+import { useModalStore } from "@/stores/modal";
 
 export function Navbar() {
-  const [authDialogOpen, setAuthDialogOpen] = React.useState(false);
+  const { onOpen } = useModalStore();
   const { user, token } = useAuthStore();
   const isAuthenticated = !!(user && token);
 
-  const handleDownloadCV = () => {
-    // Path to the CV file in the public directory
+  const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
+
+  const handleCloseSheet = useCallback(() => {
+    setIsSheetOpen(false);
+  }, []);
+
+  const handleDownloadCV = useCallback(() => {
     const cvPath = "/cv.pdf";
     downloadFile(cvPath, "Saeed_Al-Tout_CV.pdf");
-  };
+    handleCloseSheet();
+  }, [handleCloseSheet]);
 
-  const handleGitHubClick = () => {
-    window.open(
-      "https://github.com/Saeed-Altout",
-      "_blank",
-      "noopener,noreferrer"
-    );
-  };
+  const handleSignIn = useCallback(() => {
+    onOpen("auth");
+    handleCloseSheet();
+  }, [onOpen, handleCloseSheet]);
 
   return (
-    <>
-      <nav className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          {/* Logo/Home */}
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              <Logo />
-            </Link>
-          </div>
+    <nav className="sticky top-0 z-50 border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container h-12 flex items-center justify-between">
+        <div className="flex items-center">
+          <Link to="/" className="flex items-center space-x-2">
+            <Logo />
+          </Link>
+        </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-6">
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={navigationMenuTriggerStyle()}
-                  >
-                    <Link to="/">Home</Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-                {/* Portfolio Dropdown */}
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger>Portfolio</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid gap-2 w-[400px] lg:w-[500px] lg:grid-cols-2 p-4">
-                      {portfolioSections.map((section) => (
-                        <ListItem
-                          key={section.title}
-                          title={section.title}
-                          href={section.href}
-                          icon={section.icon}
-                        >
-                          {section.description}
-                        </ListItem>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
+        <div className="hidden lg:flex items-center space-x-6">
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <Link to="/">Home</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Portfolio</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid gap-2 w-[400px] lg:w-[500px] lg:grid-cols-2 p-4">
+                    {portfolioSections.map((section) => (
+                      <ListItem
+                        key={section.title}
+                        title={section.title}
+                        href={section.href}
+                        icon={section.icon}
+                      >
+                        {section.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <Link to="/contact">Contact</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
 
-                {/* Contact */}
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    asChild
-                    className={navigationMenuTriggerStyle()}
-                  >
-                    <Link to="/contact">Contact</Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
-
-          {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center space-x-4">
-            {isAuthenticated && (
-              <Button size="sm" onClick={handleDownloadCV}>
-                <Download className="w-4 h-4 mr-2" />
-                Download CV
-              </Button>
-            )}
-            <Button variant="outline" size="sm" onClick={handleGitHubClick}>
-              <Github className="w-4 h-4" />
-              <span className="sr-only">GitHub</span>
+        <div className="hidden lg:flex items-center space-x-4">
+          {isAuthenticated && (
+            <Button size="sm" onClick={handleDownloadCV}>
+              <Download className="w-4 h-4 mr-2" />
+              Download CV
             </Button>
-            {!isAuthenticated && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setAuthDialogOpen(true)}
-                className="flex items-center gap-2"
-              >
-                <LogIn className="w-4 h-4" />
-                Sign In
+          )}
+          {!isAuthenticated && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onOpen("auth")}
+              className="flex items-center gap-2"
+            >
+              <LogIn className="w-4 h-4" />
+              Sign In
+            </Button>
+          )}
+          {isAuthenticated && <SettingsDialog />}
+        </div>
+
+        <div className="lg:hidden">
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="sm" className="p-2">
+                <Menu className="w-5 h-5" />
+                <span className="sr-only">Open menu</span>
               </Button>
-            )}
-            {isAuthenticated && <SettingsDialog />}
-          </div>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <SheetHeader>
+                <SheetTitle className="text-left">
+                  <Logo />
+                </SheetTitle>
+              </SheetHeader>
+              <nav className="flex flex-col space-y-2 px-4">
+                <Link
+                  to="/"
+                  className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  onClick={handleCloseSheet}
+                >
+                  <Home className="w-4 h-4" />
+                  <div>
+                    <div className="font-medium">Home</div>
+                    <div className="text-xs text-muted-foreground">
+                      Back to homepage
+                    </div>
+                  </div>
+                </Link>
 
-          {/* Mobile Menu */}
-          <div className="lg:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="p-2">
-                  <Menu className="w-5 h-5" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader>
-                  <SheetTitle className="text-left">
-                    <Logo />
-                  </SheetTitle>
-                </SheetHeader>
-
-                <nav className="flex flex-col space-y-2 px-4">
-                  {/* Home */}
+                {portfolioSections.map((section) => (
                   <Link
-                    to="/"
+                    key={section.title}
+                    to={section.href}
                     className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                    onClick={handleCloseSheet}
                   >
-                    <Home className="w-4 h-4" />
+                    {section.icon && <section.icon className="w-4 h-4" />}
                     <div>
-                      <div className="font-medium">Home</div>
+                      <div className="font-medium">{section.title}</div>
                       <div className="text-xs text-muted-foreground">
-                        Back to homepage
+                        {section.description}
                       </div>
                     </div>
                   </Link>
-
-                  {/* Portfolio Sections */}
-                  {portfolioSections.map((section) => (
-                    <Link
-                      key={section.title}
-                      to={section.href}
-                      className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-                    >
-                      {section.icon}
-                      <div>
-                        <div className="font-medium">{section.title}</div>
-                        <div className="text-xs text-muted-foreground">
-                          {section.description}
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-
-                  {/* Contact */}
-                  <Link
-                    to="/contact"
-                    className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-                  >
-                    <Mail className="w-4 h-4" />
-                    <div>
-                      <div className="font-medium">Contact</div>
-                      <div className="text-xs text-muted-foreground">
-                        Get in touch with me
-                      </div>
+                ))}
+              </nav>
+              <SheetFooter>
+                <Link
+                  to="/contact"
+                  className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  onClick={handleCloseSheet}
+                >
+                  <Mail className="w-4 h-4" />
+                  <div>
+                    <div className="font-medium">Contact</div>
+                    <div className="text-xs text-muted-foreground">
+                      Get in touch with me
                     </div>
-                  </Link>
-
-                  {/* Mobile CV Download Button - Only show if authenticated */}
-                  {isAuthenticated && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleDownloadCV}
-                      className="flex items-center gap-2 mt-4"
-                    >
-                      <Download className="w-4 h-4" />
-                      Download CV
-                    </Button>
-                  )}
-
-                  {/* Mobile GitHub Button */}
+                  </div>
+                </Link>
+                {isAuthenticated && (
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={handleGitHubClick}
-                    className="flex items-center gap-2"
+                    onClick={handleDownloadCV}
+                    className="flex items-center gap-2 mt-4"
                   >
-                    <Github className="w-4 h-4" />
-                    GitHub
+                    <Download className="w-4 h-4" />
+                    Download CV
                   </Button>
-
-                  {/* Mobile Auth Button */}
+                )}
+                {!isAuthenticated && (
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => setAuthDialogOpen(true)}
+                    onClick={handleSignIn}
                     className="flex items-center gap-2"
                   >
                     <LogIn className="w-4 h-4" />
                     Sign In
                   </Button>
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
+                )}
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
         </div>
-      </nav>
-
-      {/* Auth Dialog */}
-      <AuthDialog open={authDialogOpen} onOpenChange={setAuthDialogOpen} />
-    </>
+      </div>
+    </nav>
   );
 }
-Navbar.displayName = "Navbar";
-
-/**
- * ListItem component for navigation menu.
- * Accepts an optional icon for better visual context.
- */
-type ListItemProps = React.ComponentPropsWithoutRef<"li"> & {
-  href: string;
-  title: string;
-  icon?: React.ReactNode;
-};
-
-function ListItem({ title, children, href, icon, ...props }: ListItemProps) {
-  return (
-    <li {...props}>
-      <NavigationMenuLink asChild>
-        <Link
-          to={href}
-          className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors"
-        >
-          {icon && <div className="mt-0.5">{icon}</div>}
-          <div>
-            <div className="text-sm leading-none font-medium">{title}</div>
-            <p className="text-muted-foreground line-clamp-2 text-sm leading-snug mt-1">
-              {children}
-            </p>
-          </div>
-        </Link>
-      </NavigationMenuLink>
-    </li>
-  );
-}
-ListItem.displayName = "ListItem";

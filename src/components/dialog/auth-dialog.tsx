@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,13 +27,15 @@ import { signInSchema, signUpSchema } from "@/schemas/auth";
 import type { SignInSchema, SignUpSchema } from "@/schemas/auth";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "../ui/input";
+import { useModalStore } from "@/stores/modal";
 
-interface AuthDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
+export function AuthDialog() {
+  const { isOpen, action, onClose } = useModalStore();
+  const authDialogOpen = useMemo(
+    () => action === "auth" && isOpen,
+    [action, isOpen]
+  );
 
-export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
   const [activeTab, setActiveTab] = useState("signin");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -49,7 +51,7 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
   const handleSignIn = (values: SignInSchema) => {
     signIn(values, {
       onSuccess: () => {
-        onOpenChange(false);
+        onClose();
       },
     });
   };
@@ -67,13 +69,13 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
   const handleSignUp = (values: SignUpSchema) => {
     signUp(values, {
       onSuccess: () => {
-        onOpenChange(false);
+        onClose();
       },
     });
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={authDialogOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">Welcome Back</DialogTitle>
@@ -361,7 +363,7 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
             <Link
               to="/terms"
               className="text-primary hover:underline"
-              onClick={() => onOpenChange(false)}
+              onClick={() => onClose()}
             >
               Terms of Service
             </Link>{" "}
@@ -369,7 +371,7 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
             <Link
               to="/privacy"
               className="text-primary hover:underline"
-              onClick={() => onOpenChange(false)}
+              onClick={() => onClose()}
             >
               Privacy Policy
             </Link>

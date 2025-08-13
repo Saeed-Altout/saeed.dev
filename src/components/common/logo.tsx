@@ -1,16 +1,11 @@
 import { Zap } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-interface LogoProps {
-  className?: string;
-}
-
-export function Logo({ className }: LogoProps) {
+export function Logo({ className }: { className?: string }) {
   return (
-    <div className={`flex items-center space-x-2 ${className || ""}`}>
+    <div className={cn("flex items-center space-x-2", className)}>
       <Zap className="size-6 text-primary" />
-      <span className="font-bold text-xl text-foreground">Flexify</span>
+      <span className="font-semibold text-xl text-foreground">Flexify</span>
     </div>
   );
 }
-
-Logo.displayName = "Logo";
