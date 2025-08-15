@@ -3,16 +3,15 @@ import { useNavigate } from "react-router-dom";
 
 import { Plus, Search, FolderOpen } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/ui/heading";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 import { ProjectCard } from "@/components/temp/project-card";
-import { useGetProjectsQuery, useGetTechnologiesQuery } from "@/hooks/project";
+import { TechnologyFilter } from "@/components/common/technology-filter";
+import { useGetProjectsQuery } from "@/hooks/project";
 
 function useDebouncedValue<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -33,14 +32,12 @@ export function ProjectsPage() {
 
   const debouncedSearchQuery = useDebouncedValue(searchQuery, 400);
 
-  const { data: technologies, isLoading: isLoadingTechnologies } =
-    useGetTechnologiesQuery();
   const { data: projects, isLoading: isLoadingProjects } = useGetProjectsQuery({
     q: debouncedSearchQuery,
     technology: selectedTechnology === "all" ? "" : selectedTechnology,
   });
 
-  const isLoading = isLoadingTechnologies || isLoadingProjects;
+  const isLoading = isLoadingProjects;
 
   const noProjects =
     !isLoading &&
@@ -67,50 +64,11 @@ export function ProjectsPage() {
         />
       </div>
 
-      <ScrollArea className="w-full overflow-x-auto">
-        <div className="flex flex-row gap-2 py-4 px-1 whitespace-nowrap">
-          {isLoading ? (
-            Array.from({ length: 14 }).map((_, idx) => (
-              <Skeleton
-                key={idx}
-                className="h-6 w-16 rounded-full"
-                aria-label="Loading technology filter"
-              />
-            ))
-          ) : (
-            <>
-              <Badge
-                variant={selectedTechnology === "all" ? "default" : "outline"}
-                className="text-xs cursor-pointer"
-                onClick={() => setSelectedTechnology("all")}
-                tabIndex={0}
-                role="button"
-                aria-label="Show all technologies"
-              >
-                All
-              </Badge>
-              {Array.from(
-                new Set((technologies?.data ?? []).filter(Boolean))
-              ).map((technology) => (
-                <Badge
-                  key={technology}
-                  variant={
-                    selectedTechnology === technology ? "default" : "outline"
-                  }
-                  className="text-xs cursor-pointer"
-                  onClick={() => setSelectedTechnology(technology)}
-                  tabIndex={0}
-                  role="button"
-                  aria-label={`Filter by ${technology}`}
-                >
-                  {technology}
-                </Badge>
-              ))}
-            </>
-          )}
-        </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+      <TechnologyFilter
+        selectedTechnology={selectedTechnology}
+        onTechnologyChange={setSelectedTechnology}
+        isLoading={isLoading}
+      />
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {isLoading ? (
           Array.from({ length: 12 }).map((_, idx) => (

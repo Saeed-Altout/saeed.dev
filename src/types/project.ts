@@ -4,7 +4,7 @@ export type ApiResponse<T> = {
   status: string;
 };
 
-export type Technology = string;
+export type Technology = string; // Keep for backward compatibility, but prefer the full Technology type from technology.ts
 
 export type Project = {
   id: string;
