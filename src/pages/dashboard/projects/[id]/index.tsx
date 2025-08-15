@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { format } from "date-fns";
-import { X, Plus, CalendarIcon } from "lucide-react";
+import { X, CalendarIcon, Search, Check } from "lucide-react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -44,13 +44,16 @@ import {
   useCreateProjectMutation,
   useUpdateProjectMutation,
 } from "@/hooks/project";
+import { useGetTechnologiesForProjectsQuery } from "@/hooks/technology";
 import { projectSchema, type ProjectSchema } from "@/schemas/project";
 
 export function ProjectPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const [newTechnology, setNewTechnology] = useState<string>("");
+  const [isTechnologyPopoverOpen, setIsTechnologyPopoverOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { data, isLoading } = useGetProjectByIdQuery(id === "new" ? "" : id!);
+  const { data: availableTechnologies } = useGetTechnologiesForProjectsQuery();
   const { mutate: createProject, isPending: isCreating } =
     useCreateProjectMutation();
   const { mutate: updateProject, isPending: isUpdating } =
@@ -112,17 +115,12 @@ export function ProjectPage() {
     }
   };
 
-  const addTechnology = () => {
-    if (
-      newTechnology.trim() &&
-      !watchedTechnologies.includes(newTechnology.trim())
-    ) {
-      const updatedTechnologies = [
-        ...watchedTechnologies,
-        newTechnology.trim(),
-      ];
+  const addTechnology = (technology: string) => {
+    if (!watchedTechnologies.includes(technology)) {
+      const updatedTechnologies = [...watchedTechnologies, technology];
       form.setValue("technologies", updatedTechnologies);
-      setNewTechnology("");
+      setIsTechnologyPopoverOpen(false);
+      setSearchQuery("");
     }
   };
 
@@ -132,6 +130,13 @@ export function ProjectPage() {
     );
     form.setValue("technologies", updatedTechnologies);
   };
+
+  const filteredTechnologies =
+    availableTechnologies?.data?.filter(
+      (tech) =>
+        !watchedTechnologies.includes(tech) &&
+        tech.toLowerCase().includes(searchQuery.toLowerCase())
+    ) || [];
 
   const title: string = id === "new" ? "New Project" : "Edit Project";
   const description: string =
@@ -338,31 +343,63 @@ export function ProjectPage() {
                 </Badge>
               ))}
             </div>
-            <div className="flex items-center gap-2">
-              <Input
-                placeholder="Press Enter to add it, like React, Next.js, Tailwind CSS, etc."
-                className="w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
-                value={newTechnology}
-                onChange={(e) => setNewTechnology(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    addTechnology();
-                  }
-                }}
-                disabled={isPending}
-              />
-              <Button
-                type="button"
-                variant="outline"
-                onClick={addTechnology}
-                className="flex items-center"
-                disabled={isPending}
-              >
-                <Plus className="h-4 w-4" />
-                <span className="sr-only">Add Technology</span>
-              </Button>
-            </div>
+
+            <Popover
+              open={isTechnologyPopoverOpen}
+              onOpenChange={setIsTechnologyPopoverOpen}
+            >
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full justify-start text-left font-normal"
+                  disabled={isPending}
+                >
+                  <Search className="mr-2 h-4 w-4" />
+                  Select Technologies
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 p-4" align="start">
+                <div className="space-y-3">
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">
+                      Available Technologies
+                    </Label>
+                    <Input
+                      placeholder="Search technologies..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div className="max-h-60 overflow-y-auto">
+                    {filteredTechnologies.length === 0 ? (
+                      <p className="text-sm text-muted-foreground text-center py-4">
+                        {searchQuery
+                          ? "No technologies found matching your search."
+                          : "No available technologies."}
+                      </p>
+                    ) : (
+                      <div className="flex flex-wrap gap-2">
+                        {filteredTechnologies.map((tech) => (
+                          <Badge
+                            key={tech}
+                            variant="outline"
+                            className="flex items-center gap-1 cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
+                            onClick={() => addTechnology(tech)}
+                          >
+                            <Check className="h-3 w-3" />
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+
             {form.formState.errors.technologies && (
               <p className="text-sm text-red-500">
                 {form.formState.errors.technologies.message}
@@ -421,7 +458,7 @@ export function ProjectPage() {
           </div>
 
           <Button type="submit" className="w-fit">
-            Create Project
+            {id === "new" ? "Create Project" : "Update Project"}
           </Button>
         </form>
       </Form>
