@@ -1,6 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ExternalLink, Github, Star, Lock } from "lucide-react";
+import {
+  ExternalLink,
+  Github,
+  Star,
+  Lock,
+  Trash2,
+  Edit3,
+  Eye,
+} from "lucide-react";
 import { type MouseEvent } from "react";
+import { toast } from "sonner";
 
 import {
   Card,
@@ -12,23 +21,43 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Image } from "@/components/ui/image";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
+import { deleteProject } from "@/api/project";
 import type { Project } from "@/types/project";
+
+interface ProjectCardProps extends React.ComponentProps<typeof Card> {
+  project: Project;
+  redirectTo?: string;
+  onDelete?: (projectId: string) => void;
+  showDeleteButton?: boolean;
+  showEditButton?: boolean;
+}
 
 export function ProjectCard({
   project,
   redirectTo,
-}: React.ComponentProps<typeof Card> & {
-  project: Project;
-  redirectTo?: string;
-}) {
+  onDelete,
+  showDeleteButton = false,
+  showEditButton = false,
+}: ProjectCardProps) {
   const navigate = useNavigate();
 
   const handleButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
   };
 
-  const handleCardClick = () => {
+  const handleViewDetails = () => {
     if (redirectTo) {
       navigate(redirectTo);
     } else {
@@ -36,14 +65,25 @@ export function ProjectCard({
     }
   };
 
+  const handleDelete = async () => {
+    if (!onDelete) return;
+
+    try {
+      await deleteProject(project.id);
+      onDelete(project.id);
+      toast.success(`Project "${project.name}" deleted successfully`);
+    } catch (error) {
+      console.error("Failed to delete project:", error);
+      toast.error("Failed to delete project. Please try again.");
+    }
+  };
+
+  const handleEdit = () => {
+    navigate(`/dashboard/projects/${project.id}`, { state: { project } });
+  };
+
   return (
-    <Card
-      className="pt-0 overflow-hidden group relative"
-      onClick={handleCardClick}
-      tabIndex={0}
-      role="button"
-      aria-label={`View details for project ${project.name}`}
-    >
+    <Card className="pt-0 overflow-hidden group relative">
       <div className="relative h-40 sm:h-48 overflow-hidden">
         <Image src={project.coverUrl} alt={project.name} />
 
@@ -71,6 +111,65 @@ export function ProjectCard({
         )}
 
         <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30">
+          <Button
+            size="icon"
+            variant="secondary"
+            onClick={handleViewDetails}
+            aria-label="View project details"
+            className="bg-secondary text-secondary-foreground hover:bg-secondary/80"
+          >
+            <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
+          </Button>
+
+          {showEditButton && (
+            <Button
+              size="icon"
+              variant="secondary"
+              onClick={handleEdit}
+              aria-label="Edit project"
+              className="bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            >
+              <Edit3 className="h-3 w-3 sm:h-4 sm:w-4" />
+            </Button>
+          )}
+
+          {showDeleteButton && (
+            <>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="destructive"
+                    onClick={handleButtonClick}
+                    aria-label="Delete project"
+                    className="bg-destructive text-white hover:bg-destructive/90"
+                  >
+                    <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Delete Project</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure you want to delete "{project.name}"? This
+                      action cannot be undone and will permanently remove the
+                      project and all its data.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDelete}
+                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    >
+                      Delete Project
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </>
+          )}
+
           {project.demoLink && (
             <Button
               size="icon"

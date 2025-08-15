@@ -12,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ProjectCard } from "@/components/temp/project-card";
 import { TechnologyFilter } from "@/components/common/technology-filter";
 import { useGetProjectsQuery } from "@/hooks/project";
+import type { Project } from "@/types/project";
 
 function useDebouncedValue<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -29,6 +30,7 @@ export function ProjectsPage() {
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedTechnology, setSelectedTechnology] = useState<string>("all");
+  const [localProjects, setLocalProjects] = useState<Project[]>([]);
 
   const debouncedSearchQuery = useDebouncedValue(searchQuery, 400);
 
@@ -37,11 +39,23 @@ export function ProjectsPage() {
     technology: selectedTechnology === "all" ? "" : selectedTechnology,
   });
 
+  // Update local projects when API data changes
+  useEffect(() => {
+    if (projects?.data.projects) {
+      setLocalProjects(projects.data.projects);
+    }
+  }, [projects?.data.projects]);
+
   const isLoading = isLoadingProjects;
 
   const noProjects =
-    !isLoading &&
-    (!projects?.data.projects || projects.data.projects.length === 0);
+    !isLoading && (!localProjects || localProjects.length === 0);
+
+  const handleDeleteProject = (projectId: string) => {
+    setLocalProjects((prev) =>
+      prev.filter((project) => project.id !== projectId)
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -86,8 +100,14 @@ export function ProjectsPage() {
             </span>
           </div>
         ) : (
-          projects?.data.projects?.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+          localProjects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              showEditButton={true}
+              showDeleteButton={true}
+              onDelete={handleDeleteProject}
+            />
           ))
         )}
       </div>
