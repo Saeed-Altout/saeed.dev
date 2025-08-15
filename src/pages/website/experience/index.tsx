@@ -1,15 +1,13 @@
+import { SEO } from "@/components/common/seo-wrapper";
 import { ExperienceSection } from "@/components/sections/experience-section";
 import { TimelineSection } from "@/components/sections/timeline-section";
-import { useMeQuery } from "@/hooks/auth";
+import { PAGE_SEO } from "@/constants/seo";
 
 export function ExperiencePage() {
-  const { data: me } = useMeQuery();
-
-  if (!me) return null;
-
   return (
     <>
-      <ExperienceSection me={me} />
+      <SEO {...PAGE_SEO.experience} />
+      <ExperienceSection />
       <TimelineSection />
     </>
   );

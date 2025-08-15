@@ -23,7 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { Logo } from "./common/logo";
+import { Logo } from "@/components/common/logo";
 import { downloadFile } from "@/lib/utils";
 
 /**

@@ -1,118 +1,162 @@
-import { Download, SquareCheck } from "lucide-react";
+import { Building2, CalendarDays, Mail, MapPin, Phone } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { downloadFile } from "@/lib/utils";
-import { useAuthStore } from "@/stores/auth";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Heading } from "@/components/ui/heading";
 
-import type { Me } from "@/modules/website";
+import { me } from "@/data/me";
+import type { Detail, Value } from "@/types";
 
-export function AboutSection({ me }: { me: Me }) {
-  const { user, token } = useAuthStore();
-  const isAuthenticated = !!(user && token);
+export function AboutSection() {
+  const details: Detail[] = [
+    {
+      name: "Experience",
+      value: "5+ Years",
+      icon: Building2,
+    },
+    {
+      name: "Location",
+      value: "Jordan",
+      icon: MapPin,
+    },
+    {
+      name: "Email",
+      value: "saeed.altout@gmail.com",
+      icon: Mail,
+    },
+    {
+      name: "Phone",
+      value: "+962 79 123 4567",
+      icon: Phone,
+    },
+    {
+      name: "Birthday",
+      value: "January 15, 1995",
+      icon: CalendarDays,
+    },
+  ];
 
-  const handleDownloadCV = () => {
-    // Path to the CV file in the public directory
-    const cvPath = "/cv.pdf";
-    downloadFile(cvPath, "Saeed_Al-Tout_CV.pdf");
-  };
+  const values: Value[] = [
+    {
+      name: "Clean Code",
+      description: "Writing maintainable, readable, and efficient code",
+    },
+    {
+      name: "User Experience",
+      description: "Creating intuitive and delightful user interfaces",
+    },
+    {
+      name: "Innovation",
+      description: "Embracing new technologies and creative solutions",
+    },
+  ];
 
   return (
-    <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-background via-background to-muted/20">
+    <section className="py-16 bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12 sm:mb-16">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent mb-4 sm:mb-6">
-            About Me
-          </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Passionate{" "}
-            <span className="font-semibold text-foreground">{me.position}</span>{" "}
-            with expertise in{" "}
-            <span className="text-primary font-semibold">
-              {me.expertise.join(", ")}
-            </span>
-          </p>
-        </div>
+        <div className="max-w-4xl mx-auto">
+          <Heading
+            title="About Me"
+            description="Get to know me better"
+            className="text-center mb-12"
+          />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-start">
-          <Card className="p-6 sm:p-8 border-none shadow-none">
-            <CardHeader>
-              <CardTitle className="text-2xl sm:text-3xl font-bold mb-4">
-                Personal Information
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {me.details.map((detail) => (
-                <div className="flex items-center gap-3" key={detail.name}>
-                  <detail.icon className="h-5 w-5 text-primary" />
-                  <span className="text-muted-foreground">{detail.name}:</span>
-                  <span className="font-medium">{detail.value}</span>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Left Column - Personal Info */}
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold text-foreground">
+                  Personal Information
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {details.map((detail: Detail) => (
+                    <div
+                      key={detail.name}
+                      className="flex items-center gap-3 p-3 rounded-lg border border-border bg-card"
+                    >
+                      <detail.icon className="h-5 w-5 text-primary" />
+                      <div>
+                        <p className="text-sm text-muted-foreground">
+                          {detail.name}
+                        </p>
+                        <p className="font-medium text-foreground">
+                          {detail.value}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
 
-              <div className="pt-4">
-                <h4 className="font-semibold mb-3">Specializations:</h4>
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold text-foreground">
+                  Areas of Expertise
+                </h3>
                 <div className="flex flex-wrap gap-2">
-                  {me.expertise.map((expertise) => (
-                    <Badge variant="secondary" key={expertise}>
+                  {me.expertise.map((expertise: string) => (
+                    <Badge key={expertise} variant="secondary">
                       {expertise}
                     </Badge>
                   ))}
                 </div>
               </div>
+            </div>
 
-              {isAuthenticated && (
-                <div className="pt-4">
-                  <Button
-                    className="w-full sm:w-auto"
-                    onClick={handleDownloadCV}
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Download Resume
-                  </Button>
+            {/* Right Column - Bio */}
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold text-foreground">
+                  Biography
+                </h3>
+                <div className="space-y-4">
+                  {me.bio
+                    .split("///")
+                    .map((paragraph: string, index: number) => (
+                      <p
+                        key={index}
+                        className="text-muted-foreground leading-relaxed"
+                      >
+                        {paragraph.trim()}
+                      </p>
+                    ))}
                 </div>
-              )}
-            </CardContent>
-          </Card>
+              </div>
 
-          <Card className="p-6 sm:p-8 border-none shadow-none">
-            <CardHeader>
-              <CardTitle className="text-xl sm:text-2xl font-bold">
-                My Story
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
-              {me.bio.split("///").map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              ))}
-            </CardContent>
-          </Card>
-
-          <Card className="p-6 sm:p-8 border-none shadow-none">
-            <CardHeader>
-              <CardTitle className="text-xl sm:text-2xl font-bold">
-                What I Value
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {me.values.map((value) => (
-                <div className="flex items-start gap-3" key={value.name}>
-                  <SquareCheck className="h-4 w-4 text-primary mt-1" />
-                  <div>
-                    <h4 className="font-semibold mb-1">{value.name}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {value.description}
-                    </p>
-                  </div>
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold text-foreground">
+                  Core Values
+                </h3>
+                <div className="space-y-3">
+                  {values.map((value: Value) => (
+                    <div
+                      key={value.name}
+                      className="p-3 rounded-lg border border-border bg-card"
+                    >
+                      <h4 className="font-medium text-foreground mb-1">
+                        {value.name}
+                      </h4>
+                      <p className="text-sm text-muted-foreground">
+                        {value.description}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </CardContent>
-          </Card>
+              </div>
+            </div>
+          </div>
+
+          <Separator className="my-12" />
+
+          {/* Call to Action */}
+          <div className="text-center">
+            <p className="text-muted-foreground mb-4">
+              Ready to work together on your next project?
+            </p>
+            <Button size="lg">Get In Touch</Button>
+          </div>
         </div>
       </div>
     </section>
   );
 }
-
-AboutSection.displayName = "AboutSection";
