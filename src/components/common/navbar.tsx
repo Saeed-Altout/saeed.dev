@@ -1,6 +1,13 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Mail, Menu, LogIn, Download, Home } from "lucide-react";
+import {
+  Mail,
+  Menu,
+  LogIn,
+  Download,
+  Home,
+  LayoutDashboard,
+} from "lucide-react";
 
 import {
   NavigationMenu,
@@ -101,9 +108,17 @@ export function Navbar() {
         </div>
 
         <div className="hidden lg:flex items-center space-x-4">
+          {user?.role === "ADMIN" && (
+            <Link to="/dashboard">
+              <Button size="sm" variant="outline">
+                <LayoutDashboard className="size-4" />
+                <span className="sr-only">Dashboard</span>
+              </Button>
+            </Link>
+          )}
           {isAuthenticated && (
             <Button size="sm" onClick={handleDownloadCV}>
-              <Download className="w-4 h-4 mr-2" />
+              <Download className="size-4" />
               Download CV
             </Button>
           )}
