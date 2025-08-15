@@ -66,3 +66,6 @@ export type FAQ = {
   question: string;
   answer: string;
 };
+
+// CV Builder Types
+export * from "./cv-builder";

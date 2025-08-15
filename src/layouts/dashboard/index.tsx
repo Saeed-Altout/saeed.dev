@@ -47,6 +47,15 @@ function DashboardBreadcrumb() {
     "": "Dashboard",
     projects: "Projects",
     new: "New",
+    "cv-builder": "CV Builder",
+    skills: "Skills",
+    experience: "Experience",
+    education: "Education",
+    certifications: "Certifications",
+    awards: "Awards",
+    interests: "Interests",
+    references: "References",
+    "personal-info": "Personal Information",
   };
 
   useEffect(() => {

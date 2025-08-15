@@ -1,4 +1,4 @@
-import { Code, FolderOpen, TrendingUp } from "lucide-react";
+import { Code, FolderOpen, FileText } from "lucide-react";
 
 import { useGetProjectsQuery, useGetTechnologiesQuery } from "@/hooks/project";
 import { type Project, type Technology } from "@/types/project";
@@ -40,11 +40,11 @@ export function OverviewPage() {
       href: "/dashboard/projects",
     },
     {
-      title: "Featured Projects",
-      value: featuredProjectsCount,
-      description: "Highlighted work",
-      icon: TrendingUp,
-      href: "/dashboard/projects",
+      title: "CV Builder",
+      value: "Ready",
+      description: "Build your CV",
+      icon: FileText,
+      href: "/dashboard/cv-builder",
     },
   ];
 

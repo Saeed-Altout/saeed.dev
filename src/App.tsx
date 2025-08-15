@@ -24,6 +24,10 @@ import { ProjectsPage as DashboardProjectsPage } from "@/pages/dashboard/project
 import { ProjectPage as DashboardProjectPage } from "@/pages/dashboard/projects/[id]";
 import { TechnologiesPage as DashboardTechnologiesPage } from "@/pages/dashboard/technologies";
 
+// CV Builder Pages
+import { CVBuilderPage } from "@/pages/dashboard/cv-builder";
+import { SkillsPage } from "@/pages/dashboard/cv-builder/skills";
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -33,6 +37,8 @@ export default function App() {
           <Route path="projects" element={<DashboardProjectsPage />} />
           <Route path="projects/:id" element={<DashboardProjectPage />} />
           <Route path="technologies" element={<DashboardTechnologiesPage />} />
+          <Route path="cv-builder" element={<CVBuilderPage />} />
+          <Route path="cv-builder/skills" element={<SkillsPage />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="sign-in" element={<SignInPage />} />
