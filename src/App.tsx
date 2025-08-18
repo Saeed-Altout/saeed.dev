@@ -27,6 +27,11 @@ import { TechnologiesPage as DashboardTechnologiesPage } from "@/pages/dashboard
 // CV Builder Pages
 import { CVBuilderPage } from "@/pages/dashboard/cv-builder";
 import { SkillsPage } from "@/pages/dashboard/cv-builder/skills";
+import { ExperiencePage } from "@/pages/dashboard/cv-builder/experience";
+import { EducationPage } from "@/pages/dashboard/cv-builder/education";
+import { CertificationsPage } from "@/pages/dashboard/cv-builder/certifications";
+import { AwardsPage } from "@/pages/dashboard/cv-builder/awards";
+import { PersonalInfoPage } from "./pages/dashboard/cv-builder/personal-info";
 
 export default function App() {
   return (
@@ -39,6 +44,17 @@ export default function App() {
           <Route path="technologies" element={<DashboardTechnologiesPage />} />
           <Route path="cv-builder" element={<CVBuilderPage />} />
           <Route path="cv-builder/skills" element={<SkillsPage />} />
+          <Route path="cv-builder/experience" element={<ExperiencePage />} />
+          <Route path="cv-builder/education" element={<EducationPage />} />
+          <Route
+            path="cv-builder/personal-info"
+            element={<PersonalInfoPage />}
+          />
+          <Route
+            path="cv-builder/certifications"
+            element={<CertificationsPage />}
+          />
+          <Route path="cv-builder/awards" element={<AwardsPage />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="sign-in" element={<SignInPage />} />

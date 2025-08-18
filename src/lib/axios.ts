@@ -23,6 +23,10 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.response.status === 401) {
+      useAuthStore.getState().signOut();
+      window.location.href = "/auth/sign-in";
+    }
     return Promise.reject(error);
   }
 );

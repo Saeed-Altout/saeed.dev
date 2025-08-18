@@ -21,7 +21,7 @@ export function Heading({
     >
       <div className="space-y-1 flex-1">
         <h1 className="text-2xl font-semibold">{title}</h1>
-        <p className="paragraph">{description}</p>
+        <p className="paragraph !text-sm max-w-2xl">{description}</p>
       </div>
       {children}
     </div>

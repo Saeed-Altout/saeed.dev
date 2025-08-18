@@ -1,6 +1,15 @@
 import { create } from "zustand";
 
-export type ModalAction = "auth" | "settings" | null;
+export type ModalAction =
+  | "auth"
+  | "settings"
+  | "cv-personal-info"
+  | "cv-skill"
+  | "cv-experience"
+  | "cv-education"
+  | "cv-certification"
+  | "cv-award"
+  | null;
 
 type ModalStore = {
   isOpen: boolean;

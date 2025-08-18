@@ -67,6 +67,8 @@ export const personalInfoSchema = z.object({
     .or(z.literal("")),
 });
 
+export type PersonalInfoFormData = z.infer<typeof personalInfoSchema>;
+
 // Skill Schema
 export const skillSchema = z.object({
   name: z.string().min(2, {
@@ -86,6 +88,8 @@ export const skillSchema = z.object({
     message: "Category must be at least 2 characters.",
   }),
 });
+
+export type SkillFormData = z.infer<typeof skillSchema>;
 
 // Experience Schema
 export const experienceSchema = z
@@ -116,10 +120,10 @@ export const experienceSchema = z
       })
       .optional()
       .or(z.literal("")),
-    start_date: z.string().min(1, {
-      message: "Start date is required.",
+    start_date: z.date().min(new Date("1900-01-01"), {
+      message: "Start date must be after 1900-01-01.",
     }),
-    end_date: z.string().optional().or(z.literal("")),
+    end_date: z.date().optional().or(z.literal("")),
     is_current: z.boolean(),
     description: z.string().min(50, {
       message: "Description must be at least 50 characters.",
@@ -172,10 +176,10 @@ export const educationSchema = z
       })
       .optional()
       .or(z.literal("")),
-    start_date: z.string().min(1, {
-      message: "Start date is required.",
+    start_date: z.date().min(new Date("1900-01-01"), {
+      message: "Start date must be after 1900-01-01.",
     }),
-    end_date: z.string().optional().or(z.literal("")),
+    end_date: z.date().optional().or(z.literal("")),
     is_current: z.boolean(),
     description: z
       .string()

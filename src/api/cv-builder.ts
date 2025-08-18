@@ -73,9 +73,9 @@ export const cvBuilderApi = {
     return response.data;
   },
 
-  updateCVSection: async (id: string, data: UpdateCVSectionRequest) => {
+  updateCVSection: async (name: string, data: UpdateCVSectionRequest) => {
     const response = await apiClient.put<ApiResponse<CVSection>>(
-      `${CV_BUILDER_PREFIX}/cv-sections/${id}`,
+      `/cv-builder/sections/${name}`,
       data
     );
     return response.data;
@@ -90,7 +90,7 @@ export const cvBuilderApi = {
 
   // Personal Information
   getPersonalInfo: async (params?: CVQueryParams) => {
-    const response = await apiClient.get<ApiResponse<PersonalInfo[]>>(
+    const response = await apiClient.get<ApiResponse<PersonalInfo>>(
       `${CV_BUILDER_PREFIX}/personal-info`,
       {
         params: filterParams(params || {}),
@@ -131,12 +131,18 @@ export const cvBuilderApi = {
 
   // Skills
   getSkills: async (params?: CVQueryParams) => {
-    const response = await apiClient.get<ApiResponse<Skill[]>>(
-      `${CV_BUILDER_PREFIX}/skills`,
-      {
-        params: filterParams(params || {}),
-      }
-    );
+    const response = await apiClient.get<
+      ApiResponse<{
+        data: Skill[];
+        total: number;
+        page: number;
+        limit: number;
+        next: boolean;
+        prev: boolean;
+      }>
+    >(`${CV_BUILDER_PREFIX}/skills`, {
+      params: filterParams(params || {}),
+    });
     return response.data;
   },
 
@@ -172,12 +178,18 @@ export const cvBuilderApi = {
 
   // Experience
   getExperience: async (params?: CVQueryParams) => {
-    const response = await apiClient.get<ApiResponse<Experience[]>>(
-      `${CV_BUILDER_PREFIX}/experience`,
-      {
-        params: filterParams(params || {}),
-      }
-    );
+    const response = await apiClient.get<
+      ApiResponse<{
+        data: Experience[];
+        total: number;
+        page: number;
+        limit: number;
+        next: boolean;
+        prev: boolean;
+      }>
+    >(`${CV_BUILDER_PREFIX}/experience`, {
+      params: filterParams(params || {}),
+    });
     return response.data;
   },
 
@@ -213,12 +225,18 @@ export const cvBuilderApi = {
 
   // Education
   getEducation: async (params?: CVQueryParams) => {
-    const response = await apiClient.get<ApiResponse<Education[]>>(
-      `${CV_BUILDER_PREFIX}/education`,
-      {
-        params: filterParams(params || {}),
-      }
-    );
+    const response = await apiClient.get<
+      ApiResponse<{
+        data: Education[];
+        total: number;
+        page: number;
+        limit: number;
+        next: boolean;
+        prev: boolean;
+      }>
+    >(`${CV_BUILDER_PREFIX}/education`, {
+      params: filterParams(params || {}),
+    });
     return response.data;
   },
 
@@ -254,12 +272,18 @@ export const cvBuilderApi = {
 
   // Certifications
   getCertifications: async (params?: CVQueryParams) => {
-    const response = await apiClient.get<ApiResponse<Certification[]>>(
-      `${CV_BUILDER_PREFIX}/certifications`,
-      {
-        params: filterParams(params || {}),
-      }
-    );
+    const response = await apiClient.get<
+      ApiResponse<{
+        data: Certification[];
+        total: number;
+        page: number;
+        limit: number;
+        next: boolean;
+        prev: boolean;
+      }>
+    >(`${CV_BUILDER_PREFIX}/certifications`, {
+      params: filterParams(params || {}),
+    });
     return response.data;
   },
 
@@ -295,12 +319,18 @@ export const cvBuilderApi = {
 
   // Awards
   getAwards: async (params?: CVQueryParams) => {
-    const response = await apiClient.get<ApiResponse<Award[]>>(
-      `${CV_BUILDER_PREFIX}/awards`,
-      {
-        params: filterParams(params || {}),
-      }
-    );
+    const response = await apiClient.get<
+      ApiResponse<{
+        data: Award[];
+        total: number;
+        page: number;
+        limit: number;
+        next: boolean;
+        prev: boolean;
+      }>
+    >(`${CV_BUILDER_PREFIX}/awards`, {
+      params: filterParams(params || {}),
+    });
     return response.data;
   },
 

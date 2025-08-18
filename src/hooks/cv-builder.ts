@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  keepPreviousData,
+} from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { cvBuilderApi } from "@/api/cv-builder";
@@ -43,9 +48,10 @@ export const useGetCVSectionQuery = (id: string) => {
 
 export const useCreateCVSectionMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: (data: CreateCVSectionRequest) => cvBuilderApi.createCVSection(data),
+    mutationFn: (data: CreateCVSectionRequest) =>
+      cvBuilderApi.createCVSection(data),
     onSuccess: () => {
       toast.success("CV Section created successfully");
       queryClient.invalidateQueries({ queryKey: ["cv-sections"] });
@@ -58,13 +64,19 @@ export const useCreateCVSectionMutation = () => {
 
 export const useUpdateCVSectionMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateCVSectionRequest }) =>
-      cvBuilderApi.updateCVSection(id, data),
+    mutationFn: ({
+      name,
+      request,
+    }: {
+      name: string;
+      request: UpdateCVSectionRequest;
+    }) => cvBuilderApi.updateCVSection(name, request),
     onSuccess: () => {
       toast.success("CV Section updated successfully");
       queryClient.invalidateQueries({ queryKey: ["cv-sections"] });
+      queryClient.invalidateQueries({ queryKey: ["complete-cv"] });
     },
     onError: (error: Error) => {
       toast.error(error?.message || "Failed to update CV Section");
@@ -74,7 +86,7 @@ export const useUpdateCVSectionMutation = () => {
 
 export const useDeleteCVSectionMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => cvBuilderApi.deleteCVSection(id),
     onSuccess: () => {
@@ -106,38 +118,50 @@ export const useGetPersonalInfoByIdQuery = (id: string) => {
 
 export const useCreatePersonalInfoMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: (data: CreatePersonalInfoRequest) => cvBuilderApi.createPersonalInfo(data),
+    mutationFn: (data: CreatePersonalInfoRequest) =>
+      cvBuilderApi.createPersonalInfo(data),
     onSuccess: () => {
       toast.success("Personal information created successfully");
       queryClient.invalidateQueries({ queryKey: ["personal-info"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to create personal information");
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to create personal information"
+      );
     },
   });
 };
 
 export const useUpdatePersonalInfoMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdatePersonalInfoRequest }) =>
-      cvBuilderApi.updatePersonalInfo(id, data),
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: UpdatePersonalInfoRequest;
+    }) => cvBuilderApi.updatePersonalInfo(id, data),
     onSuccess: () => {
       toast.success("Personal information updated successfully");
       queryClient.invalidateQueries({ queryKey: ["personal-info"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to update personal information");
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to update personal information"
+      );
     },
   });
 };
 
 export const useDeletePersonalInfoMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => cvBuilderApi.deletePersonalInfo(id),
     onSuccess: () => {
@@ -145,7 +169,10 @@ export const useDeletePersonalInfoMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["personal-info"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to delete personal information");
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to delete personal information"
+      );
     },
   });
 };
@@ -169,7 +196,7 @@ export const useGetSkillByIdQuery = (id: string) => {
 
 export const useCreateSkillMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (data: CreateSkillRequest) => cvBuilderApi.createSkill(data),
     onSuccess: () => {
@@ -184,7 +211,7 @@ export const useCreateSkillMutation = () => {
 
 export const useUpdateSkillMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateSkillRequest }) =>
       cvBuilderApi.updateSkill(id, data),
@@ -200,7 +227,7 @@ export const useUpdateSkillMutation = () => {
 
 export const useDeleteSkillMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => cvBuilderApi.deleteSkill(id),
     onSuccess: () => {
@@ -232,22 +259,25 @@ export const useGetExperienceByIdQuery = (id: string) => {
 
 export const useCreateExperienceMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: (data: CreateExperienceRequest) => cvBuilderApi.createExperience(data),
+    mutationFn: (data: CreateExperienceRequest) =>
+      cvBuilderApi.createExperience(data),
     onSuccess: () => {
       toast.success("Experience created successfully");
       queryClient.invalidateQueries({ queryKey: ["experience"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to create experience");
+      toast.error(
+        error?.response?.data?.message || "Failed to create experience"
+      );
     },
   });
 };
 
 export const useUpdateExperienceMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateExperienceRequest }) =>
       cvBuilderApi.updateExperience(id, data),
@@ -256,14 +286,16 @@ export const useUpdateExperienceMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["experience"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to update experience");
+      toast.error(
+        error?.response?.data?.message || "Failed to update experience"
+      );
     },
   });
 };
 
 export const useDeleteExperienceMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => cvBuilderApi.deleteExperience(id),
     onSuccess: () => {
@@ -271,7 +303,9 @@ export const useDeleteExperienceMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["experience"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to delete experience");
+      toast.error(
+        error?.response?.data?.message || "Failed to delete experience"
+      );
     },
   });
 };
@@ -295,22 +329,25 @@ export const useGetEducationByIdQuery = (id: string) => {
 
 export const useCreateEducationMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: (data: CreateEducationRequest) => cvBuilderApi.createEducation(data),
+    mutationFn: (data: CreateEducationRequest) =>
+      cvBuilderApi.createEducation(data),
     onSuccess: () => {
       toast.success("Education created successfully");
       queryClient.invalidateQueries({ queryKey: ["education"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to create education");
+      toast.error(
+        error?.response?.data?.message || "Failed to create education"
+      );
     },
   });
 };
 
 export const useUpdateEducationMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateEducationRequest }) =>
       cvBuilderApi.updateEducation(id, data),
@@ -319,14 +356,16 @@ export const useUpdateEducationMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["education"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to update education");
+      toast.error(
+        error?.response?.data?.message || "Failed to update education"
+      );
     },
   });
 };
 
 export const useDeleteEducationMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => cvBuilderApi.deleteEducation(id),
     onSuccess: () => {
@@ -334,7 +373,9 @@ export const useDeleteEducationMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["education"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to delete education");
+      toast.error(
+        error?.response?.data?.message || "Failed to delete education"
+      );
     },
   });
 };
@@ -358,38 +399,48 @@ export const useGetCertificationByIdQuery = (id: string) => {
 
 export const useCreateCertificationMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: (data: CreateCertificationRequest) => cvBuilderApi.createCertification(data),
+    mutationFn: (data: CreateCertificationRequest) =>
+      cvBuilderApi.createCertification(data),
     onSuccess: () => {
       toast.success("Certification created successfully");
       queryClient.invalidateQueries({ queryKey: ["certifications"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to create certification");
+      toast.error(
+        error?.response?.data?.message || "Failed to create certification"
+      );
     },
   });
 };
 
 export const useUpdateCertificationMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateCertificationRequest }) =>
-      cvBuilderApi.updateCertification(id, data),
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: UpdateCertificationRequest;
+    }) => cvBuilderApi.updateCertification(id, data),
     onSuccess: () => {
       toast.success("Certification updated successfully");
       queryClient.invalidateQueries({ queryKey: ["certifications"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to update certification");
+      toast.error(
+        error?.response?.data?.message || "Failed to update certification"
+      );
     },
   });
 };
 
 export const useDeleteCertificationMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => cvBuilderApi.deleteCertification(id),
     onSuccess: () => {
@@ -397,7 +448,9 @@ export const useDeleteCertificationMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["certifications"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to delete certification");
+      toast.error(
+        error?.response?.data?.message || "Failed to delete certification"
+      );
     },
   });
 };
@@ -421,7 +474,7 @@ export const useGetAwardByIdQuery = (id: string) => {
 
 export const useCreateAwardMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (data: CreateAwardRequest) => cvBuilderApi.createAward(data),
     onSuccess: () => {
@@ -436,7 +489,7 @@ export const useCreateAwardMutation = () => {
 
 export const useUpdateAwardMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateAwardRequest }) =>
       cvBuilderApi.updateAward(id, data),
@@ -452,7 +505,7 @@ export const useUpdateAwardMutation = () => {
 
 export const useDeleteAwardMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => cvBuilderApi.deleteAward(id),
     onSuccess: () => {
@@ -484,22 +537,25 @@ export const useGetInterestByIdQuery = (id: string) => {
 
 export const useCreateInterestMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: (data: CreateInterestRequest) => cvBuilderApi.createInterest(data),
+    mutationFn: (data: CreateInterestRequest) =>
+      cvBuilderApi.createInterest(data),
     onSuccess: () => {
       toast.success("Interest created successfully");
       queryClient.invalidateQueries({ queryKey: ["interests"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to create interest");
+      toast.error(
+        error?.response?.data?.message || "Failed to create interest"
+      );
     },
   });
 };
 
 export const useUpdateInterestMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateInterestRequest }) =>
       cvBuilderApi.updateInterest(id, data),
@@ -508,14 +564,16 @@ export const useUpdateInterestMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["interests"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to update interest");
+      toast.error(
+        error?.response?.data?.message || "Failed to update interest"
+      );
     },
   });
 };
 
 export const useDeleteInterestMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => cvBuilderApi.deleteInterest(id),
     onSuccess: () => {
@@ -523,7 +581,9 @@ export const useDeleteInterestMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["interests"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to delete interest");
+      toast.error(
+        error?.response?.data?.message || "Failed to delete interest"
+      );
     },
   });
 };
@@ -547,22 +607,25 @@ export const useGetReferenceByIdQuery = (id: string) => {
 
 export const useCreateReferenceMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: (data: CreateReferenceRequest) => cvBuilderApi.createReference(data),
+    mutationFn: (data: CreateReferenceRequest) =>
+      cvBuilderApi.createReference(data),
     onSuccess: () => {
       toast.success("Reference created successfully");
       queryClient.invalidateQueries({ queryKey: ["references"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to create reference");
+      toast.error(
+        error?.response?.data?.message || "Failed to create reference"
+      );
     },
   });
 };
 
 export const useUpdateReferenceMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateReferenceRequest }) =>
       cvBuilderApi.updateReference(id, data),
@@ -571,14 +634,16 @@ export const useUpdateReferenceMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["references"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to update reference");
+      toast.error(
+        error?.response?.data?.message || "Failed to update reference"
+      );
     },
   });
 };
 
 export const useDeleteReferenceMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => cvBuilderApi.deleteReference(id),
     onSuccess: () => {
@@ -586,7 +651,9 @@ export const useDeleteReferenceMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["references"] });
     },
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to delete reference");
+      toast.error(
+        error?.response?.data?.message || "Failed to delete reference"
+      );
     },
   });
 };
