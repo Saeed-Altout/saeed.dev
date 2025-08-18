@@ -9,6 +9,8 @@ export type ModalAction =
   | "cv-education"
   | "cv-certification"
   | "cv-award"
+  | "cv-interest"
+  | "cv-reference"
   | null;
 
 type ModalStore = {

@@ -31,7 +31,9 @@ import { ExperiencePage } from "@/pages/dashboard/cv-builder/experience";
 import { EducationPage } from "@/pages/dashboard/cv-builder/education";
 import { CertificationsPage } from "@/pages/dashboard/cv-builder/certifications";
 import { AwardsPage } from "@/pages/dashboard/cv-builder/awards";
-import { PersonalInfoPage } from "./pages/dashboard/cv-builder/personal-info";
+import { PersonalInfoPage } from "@/pages/dashboard/cv-builder/personal-info";
+import { InterestsPage } from "@/pages/dashboard/cv-builder/interests";
+import { ReferencesPage } from "@/pages/dashboard/cv-builder/references";
 
 export default function App() {
   return (
@@ -55,6 +57,8 @@ export default function App() {
             element={<CertificationsPage />}
           />
           <Route path="cv-builder/awards" element={<AwardsPage />} />
+          <Route path="cv-builder/interests" element={<InterestsPage />} />
+          <Route path="cv-builder/references" element={<ReferencesPage />} />
         </Route>
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="sign-in" element={<SignInPage />} />
