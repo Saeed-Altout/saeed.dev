@@ -19,10 +19,8 @@ export function OverviewPage() {
   const technologiesList: Technology[] = technologies?.data ?? [];
   const projectsList: Project[] = projects?.data?.projects ?? [];
 
-  const featuredProjects = projectsList.filter((project) => project.isFeatured);
   const technologiesCount = technologiesList.length;
   const projectsCount = projectsList.length;
-  const featuredProjectsCount = featuredProjects.length;
 
   const stats = [
     {
@@ -41,7 +39,7 @@ export function OverviewPage() {
     },
     {
       title: "CV Builder",
-      value: "Ready",
+      value: 1,
       description: "Build your CV",
       icon: FileText,
       href: "/dashboard/cv-builder",

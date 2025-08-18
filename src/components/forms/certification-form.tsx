@@ -1,228 +1,203 @@
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Separator } from "@/components/ui/separator";
-import { Checkbox } from "@/components/ui/checkbox";
 
+import { Separator } from "@/components/ui/separator";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+import {
+  useCreateCertificationMutation,
+  useUpdateCertificationMutation,
+} from "@/hooks/cv-builder";
+import { useModalStore } from "@/stores/modal";
 import { certificationSchema } from "@/schemas/cv-builder";
 import type { Certification } from "@/types/cv-builder";
 
 type CertificationFormData = z.infer<typeof certificationSchema>;
 
-interface CertificationFormProps {
-  initialData?: Certification | null;
-  onSubmit: (data: CertificationFormData) => void;
-  onCancel: () => void;
-  isLoading?: boolean;
-}
-
 export function CertificationForm({
   initialData,
-  onSubmit,
-  onCancel,
-  isLoading = false,
-}: CertificationFormProps) {
+}: {
+  initialData: Certification | null;
+}) {
+  const { onClose } = useModalStore();
+  const createCertificationMutation = useCreateCertificationMutation();
+  const updateCertificationMutation = useUpdateCertificationMutation();
+
   const form = useForm<CertificationFormData>({
     resolver: zodResolver(certificationSchema),
     defaultValues: {
       name: initialData?.name || "",
-      issuing_organization: initialData?.issuing_organization || "",
+      issuer: initialData?.issuer || "",
+      issue_date: initialData?.issue_date || "",
+      expiration_date: initialData?.expiration_date || "",
       credential_id: initialData?.credential_id || "",
-      location: initialData?.location || "",
-      issue_date: initialData?.issue_date
-        ? new Date(initialData.issue_date).toISOString().split("T")[0]
-        : "",
-      expiry_date: initialData?.expiry_date
-        ? new Date(initialData.expiry_date).toISOString().split("T")[0]
-        : "",
-      is_current: initialData?.is_current || false,
-      description: initialData?.description || "",
+      credential_url: initialData?.credential_url || "",
     },
   });
 
-  const handleSubmit = form.handleSubmit(onSubmit);
-  const isCurrent = form.watch("is_current");
+  const onSubmit = async (data: CertificationFormData) => {
+    try {
+      if (initialData) {
+        await updateCertificationMutation.mutateAsync({
+          id: initialData.id,
+          data,
+        });
+      } else {
+        await createCertificationMutation.mutateAsync(data);
+      }
+      onClose();
+      form.reset();
+    } catch (error) {
+      console.error("Failed to save certification:", error);
+    }
+  };
+
+  const buttonText = useMemo(() => {
+    return initialData ? "Update Certification" : "Add Certification";
+  }, [initialData]);
+
+  const isLoading = createCertificationMutation.isPending || updateCertificationMutation.isPending;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Basic Information */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Certification Name */}
-        <div className="space-y-2">
-          <Label htmlFor="name">Certification Name *</Label>
-          <Input
-            id="name"
-            placeholder="e.g., AWS Certified Solutions Architect"
-            {...form.register("name")}
-            className={form.formState.errors.name ? "border-destructive" : ""}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Certification Name</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="e.g., AWS Certified Solutions Architect"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {form.formState.errors.name && (
-            <p className="text-sm text-destructive">
-              {form.formState.errors.name.message}
-            </p>
-          )}
+
+          <FormField
+            control={form.control}
+            name="issuer"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Issuing Organization</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="e.g., Amazon Web Services"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
-        {/* Issuing Organization */}
-        <div className="space-y-2">
-          <Label htmlFor="issuing_organization">Issuing Organization *</Label>
-          <Input
-            id="issuing_organization"
-            placeholder="e.g., Amazon Web Services"
-            {...form.register("issuing_organization")}
-            className={
-              form.formState.errors.issuing_organization ? "border-destructive" : ""
-            }
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="issue_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Issue Date</FormLabel>
+                <FormControl>
+                  <Input
+                    type="date"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {form.formState.errors.issuing_organization && (
-            <p className="text-sm text-destructive">
-              {form.formState.errors.issuing_organization.message}
-            </p>
-          )}
-        </div>
-      </div>
 
-      {/* Credential ID and Location */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Credential ID */}
-        <div className="space-y-2">
-          <Label htmlFor="credential_id">Credential ID</Label>
-          <Input
-            id="credential_id"
-            placeholder="e.g., AWS-12345"
-            {...form.register("credential_id")}
-            className={
-              form.formState.errors.credential_id ? "border-destructive" : ""
-            }
+          <FormField
+            control={form.control}
+            name="expiration_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Expiration Date (Optional)</FormLabel>
+                <FormControl>
+                  <Input
+                    type="date"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {form.formState.errors.credential_id && (
-            <p className="text-sm text-destructive">
-              {form.formState.errors.credential_id.message}
-            </p>
-          )}
         </div>
 
-        {/* Location */}
-        <div className="space-y-2">
-          <Label htmlFor="location">Location</Label>
-          <Input
-            id="location"
-            placeholder="e.g., Online, New York"
-            {...form.register("location")}
-            className={form.formState.errors.location ? "border-destructive" : ""}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="credential_id"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Credential ID (Optional)</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="e.g., AWS-12345"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {form.formState.errors.location && (
-            <p className="text-sm text-destructive">
-              {form.formState.errors.location.message}
-            </p>
-          )}
-        </div>
-      </div>
 
-      {/* Dates */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Issue Date */}
-        <div className="space-y-2">
-          <Label htmlFor="issue_date">Issue Date *</Label>
-          <Input
-            id="issue_date"
-            type="date"
-            {...form.register("issue_date")}
-            className={
-              form.formState.errors.issue_date ? "border-destructive" : ""
-            }
+          <FormField
+            control={form.control}
+            name="credential_url"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Credential URL (Optional)</FormLabel>
+                <FormControl>
+                  <Input
+                    type="url"
+                    placeholder="e.g., https://verify.aws.com/..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {form.formState.errors.issue_date && (
-            <p className="text-sm text-destructive">
-              {form.formState.errors.issue_date.message}
-            </p>
-          )}
         </div>
 
-        {/* Expiry Date */}
-        <div className="space-y-2">
-          <Label htmlFor="expiry_date">Expiry Date</Label>
-          <Input
-            id="expiry_date"
-            type="date"
-            disabled={isCurrent}
-            {...form.register("expiry_date")}
-            className={
-              form.formState.errors.expiry_date ? "border-destructive" : ""
-            }
-          />
-          {form.formState.errors.expiry_date && (
-            <p className="text-sm text-destructive">
-              {form.formState.errors.expiry_date.message}
-            </p>
-          )}
+        <Separator />
+
+        <div className="flex justify-end gap-3 pt-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onClose}
+            disabled={isLoading}
+          >
+            Cancel
+          </Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? "Saving..." : buttonText}
+          </Button>
         </div>
-      </div>
-
-      {/* Current Certification */}
-      <div className="flex items-center space-x-2">
-        <Checkbox
-          id="is_current"
-          checked={isCurrent}
-          onCheckedChange={(checked) =>
-            form.setValue("is_current", checked as boolean)
-          }
-        />
-        <Label
-          htmlFor="is_current"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          This certification is currently valid
-        </Label>
-      </div>
-
-      <Separator />
-
-      {/* Description */}
-      <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
-        <Textarea
-          id="description"
-          placeholder="Describe what this certification covers, skills demonstrated, or any other relevant details..."
-          rows={4}
-          {...form.register("description")}
-          className={
-            form.formState.errors.description ? "border-destructive" : ""
-          }
-        />
-        {form.formState.errors.description && (
-          <p className="text-sm text-destructive">
-            {form.formState.errors.description.message}
-          </p>
-        )}
-        <p className="text-xs text-muted-foreground">
-          Optional: Include details about what the certification covers, skills
-          demonstrated, or any other relevant information.
-        </p>
-      </div>
-
-      {/* Form Actions */}
-      <div className="flex justify-end gap-3 pt-4">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={onCancel}
-          disabled={isLoading}
-        >
-          Cancel
-        </Button>
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Saving..." : initialData ? "Update" : "Save"}{" "}
-          Certification
-        </Button>
-      </div>
-    </form>
+      </form>
+    </Form>
   );
 }
-
-CertificationForm.displayName = "CertificationForm";

@@ -75,14 +75,14 @@ export function InterestsPage() {
           Array.from({ length: 3 }).map((_, idx) => (
             <CvInterestCardSkeleton key={idx} />
           ))
-        ) : !interests?.data?.data?.length ? (
+        ) : !interests?.data?.length ? (
           <EmptyState
             title="No interests found"
             description="Start by adding your first interest to showcase your personality and hobbies."
             icon={Heart}
           />
         ) : (
-          interests?.data?.data?.map((interest) => (
+          interests?.data?.map((interest) => (
             <CvInterestCard
               key={interest.id}
               interest={interest}
@@ -95,14 +95,14 @@ export function InterestsPage() {
 
       <CvInterestModal initialData={editingInterest} />
 
-      {!!interests?.data?.data?.length && interests?.data?.data?.length > 0 && (
+      {!!interests?.data?.length && interests?.data?.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Interests Summary</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              You have {interests.data.data?.length} interest records. Keep your
+              You have {interests.data?.length} interest records. Keep your
               CV up to date by regularly updating your interests.
             </p>
           </CardContent>

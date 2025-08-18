@@ -77,14 +77,14 @@ export function ReferencesPage() {
           Array.from({ length: 3 }).map((_, idx) => (
             <CvReferenceCardSkeleton key={idx} />
           ))
-        ) : !references?.data?.data?.length ? (
+        ) : !references?.data?.length ? (
           <EmptyState
             title="No references found"
             description="Start by adding your first reference to strengthen your CV with professional contacts."
             icon={User}
           />
         ) : (
-          references?.data?.data?.map((reference) => (
+          references?.data?.map((reference) => (
             <CvReferenceCard
               key={reference.id}
               reference={reference}
@@ -97,15 +97,17 @@ export function ReferencesPage() {
 
       <CvReferenceModal initialData={editingReference} />
 
-      {!!references?.data?.data?.length &&
-        references?.data?.data?.length > 0 && (
+      {!!references?.data?.length &&
+        references?.data?.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">References Summary</CardTitle>
+              <CardTitle className="text-lg">
+                References Summary
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">
-                You have {references.data.data?.length} reference records. Keep
+                You have {references.data?.length} reference records. Keep
                 your CV up to date by regularly updating your reference details.
               </p>
             </CardContent>

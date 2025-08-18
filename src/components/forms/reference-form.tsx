@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,9 +21,9 @@ import {
 } from "@/hooks/cv-builder";
 import { useModalStore } from "@/stores/modal";
 import { referenceSchema } from "@/schemas/cv-builder";
-import type { Reference, ReferenceSchema } from "@/types/cv-builder";
+import type { Reference } from "@/types/cv-builder";
 
-type ReferenceFormData = ReferenceSchema;
+type ReferenceFormData = z.infer<typeof referenceSchema>;
 
 export function ReferenceForm({
   initialData,

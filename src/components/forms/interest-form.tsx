@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,9 +21,9 @@ import {
 } from "@/hooks/cv-builder";
 import { useModalStore } from "@/stores/modal";
 import { interestSchema } from "@/schemas/cv-builder";
-import type { Interest, InterestSchema } from "@/types/cv-builder";
+import type { Interest } from "@/types/cv-builder";
 
-type InterestFormData = InterestSchema;
+type InterestFormData = z.infer<typeof interestSchema>;
 
 export function InterestForm({
   initialData,
