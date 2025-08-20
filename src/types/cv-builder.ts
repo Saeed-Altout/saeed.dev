@@ -38,26 +38,36 @@ export type UpdateCVSectionRequest = {
 export type PersonalInfo = {
   id: string;
   user_id: string;
+  name: string;
   job_title: string;
   summary: string;
   profile_picture?: string;
   phone?: string;
   address?: string;
+  email?: string;
+  location?: string;
   website?: string;
   linkedin?: string;
   github?: string;
+  birthday?: Date;
+  experience?: string;
   created_at: string;
   updated_at: string;
 };
 
 export type CreatePersonalInfoRequest = {
+  name: string;
   job_title: string;
   summary: string;
   profile_picture?: string;
   phone?: string;
   address?: string;
+  email?: string;
+  location?: string;
   website?: string;
   linkedin?: string;
+  experience?: string;
+  birthday?: Date;
   github?: string;
 };
 

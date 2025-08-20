@@ -49,12 +49,18 @@ const CV_BUILDER_PREFIX = "/cv-builder";
 export const cvBuilderApi = {
   // CV Sections
   getCVSections: async (params?: CVQueryParams) => {
-    const response = await apiClient.get<ApiResponse<CVSection[]>>(
-      `${CV_BUILDER_PREFIX}/cv-sections`,
-      {
-        params: filterParams(params || {}),
-      }
-    );
+    const response = await apiClient.get<
+      ApiResponse<{
+        data: CVSection[];
+        total: number;
+        page: number;
+        limit: number;
+        next: boolean;
+        prev: boolean;
+      }>
+    >(`${CV_BUILDER_PREFIX}/sections`, {
+      params: filterParams(params || {}),
+    });
     return response.data;
   },
 
@@ -114,9 +120,9 @@ export const cvBuilderApi = {
     return response.data;
   },
 
-  updatePersonalInfo: async (id: string, data: UpdatePersonalInfoRequest) => {
+  updatePersonalInfo: async (data: UpdatePersonalInfoRequest) => {
     const response = await apiClient.put<ApiResponse<PersonalInfo>>(
-      `${CV_BUILDER_PREFIX}/personal-info/${id}`,
+      `${CV_BUILDER_PREFIX}/personal-info`,
       data
     );
     return response.data;

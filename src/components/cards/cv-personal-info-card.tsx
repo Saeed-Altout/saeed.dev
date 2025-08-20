@@ -1,4 +1,12 @@
-import { Globe, Linkedin, Github, Phone, MapPin } from "lucide-react";
+import {
+  Globe,
+  Linkedin,
+  Github,
+  Phone,
+  MapPin,
+  Building2,
+  Mail,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -27,47 +35,89 @@ export function CvPersonalInfoCard({
               height={80}
             />
           </div>
-          <h3 className="text-2xl">{personalInfo.job_title}</h3>
+          <div>
+            {personalInfo.name && (
+              <h3 className="text-2xl font-semibold">{personalInfo.name}</h3>
+            )}
+            {personalInfo.job_title && (
+              <p className="text-muted-foreground">{personalInfo.job_title}</p>
+            )}
+          </div>
         </div>
         <div className="flex items-center gap-2">
-          <Link to={personalInfo.website || ""} target="_blank">
-            <Button variant="outline" size="icon">
-              <Globe className="h-4 w-4" />
-              <span className="sr-only">{personalInfo.website}</span>
-            </Button>
-          </Link>
-          <Link to={personalInfo.linkedin || ""} target="_blank">
-            <Button variant="outline" size="icon">
-              <Linkedin className="h-4 w-4" />
-              <span className="sr-only">{personalInfo.linkedin}</span>
-            </Button>
-          </Link>
-          <Link to={personalInfo.github || ""} target="_blank">
-            <Button variant="outline" size="icon">
-              <Github className="h-4 w-4" />
-              <span className="sr-only">{personalInfo.github}</span>
-            </Button>
-          </Link>
+          {personalInfo.website && (
+            <Link to={personalInfo.website} target="_blank">
+              <Button variant="outline" size="icon">
+                <Globe className="h-4 w-4" />
+                <span className="sr-only">{personalInfo.website}</span>
+              </Button>
+            </Link>
+          )}
+          {personalInfo.linkedin && (
+            <Link to={personalInfo.linkedin} target="_blank">
+              <Button variant="outline" size="icon">
+                <Linkedin className="h-4 w-4" />
+                <span className="sr-only">{personalInfo.linkedin}</span>
+              </Button>
+            </Link>
+          )}
+          {personalInfo.github && (
+            <Link to={personalInfo.github} target="_blank">
+              <Button variant="outline" size="icon">
+                <Github className="h-4 w-4" />
+                <span className="sr-only">{personalInfo.github}</span>
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
-          <Phone className="h-4 w-4" />
-          <p className="text-sm text-muted-foreground">{personalInfo.phone}</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <MapPin className="h-4 w-4" />
-          <p className="text-sm text-muted-foreground">
-            {personalInfo.address}
-          </p>
-        </div>
+      <div className="flex items-center flex-wrap gap-4">
+        {personalInfo.phone && (
+          <div className="flex items-center gap-2">
+            <Phone className="h-4 w-4" />
+            <p className="text-sm text-muted-foreground">
+              {personalInfo.phone}
+            </p>
+          </div>
+        )}
+        {personalInfo.email && (
+          <div className="flex items-center gap-2">
+            <Mail className="h-4 w-4" />
+            <p className="text-sm text-muted-foreground">
+              {personalInfo.email}
+            </p>
+          </div>
+        )}
+        {personalInfo.location && (
+          <div className="flex items-center gap-2">
+            <MapPin className="h-4 w-4" />
+            <p className="text-sm text-muted-foreground">
+              {personalInfo.location}
+            </p>
+          </div>
+        )}
+        {personalInfo.address && (
+          <div className="flex items-center gap-2">
+            <Building2 className="h-4 w-4" />
+            <p className="text-sm text-muted-foreground">
+              {personalInfo.address}
+            </p>
+          </div>
+        )}
       </div>
+
       <Separator />
 
       <div className="flex flex-col gap-2">
         <Label className="text-lg">Professional Summary</Label>
         <p className="text-sm text-muted-foreground">{personalInfo.summary}</p>
+      </div>
+      <div className="flex flex-col gap-2">
+        <Label className="text-lg">Experience</Label>
+        <p className="text-sm text-muted-foreground">
+          {personalInfo.experience}
+        </p>
       </div>
     </div>
   );

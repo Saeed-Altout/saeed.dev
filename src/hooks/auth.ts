@@ -3,8 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 
-import type { SignInRequest, SignUpRequest } from "@/types/auth";
-import { signIn, signUp, signOut, getUser, getMe } from "@/api/auth";
+import type {
+  SignInRequest,
+  SignUpRequest,
+  UploadProfilePictureRequest,
+} from "@/types/auth";
+import {
+  signIn,
+  signUp,
+  signOut,
+  getUser,
+  getMe,
+  uploadProfilePicture,
+} from "@/api/auth";
 import { useAuthStore } from "@/stores/auth";
 import type { Me } from "@/types";
 
@@ -81,5 +92,27 @@ export const useMeQuery = () => {
   return useQuery<Me>({
     queryKey: ["me"],
     queryFn: getMe,
+  });
+};
+
+export const useUploadProfilePictureMutation = () => {
+  return useMutation({
+    mutationKey: ["upload-profile-picture"],
+    mutationFn: (request: UploadProfilePictureRequest) =>
+      uploadProfilePicture(request),
+    onSuccess: (data) => {
+      useAuthStore.setState((state) => ({
+        ...state,
+        profile_picture: data.data.url,
+      }));
+      toast.success(data.message || "Profile picture uploaded successfully");
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error(
+          error.response?.data.message || "Profile picture upload failed"
+        );
+      }
+    },
   });
 };

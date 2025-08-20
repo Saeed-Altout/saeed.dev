@@ -139,13 +139,8 @@ export const useUpdatePersonalInfoMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      id,
-      data,
-    }: {
-      id: string;
-      data: UpdatePersonalInfoRequest;
-    }) => cvBuilderApi.updatePersonalInfo(id, data),
+    mutationFn: (data: UpdatePersonalInfoRequest) =>
+      cvBuilderApi.updatePersonalInfo(data),
     onSuccess: () => {
       toast.success("Personal information updated successfully");
       queryClient.invalidateQueries({ queryKey: ["personal-info"] });

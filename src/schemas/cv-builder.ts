@@ -17,23 +17,32 @@ export const cvSectionSchema = z.object({
 
 // Personal Information Schema
 export const personalInfoSchema = z.object({
+  name: z.string().min(1, {
+    message: "Name is required.",
+  }),
   job_title: z.string().min(2, {
     message: "Job title must be at least 2 characters.",
   }),
   summary: z.string().min(50, {
     message: "Summary must be at least 50 characters.",
   }),
-  profile_picture: z
+  profile_picture: z.string().url({
+    message: "Profile picture must be a valid URL.",
+  }),
+  phone: z.string().min(10, {
+    message: "Phone number must be at least 10 characters.",
+  }),
+  email: z
     .string()
-    .url({
-      message: "Profile picture must be a valid URL.",
+    .email({
+      message: "Please enter a valid email address.",
     })
     .optional()
     .or(z.literal("")),
-  phone: z
+  location: z
     .string()
-    .min(10, {
-      message: "Phone number must be at least 10 characters.",
+    .min(2, {
+      message: "Location must be at least 2 characters.",
     })
     .optional()
     .or(z.literal("")),
@@ -65,6 +74,8 @@ export const personalInfoSchema = z.object({
     })
     .optional()
     .or(z.literal("")),
+  birthday: z.date().optional(),
+  experience: z.string().optional().or(z.literal("")),
 });
 
 export type PersonalInfoFormData = z.infer<typeof personalInfoSchema>;

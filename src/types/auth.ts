@@ -37,3 +37,13 @@ export type SignUpRequest = {
   password: string;
   name: string;
 };
+
+export type UploadProfilePictureRequest = {
+  file: File;
+};
+
+export type UploadProfilePictureResponse = AuthResponse<{
+  url: string;
+  path: string;
+  filename: string;
+}>;

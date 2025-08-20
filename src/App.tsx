@@ -5,8 +5,6 @@ import { AboutPage as WebsiteAboutPage } from "./pages/website/about";
 import { ProjectsPage as WebsiteProjectsPage } from "./pages/website/projects";
 import { ProjectDetailPage as WebsiteProjectDetailPage } from "./pages/website/projects/[id]";
 import { ExperiencePage as WebsiteExperiencePage } from "./pages/website/experience";
-import { BlogsPage as WebsiteBlogsPage } from "./pages/website/blogs";
-import { BlogDetailPage as WebsiteBlogDetailPage } from "./pages/website/blogs/[id]";
 import { ContactPage as WebsiteContactPage } from "./pages/website/contact";
 import { TermsPage as WebsiteTermsPage } from "./pages/website/terms";
 import { PrivacyPage as WebsitePrivacyPage } from "./pages/website/privacy";
@@ -71,8 +69,6 @@ export default function App() {
           <Route path="/projects" element={<WebsiteProjectsPage />} />
           <Route path="/projects/:id" element={<WebsiteProjectDetailPage />} />
           <Route path="/experience" element={<WebsiteExperiencePage />} />
-          <Route path="/blogs" element={<WebsiteBlogsPage />} />
-          <Route path="/blogs/:id" element={<WebsiteBlogDetailPage />} />
           <Route path="/contact" element={<WebsiteContactPage />} />
           <Route path="/terms" element={<WebsiteTermsPage />} />
           <Route path="/privacy" element={<WebsitePrivacyPage />} />

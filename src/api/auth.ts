@@ -6,6 +6,8 @@ import type {
   SignUpResponse,
   SignOutResponse,
   GetUserResponse,
+  UploadProfilePictureResponse,
+  UploadProfilePictureRequest,
 } from "@/types/auth";
 import type { Me } from "@/types";
 import { me } from "@/data/me";
@@ -47,3 +49,20 @@ export function getMe(): Promise<Me> {
     }, 800);
   });
 }
+
+export const uploadProfilePicture = async (
+  request: UploadProfilePictureRequest
+): Promise<UploadProfilePictureResponse> => {
+  const formData = new FormData();
+  formData.append("file", request.file);
+  const response = await apiClient.post(
+    import.meta.env.VITE_UPLOAD_PROFILE_PICTURE_URL,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return response.data;
+};
